@@ -2,13 +2,18 @@
 import '../styles/global.css';
 import Search from '../components/Search.astro';
 import ThemeSwitcher from '../components/ThemeSwitcher.astro';
+import { siteConfig } from "../config";
 
 interface Props {
   title: string;
   path?: string;
 }
 
-const { title, path = "~/grassblock/micr0blog" } = Astro.props;
+const defaultTitle = siteConfig.title
+const formattedPath = defaultTitle.toLowerCase().replace(/\s+/g, '-');
+
+const { title, path = formattedPath } = Astro.props;
+// TODO: make the path dynamic
 ---
 
 <!doctype html>

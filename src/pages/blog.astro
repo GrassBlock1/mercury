@@ -6,7 +6,7 @@ const posts = await getCollection('blog');
 posts.sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime());
 ---
 
-<Layout title="Blog | Terminal Blog" path="~/grassblock/micr0blog/blog">
+<Layout title="Blog | Terminal Blog">
   <h1 class="post-title">~/blog</h1>
   
   <div class="post-content">
@@ -25,15 +25,15 @@ posts.sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDat
         {posts.length === 0 && (
           <>
             <p>
-              <span style="color: var(--terminal-yellow);">2025-06-08</span> 
+              <span style="color: var(--terminal-yellow);">2025-06-08</span>
               <a href="/blog/terminal-setup">My Terminal Setup</a>
             </p>
             <p>
-              <span style="color: var(--terminal-yellow);">2025-06-05</span> 
+              <span style="color: var(--terminal-yellow);">2025-06-05</span>
               <a href="/blog/minimalism">The Art of Minimalism</a>
             </p>
             <p>
-              <span style="color: var(--terminal-yellow);">2025-06-01</span> 
+              <span style="color: var(--terminal-yellow);">2025-06-01</span>
               <a href="/blog/first-post">First Post</a>
             </p>
           </>
