@@ -1,0 +1,52 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog');
+posts.sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime());
+---
+
+<Layout title="Blog | Terminal Blog" path="~/grassblock/micr0blog/blog">
+  <h1 class="post-title">~/blog</h1>
+  
+  <div class="post-content">
+    <p class="typewriter">Posts from the terminal.</p>
+    
+    <div style="margin-top: 2rem;">
+      <span class="command">ls -la posts/</span>
+      <div style="margin-top: 1rem; margin-left: 1rem;">
+        {posts.map((post) => (
+          <p>
+            <span style="color: var(--terminal-yellow);">{new Date(post.data.pubDate).toISOString().split('T')[0]}</span> 
+            <a href={`/blog/${post.slug}`}>{post.data.title}</a>
+          </p>
+        ))}
+        
+        {posts.length === 0 && (
+          <>
+            <p>
+              <span style="color: var(--terminal-yellow);">2025-06-08</span> 
+              <a href="/blog/terminal-setup">My Terminal Setup</a>
+            </p>
+            <p>
+              <span style="color: var(--terminal-yellow);">2025-06-05</span> 
+              <a href="/blog/minimalism">The Art of Minimalism</a>
+            </p>
+            <p>
+              <span style="color: var(--terminal-yellow);">2025-06-01</span> 
+              <a href="/blog/first-post">First Post</a>
+            </p>
+          </>
+        )}
+      </div>
+    </div>
+    
+    <div style="margin-top: 2rem;">
+      <p>
+        <span class="command">cat rss.txt</span>
+        <br />
+        <a href="/rss.xml" style="margin-left: 1rem;">Subscribe to RSS feed</a>
+      </p>
+    </div>
+  </div>
+</Layout>

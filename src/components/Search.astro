@@ -1,0 +1,121 @@
+---
+---
+<div class="search-container">
+  <div class="command-prompt">
+    <span class="command">search</span>
+    <input 
+      type="text" 
+      id="search-input" 
+      class="search-input" 
+      placeholder="Type to search..."
+      autocomplete="off"
+    />
+  </div>
+  <div id="search-results" class="search-results"></div>
+</div>
+
+<script>
+  import Fuse from 'fuse.js';
+
+  let fuse;
+  let posts = [];
+
+  async function initializeSearch() {
+    const response = await fetch('/search-index.json');
+    posts = await response.json();
+    
+    fuse = new Fuse(posts, {
+      keys: ['title', 'description', 'content'],
+      threshold: 0.3,
+      includeMatches: true
+    });
+  }
+
+  function performSearch(query) {
+    if (!query) {
+      document.getElementById('search-results').innerHTML = '';
+      return;
+    }
+
+    const results = fuse.search(query);
+    const resultsElement = document.getElementById('search-results');
+    
+    if (results.length === 0) {
+      resultsElement.innerHTML = '<p>No results found.</p>';
+      return;
+    }
+
+    const html = results
+      .map(result => `
+        <div class="search-result">
+          <a href="/blog/${result.item.slug}">
+            <span class="result-title">${result.item.title}</span>
+            <span class="result-date">${new Date(result.item.pubDate).toISOString().split('T')[0]}</span>
+          </a>
+        </div>
+      `)
+      .join('');
+
+    resultsElement.innerHTML = html;
+  }
+
+  // Initialize search when the component mounts
+  initializeSearch();
+
+  // Add event listener for search input
+  const searchInput = document.getElementById('search-input');
+  searchInput.addEventListener('input', (e) => {
+    performSearch(e.target.value);
+  });
+</script>
+
+<style>
+  .search-container {
+    margin: 2rem 0;
+  }
+
+  .command-prompt {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .search-input {
+    background: transparent;
+    border: none;
+    color: var(--text-color);
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    padding: 0.5rem;
+    width: 100%;
+    outline: none;
+  }
+
+  .search-results {
+    margin-top: 1rem;
+    margin-left: 1rem;
+  }
+
+  .search-result {
+    margin: 0.5rem 0;
+  }
+
+  .search-result a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    text-decoration: none;
+    color: var(--text-color);
+    border-radius: 4px;
+  }
+
+  .search-result a:hover {
+    background: var(--border-color);
+  }
+
+  .result-date {
+    color: var(--terminal-yellow);
+    font-size: 0.9rem;
+  }
+</style>

@@ -1,0 +1,77 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const blogEntries = await getCollection('blog');
+  return blogEntries.map(entry => ({
+    params: { slug: entry.slug }, props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+
+// Sample content for demo purposes if no actual content collection is set up
+const samplePosts = {
+  'terminal-setup': {
+    title: 'My Terminal Setup',
+    date: '2025-06-08',
+    content: `
+      <p>Here's my current terminal setup:</p>
+      <ul>
+        <li>Shell: ZSH with Oh My Zsh</li>
+        <li>Terminal: Alacritty</li>
+        <li>Color Scheme: Nord</li>
+        <li>Font: JetBrains Mono</li>
+      </ul>
+      <p>I've been using this setup for about a year now and it's been working great for me.</p>
+    `
+  },
+  'minimalism': {
+    title: 'The Art of Minimalism',
+    date: '2025-06-05',
+    content: `
+      <p>Minimalism isn't just about having less, it's about making room for what matters.</p>
+      <p>In code, this means writing clean, maintainable code that does exactly what it needs to do, nothing more, nothing less.</p>
+      <p>This terminal blog is an exercise in digital minimalism - stripping away the unnecessary to focus on what's important: the content.</p>
+    `
+  },
+  'first-post': {
+    title: 'First Post',
+    date: '2025-06-01',
+    content: `
+      <p>Hello world! This is the first post on my new terminal blog.</p>
+      <p>I built this blog using Astro and vanilla CSS/JS to create a terminal-like experience.</p>
+      <p>More posts coming soon...</p>
+    `
+  }
+};
+
+const slug = Astro.params.slug;
+---
+
+<Layout 
+  title={entry ? entry.data.title : samplePosts[slug]?.title} 
+  path={`~/grassblock/micr0blog/blog/${slug}`}
+>
+  {entry ? (
+    <>
+      <h1 class="post-title">{entry.data.title}</h1>
+      <span class="post-date">{new Date(entry.data.pubDate).toISOString().split('T')[0]}</span>
+      <div class="post-content">
+        <Content />
+      </div>
+    </>
+  ) : (
+    <>
+      <h1 class="post-title">{samplePosts[slug]?.title}</h1>
+      <span class="post-date">{samplePosts[slug]?.date}</span>
+      <div class="post-content" set:html={samplePosts[slug]?.content}></div>
+    </>
+  )}
+  
+  <div style="margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+    <a href="/blog">&larr; Back to posts</a>
+  </div>
+</Layout>

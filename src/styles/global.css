@@ -1,0 +1,191 @@
+/* Global Styles for Terminal Blog */
+:root {
+  /* Dark theme (default) */
+  --bg-color: #1f2937;
+  --text-color: #a5b4cf;
+  --accent-color: #64a0ff;
+  --border-color: #3b4351;
+  --header-color: #83a2ce;
+  --terminal-green: #4ade80;
+  --terminal-yellow: #fbbf24;
+  --terminal-red: #ef4444;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+:root[data-theme="light"] {
+  --bg-color: #f3f4f6;
+  --text-color: #374151;
+  --accent-color: #3b82f6;
+  --border-color: #d1d5db;
+  --header-color: #1f2937;
+  --terminal-green: #059669;
+  --terminal-yellow: #d97706;
+  --terminal-red: #dc2626;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  font-family: var(--font-mono);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.6;
+  height: 100%;
+  width: 100%;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+a {
+  color: var(--accent-color);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+a:hover {
+  opacity: 0.8;
+}
+
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  min-height: calc(100vh - 120px);
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.terminal-path {
+  color: var(--terminal-green);
+  padding: 1rem;
+  font-size: 1.2rem;
+  font-weight: 500;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  display: inline-block;
+}
+
+.content-box {
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  transition: border-color 0.3s ease;
+}
+
+.nav {
+  display: flex;
+  gap: 2rem;
+  margin: 1.5rem 0;
+}
+
+.nav a {
+  font-size: 1.1rem;
+}
+
+.cursor {
+  display: inline-block;
+  width: 0.6em;
+  height: 1em;
+  background-color: var(--text-color);
+  margin-left: 0.2em;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  from, to { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.footer {
+  text-align: center;
+  padding: 2rem 0;
+  font-size: 0.9rem;
+  color: var(--text-color);
+  opacity: 0.7;
+}
+
+/* Post styles */
+.post-title {
+  color: var(--header-color);
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  font-weight: normal;
+}
+
+.post-date {
+  color: var(--terminal-yellow);
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+  display: block;
+}
+
+.post-content {
+  margin-bottom: 2rem;
+}
+
+/* Terminal Commands */
+.command {
+  color: var(--terminal-green);
+  margin-right: 0.5rem;
+}
+
+.command::before {
+  content: "$ ";
+  opacity: 0.7;
+}
+
+/* Theme Switcher */
+.theme-switcher {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  background: var(--border-color);
+  border: none;
+  color: var(--text-color);
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.theme-switcher:hover {
+  background: var(--accent-color);
+  color: var(--bg-color);
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .terminal-path {
+    font-size: 1rem;
+  }
+  
+  .nav {
+    gap: 1rem;
+  }
+  
+  .content-box {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .terminal-path {
+    font-size: 0.9rem;
+  }
+  
+  .nav {
+    gap: 0.8rem;
+  }
+  
+  .content-box {
+    padding: 1rem;
+  }
+}

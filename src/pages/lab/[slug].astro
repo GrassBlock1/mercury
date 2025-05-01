@@ -1,0 +1,410 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+export function getStaticPaths() {
+  return [
+    { params: { slug: 'experiment-1' } },
+    { params: { slug: 'experiment-2' } },
+    { params: { slug: 'experiment-3' } }
+  ];
+}
+
+const { slug } = Astro.params;
+
+const experiments = {
+  'experiment-1': {
+    title: 'Terminal Text Effects',
+    content: `
+      <p class="typewriter">This is a demonstration of terminal-like text effects.</p>
+      <div style="margin-top: 2rem;">
+        <p id="rainbow-text">This text will change colors like a rainbow.</p>
+      </div>
+      <div style="margin-top: 2rem;">
+        <p id="glitch-text">This text will occasionally glitch.</p>
+      </div>
+    `,
+    script: `
+      // Rainbow text effect
+      const rainbowText = document.getElementById('rainbow-text');
+      if (rainbowText) {
+        const colors = ['#ff5555', '#ffb86c', '#f1fa8c', '#50fa7b', '#8be9fd', '#bd93f9', '#ff79c6'];
+        let colorIndex = 0;
+        
+        setInterval(() => {
+          rainbowText.style.color = colors[colorIndex];
+          colorIndex = (colorIndex + 1) % colors.length;
+        }, 1000);
+      }
+      
+      // Glitch text effect
+      const glitchText = document.getElementById('glitch-text');
+      if (glitchText) {
+        const originalText = glitchText.textContent;
+        
+        const glitchChars = '!@#$%^&*()_+-=[]{}|;:,.<>?/\\\\';
+        
+        setInterval(() => {
+          if (Math.random() > 0.9) {
+            let glitchedText = '';
+            for (let i = 0; i < originalText.length; i++) {
+              if (Math.random() > 0.9) {
+                glitchedText += glitchChars[Math.floor(Math.random() * glitchChars.length)];
+              } else {
+                glitchedText += originalText[i];
+              }
+            }
+            glitchText.textContent = glitchedText;
+            
+            setTimeout(() => {
+              glitchText.textContent = originalText;
+            }, 100);
+          }
+        }, 2000);
+      }
+    `
+  },
+  'experiment-2': {
+    title: 'ASCII Art Generator',
+    content: `
+      <p class="typewriter">Generate ASCII art from text.</p>
+      <div style="margin-top: 2rem;">
+        <input type="text" id="ascii-input" placeholder="Enter text" class="terminal-input" />
+        <button id="generate-btn" class="terminal-btn">Generate</button>
+      </div>
+      <div style="margin-top: 1rem; white-space: pre; font-family: monospace; overflow-x: auto;" id="ascii-output">
+      </div>
+    `,
+    script: `
+      const generateBtn = document.getElementById('generate-btn');
+      const asciiInput = document.getElementById('ascii-input');
+      const asciiOutput = document.getElementById('ascii-output');
+      
+      if (generateBtn && asciiInput && asciiOutput) {
+        generateBtn.addEventListener('click', () => {
+          const text = asciiInput.value.trim();
+          if (!text) return;
+          
+          const fontStyles = [
+            generateSimpleAscii,
+            generateBlockAscii,
+            generateShadowAscii
+          ];
+          
+          const style = fontStyles[Math.floor(Math.random() * fontStyles.length)];
+          asciiOutput.textContent = style(text);
+        });
+      }
+      
+      function generateSimpleAscii(text) {
+        return \`
+  _____  _____  _____  _____  _____  _____     
+ |_____||_____||_____||_____||_____||_____|   
+   | ${text.split('').join(' | ')} |
+   |_____|_____|_____|_____|_____|_____|  
+\`;
+      }
+      
+      function generateBlockAscii(text) {
+        return \`
+ ██████╗ ${text.split('').map(() => '██████╗ ').join('')}
+██╔════╝ ${text.split('').map(() => '██╔══██╗').join('')}
+██║  ███╗${text.split('').map(() => '██████╔╝').join('')}
+██║   ██║${text.split('').map(() => '██╔══██╗').join('')}
+╚██████╔╝${text.split('').map(() => '██████╔╝').join('')}
+ ╚═════╝ ${text.split('').map(() => '╚═════╝ ').join('')}
+\`;
+      }
+      
+      function generateShadowAscii(text) {
+        return \`
+ ░░░░░░${text.split('').map(() => '░░░░░░').join('')}
+▒░    ▒░${text.split('').map(() => '▒░   ▒░').join('')}
+▒▒    ▒▒${text.split('').map(() => '▒▒   ▒▒').join('')}
+▓▒    ▒▓${text.split('').map(() => '▓▒   ▒▓').join('')}
+ ▓▓▓▓▓▓ ${text.split('').map(() => '▓▓▓▓▓▓ ').join('')}
+\`;
+      }
+    `,
+    style: `
+      .terminal-input {
+        background-color: var(--bg-color);
+        border: 1px solid var(--border-color);
+        color: var(--text-color);
+        padding: 0.5rem;
+        font-family: var(--font-mono);
+        margin-right: 0.5rem;
+      }
+      
+      .terminal-btn {
+        background-color: var(--border-color);
+        border: none;
+        color: var(--text-color);
+        padding: 0.5rem 1rem;
+        font-family: var(--font-mono);
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
+      
+      .terminal-btn:hover {
+        background-color: var(--accent-color);
+        color: var(--bg-color);
+      }
+    `
+  },
+  'experiment-3': {
+    title: 'Command Line Games',
+    content: `
+      <p class="typewriter">Try a simple command line game.</p>
+      <div style="margin-top: 2rem;">
+        <p>Enter a command:</p>
+        <div style="display: flex; margin-top: 0.5rem;">
+          <span class="command" style="margin-right: 0;">play</span>
+          <input type="text" id="game-input" class="terminal-input" style="flex-grow: 1;" />
+        </div>
+        <div id="game-output" style="margin-top: 1rem; white-space: pre-wrap; font-family: monospace;">
+          Available games: number-guess, rock-paper-scissors, hangman
+        </div>
+      </div>
+    `,
+    script: `
+      const gameInput = document.getElementById('game-input');
+      const gameOutput = document.getElementById('game-output');
+      
+      let currentGame = null;
+      let gameState = {};
+      
+      if (gameInput && gameOutput) {
+        gameInput.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            const command = gameInput.value.trim().toLowerCase();
+            gameInput.value = '';
+            
+            processCommand(command);
+          }
+        });
+      }
+      
+      function processCommand(command) {
+        if (!currentGame) {
+          // Starting a new game
+          if (command === 'number-guess') {
+            currentGame = 'number-guess';
+            gameState = {
+              target: Math.floor(Math.random() * 100) + 1,
+              attempts: 0
+            };
+            appendOutput('I\'m thinking of a number between 1 and 100.');
+            appendOutput('Enter your guess:');
+          } else if (command === 'rock-paper-scissors') {
+            currentGame = 'rock-paper-scissors';
+            appendOutput('Let\'s play Rock, Paper, Scissors!');
+            appendOutput('Enter rock, paper, or scissors:');
+          } else if (command === 'hangman') {
+            currentGame = 'hangman';
+            const words = ['javascript', 'terminal', 'computer', 'keyboard', 'program'];
+            gameState = {
+              word: words[Math.floor(Math.random() * words.length)],
+              guessed: [],
+              attempts: 0
+            };
+            appendOutput('Let\'s play Hangman!');
+            appendOutput(\`The word has \${gameState.word.length} letters.\`);
+            appendOutput(getHangmanDisplay());
+          } else {
+            appendOutput(\`Unknown game: \${command}\`);
+            appendOutput('Available games: number-guess, rock-paper-scissors, hangman');
+          }
+        } else if (currentGame === 'number-guess') {
+          const guess = parseInt(command);
+          if (isNaN(guess)) {
+            appendOutput('Please enter a valid number.');
+            return;
+          }
+          
+          gameState.attempts++;
+          
+          if (guess === gameState.target) {
+            appendOutput(\`Congratulations! You guessed it in \${gameState.attempts} attempts.\`);
+            currentGame = null;
+            appendOutput('\\nAvailable games: number-guess, rock-paper-scissors, hangman');
+          } else if (guess < gameState.target) {
+            appendOutput('Too low! Try again:');
+          } else {
+            appendOutput('Too high! Try again:');
+          }
+        } else if (currentGame === 'rock-paper-scissors') {
+          const choices = ['rock', 'paper', 'scissors'];
+          if (!choices.includes(command)) {
+            appendOutput('Please enter rock, paper, or scissors.');
+            return;
+          }
+          
+          const computerChoice = choices[Math.floor(Math.random() * choices.length)];
+          appendOutput(\`You chose \${command}. Computer chose \${computerChoice}.\`);
+          
+          if (command === computerChoice) {
+            appendOutput('It\'s a tie!');
+          } else if (
+            (command === 'rock' && computerChoice === 'scissors') ||
+            (command === 'paper' && computerChoice === 'rock') ||
+            (command === 'scissors' && computerChoice === 'paper')
+          ) {
+            appendOutput('You win!');
+          } else {
+            appendOutput('Computer wins!');
+          }
+          
+          appendOutput('Play again? Enter rock, paper, or scissors, or type "exit" to quit:');
+          
+          if (command === 'exit') {
+            currentGame = null;
+            appendOutput('\\nAvailable games: number-guess, rock-paper-scissors, hangman');
+          }
+        } else if (currentGame === 'hangman') {
+          if (command === 'exit') {
+            currentGame = null;
+            appendOutput(\`The word was: \${gameState.word}\`);
+            appendOutput('\\nAvailable games: number-guess, rock-paper-scissors, hangman');
+            return;
+          }
+          
+          if (command.length !== 1) {
+            appendOutput('Please enter a single letter.');
+            return;
+          }
+          
+          const letter = command.toLowerCase();
+          
+          if (gameState.guessed.includes(letter)) {
+            appendOutput('You already guessed that letter!');
+            return;
+          }
+          
+          gameState.guessed.push(letter);
+          
+          if (!gameState.word.includes(letter)) {
+            gameState.attempts++;
+          }
+          
+          appendOutput(getHangmanDisplay());
+          
+          const wordDisplay = gameState.word
+            .split('')
+            .map(char => gameState.guessed.includes(char) ? char : '_')
+            .join(' ');
+          
+          appendOutput(\`Word: \${wordDisplay}\`);
+          appendOutput(\`Guessed: \${gameState.guessed.join(', ')}\`);
+          
+          if (!wordDisplay.includes('_')) {
+            appendOutput('Congratulations! You guessed the word!');
+            currentGame = null;
+            appendOutput('\\nAvailable games: number-guess, rock-paper-scissors, hangman');
+          } else if (gameState.attempts >= 6) {
+            appendOutput(\`Game over! The word was: \${gameState.word}\`);
+            currentGame = null;
+            appendOutput('\\nAvailable games: number-guess, rock-paper-scissors, hangman');
+          }
+        }
+      }
+      
+      function getHangmanDisplay() {
+        const hangmanStages = [
+          \`
+  +---+
+  |   |
+      |
+      |
+      |
+      |
+=========\`,
+          \`
+  +---+
+  |   |
+  O   |
+      |
+      |
+      |
+=========\`,
+          \`
+  +---+
+  |   |
+  O   |
+  |   |
+      |
+      |
+=========\`,
+          \`
+  +---+
+  |   |
+  O   |
+ /|   |
+      |
+      |
+=========\`,
+          \`
+  +---+
+  |   |
+  O   |
+ /|\\  |
+      |
+      |
+=========\`,
+          \`
+  +---+
+  |   |
+  O   |
+ /|\\  |
+ /    |
+      |
+=========\`,
+          \`
+  +---+
+  |   |
+  O   |
+ /|\\  |
+ / \\  |
+      |
+=========\`
+        ];
+        
+        return hangmanStages[Math.min(gameState.attempts, 6)];
+      }
+      
+      function appendOutput(text) {
+        gameOutput.textContent += '\\n' + text;
+        gameOutput.scrollTop = gameOutput.scrollHeight;
+      }
+    `,
+    style: `
+      .terminal-input {
+        background-color: var(--bg-color);
+        border: 1px solid var(--border-color);
+        color: var(--text-color);
+        padding: 0.5rem;
+        font-family: var(--font-mono);
+      }
+    `
+  }
+};
+---
+
+<Layout title={`Lab | ${experiments[slug]?.title}`} path={`~/grassblock/micr0blog/lab/${slug}`}>
+  <h1 class="post-title">{experiments[slug]?.title}</h1>
+  
+  <div class="post-content">
+    <div set:html={experiments[slug]?.content}></div>
+  </div>
+  
+  <div style="margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+    <a href="/lab">&larr; Back to lab</a>
+  </div>
+  
+  {experiments[slug]?.style && (
+    <style set:html={experiments[slug]?.style}></style>
+  )}
+  
+  {experiments[slug]?.script && (
+    <script set:html={experiments[slug]?.script}></script>
+  )}
+</Layout>
