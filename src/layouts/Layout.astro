@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import Search from '../components/Search.astro';
 import ThemeSwitcher from '../components/ThemeSwitcher.astro';
+import BackToTop from "../components/BackToTop.astro";
 import { siteConfig } from "../config";
 
 interface Props {
@@ -26,7 +27,6 @@ const { title, path = formattedPath } = Astro.props;
     <title>{title}</title>
   </head>
   <body>
-    <ThemeSwitcher />
     <main>
       <div class="container">
         <div class="terminal-path">
@@ -47,6 +47,10 @@ const { title, path = formattedPath } = Astro.props;
     </main>
     
     <footer class="footer">
+      <div class="floating">
+        <BackToTop/>
+        <ThemeSwitcher/>
+      </div>
       <div class="container">
         Powered by <a href="https://git.gb0.dev/gb/mercury"><img src="/mercury.svg" width="16px" alt="mercury logo" /> mercury</a>
       </div>

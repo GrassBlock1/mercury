@@ -1,0 +1,27 @@
+---
+
+---
+<button id="toTopBtn" title="Go to top">Top</button>
+<script>
+    // Get the button
+    let toTopButton = document.getElementById("toTopBtn");
+
+    // When the user scrolls down from the top of the document, show the button
+    window.addEventListener("scroll", ()=> {
+        if (window.scrollY < document.documentElement.clientHeight) {
+            toTopButton.classList.remove('fade-in');
+            toTopButton.classList.add('fade-out');
+            toTopButton.style.display = 'block';
+        } else {
+            toTopButton.classList.remove('fade-out');
+            toTopButton.classList.remove('fade-in');
+        }
+    })
+
+    // When the user clicks on the button, scroll to the top of the document
+    toTopButton.addEventListener("click", toTop);
+    function toTop() {
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+    }
+</script>
