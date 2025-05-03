@@ -1,42 +1,119 @@
 ---
 ---
-<button class="theme-switcher" id="theme-switcher">
-  Toggle Theme
-</button>
+<div class="theme-dropdown" id="theme-dropdown">
+  <button class="theme-switcher" id="theme-switcher">Theme</button>
+  <div class="menu-body" id="menu-body">
+    <div class="dropdown-item" data-theme="auto">System</div>
+    <div class="dropdown-item" data-theme="dark">Dark</div>
+    <div class="dropdown-item" data-theme="light">Light</div>
+  </div>
+</div>
 
-<script>
-  // Inspired by https://blog.skk.moe/post/hello-darkmode-my-old-friend/
-  const themeSwitcher = document.getElementById('theme-switcher');
-  const root = document.documentElement;
-  const preferredTheme =  window.matchMedia("(prefers-color-scheme: dark)").matches ? 'dark' : 'light'
-  // Check for saved theme preference or default to dark
-  const savedTheme = localStorage.getItem('theme');
-  // If the saved theme is the same as the system preferred theme, set it and remove it from localStorage
-  if (savedTheme === preferredTheme) {
-    root.removeAttribute('data-theme');
-    localStorage.removeItem('theme');
-  } else if (savedTheme) {
-    // Or if another saved theme is found, set it
-    root.setAttribute('data-theme', savedTheme);
-  } else {
-    // Or if no saved theme is found, use the system preferred theme until the theme is toggled
-    root.removeAttribute('data-theme');
-    localStorage.removeItem('theme');
+<style>
+  .theme-dropdown {
+    position: relative;
+    display: inline-block;
   }
 
-  themeSwitcher?.addEventListener('click', () => {
-    // get current theme from localStorage
-    const currentTheme = localStorage.getItem('theme');
-    // check if the current theme is correctly set, toggles it and saves it to localStorage
-    if (currentTheme !== null && ['dark', 'light'].includes(currentTheme)) {
-      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-      root.setAttribute('data-theme', newTheme);
-      localStorage.setItem('theme', newTheme);
+  .menu-body {
+    display: none;
+    position: fixed;
+    right: 45px;
+    bottom: 70px;
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    min-width: 140px;
+    z-index: 20;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+
+  .dropdown-item {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  .dropdown-item:hover {
+    background-color: var(--border-color);
+  }
+
+  .dropdown-item.active {
+    color: var(--accent-color);
+    font-weight: bold;
+  }
+
+  .theme-dropdown:hover .menu-body {
+    display: block;
+  }
+</style>
+
+<script>
+  // Constants for theme options
+  const THEME_AUTO = 'auto';
+  const THEME_DARK = 'dark';
+  const THEME_LIGHT = 'light';
+
+  // DOM elements
+  const themeDropdown = document.getElementById('theme-dropdown');
+  const menuBody = document.getElementById('menu-body');
+  const dropdownItems = document.querySelectorAll('.dropdown-item');
+  const root = document.documentElement;
+
+  // Get system preference
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const systemTheme = prefersDark ? THEME_DARK : THEME_LIGHT;
+
+  // Get saved theme from localStorage or default to auto
+  const savedThemeMode = localStorage.getItem('themeMode') || THEME_AUTO;
+  const savedTheme = localStorage.getItem('theme');
+
+  // Function to update active state in dropdown menu
+  function updateActiveState(activeTheme) {
+    dropdownItems.forEach(item => {
+      if (item.getAttribute('data-theme') === activeTheme) {
+        item.classList.add('active');
+      } else {
+        item.classList.remove('active');
+      }
+    });
+  }
+
+  // Function to apply theme
+  function applyTheme(themeMode) {
+    // Update active state in dropdown
+    updateActiveState(themeMode);
+
+    // Save theme mode preference
+    localStorage.setItem('themeMode', themeMode);
+
+    // Apply the appropriate theme
+    if (themeMode === THEME_AUTO) {
+      // Follow system
+      localStorage.removeItem('theme');
+      root.removeAttribute('data-theme');
     } else {
-      // if not set, toggle from the system preferred theme and save it to localStorage
-      const newTheme = preferredTheme === 'dark' ? 'light' : 'dark';
-      root.setAttribute('data-theme', newTheme);
-      localStorage.setItem('theme', newTheme);
+      // Set to specific theme
+      root.setAttribute('data-theme', themeMode);
+      localStorage.setItem('theme', themeMode);
+    }
+  }
+
+  // Initialize theme
+  applyTheme(savedThemeMode);
+
+  // Add click handlers to dropdown items
+  dropdownItems.forEach(item => {
+    item.addEventListener('click', () => {
+      const selectedTheme = item.getAttribute('data-theme');
+      applyTheme(selectedTheme);
+    });
+  });
+
+  // Listen for system preference changes
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    if (savedThemeMode === THEME_AUTO) {
+      // Only update if we're in auto mode
+      root.removeAttribute('data-theme');
     }
   });
 </script>
