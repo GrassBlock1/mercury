@@ -59,13 +59,12 @@
     resultsElement.innerHTML = html;
   }
 
-
+  // Initialize search when the component mounts
+  initializeSearch();
 
   // Add event listener for search input
   const searchInput = document.getElementById('search-input');
   searchInput.addEventListener('input', (e) => {
-    // Initialize search
-    initializeSearch();
     performSearch(e.target.value);
   });
 </script>
