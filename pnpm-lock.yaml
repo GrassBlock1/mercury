@@ -14,6 +14,9 @@ importers:
       '@astrojs/rss':
         specifier: ^4.0.1
         version: 4.0.11
+      '@astrojs/sitemap':
+        specifier: ^3.3.1
+        version: 3.3.1
       astro:
         specifier: ^5.2.5
         version: 5.7.10(@types/node@22.15.3)(rollup@4.40.1)(typescript@5.8.3)
@@ -51,6 +54,9 @@ packages:
 
   '@astrojs/rss@4.0.11':
     resolution: {integrity: sha512-3e3H8i6kc97KGnn9iaZBJpIkdoQi8MmR5zH5R+dWsfCM44lLTszOqy1OBfGGxDt56mpQkYVtZJWoxMyWuUZBfw==}
+
+  '@astrojs/sitemap@3.3.1':
+    resolution: {integrity: sha512-GRnDUCTviBSNfXJ0Jmur+1/C+z3g36jy79VyYggfe1uNyEYSTcmAfTTCmbytrRvJRNyJJnSfB/77Gnm9PiXRRg==}
 
   '@astrojs/telemetry@3.2.1':
     resolution: {integrity: sha512-SSVM820Jqc6wjsn7qYfV9qfeQvePtVc1nSofhyap7l0/iakUKywj3hfy3UJAOV4sGV4Q/u450RD4AaCaFvNPlg==}
@@ -500,8 +506,14 @@ packages:
   '@types/nlcst@2.0.3':
     resolution: {integrity: sha512-vSYNSDe6Ix3q+6Z7ri9lyWqgGhJTmzRjZRqyq15N0Z/1/UnVsno9G/N40NBijoYx2seFDIl0+B2mgAb9mezUCA==}
 
+  '@types/node@17.0.45':
+    resolution: {integrity: sha512-w+tIMs3rq2afQdsPJlODhoUEKzFP1ayaoyl1CcnwtIlsVe7K7bA1NGm4s3PraqTLlXnbIN84zuBlxBWo1u9BLw==}
+
   '@types/node@22.15.3':
     resolution: {integrity: sha512-lX7HFZeHf4QG/J7tBZqrCAXwz9J5RD56Y6MpP0eJkka8p+K0RY/yBTW7CYFJ4VGCclxqOLKmiGP5juQc6MKgcw==}
+
+  '@types/sax@1.2.7':
+    resolution: {integrity: sha512-rO73L89PJxeYM3s3pPPjiPgVVcymqU490g0YO5n5By0k2Erzj6tay/4lr1CHAAU4JyOWd1rpQ8bCf6cZfHU96A==}
 
   '@types/unist@2.0.11':
     resolution: {integrity: sha512-CmBKiL6NNo/OqgmMn95Fk9Whlp2mtvIv+KNpQKN2F4SjvrEesubTRWGYSg+BnWZOnlCaSTU1sMpsBOzgbYhnsA==}
@@ -540,6 +552,9 @@ packages:
   anymatch@3.1.3:
     resolution: {integrity: sha512-KMReFUr0B4t+D+OBkjR3KYqvocp2XaSzO55UcB6mgQMd3KbcE+mWTyvVV7D/zsdEbNnV6acZUutkiHQXvTr1Rw==}
     engines: {node: '>= 8'}
+
+  arg@5.0.2:
+    resolution: {integrity: sha512-PYjyFOLKQ9y57JvQ6QLo8dAgNqswh8M1RMJYdQduT6xbWSgK36P/Z/v+p888pM69jMMfS8Xd8F6I1kQ/I9HUGg==}
 
   argparse@2.0.1:
     resolution: {integrity: sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==}
@@ -1289,6 +1304,9 @@ packages:
     engines: {node: '>=18.0.0', npm: '>=8.0.0'}
     hasBin: true
 
+  sax@1.4.1:
+    resolution: {integrity: sha512-+aWOz7yVScEGoKNd4PA10LZ8sk0A/z5+nXQG5giUO5rprX9jgYsTdov9qCchZiPIZezbZH+jRut8nPodFAX4Jg==}
+
   semver@7.7.1:
     resolution: {integrity: sha512-hlq8tAfn0m/61p4BVRcPzIGr6LKiMwo4VM6dGi6pt4qcRkmNzTcWq6eCEjEh+qXjkMDvPlOFFSGwQjoEa6gyMA==}
     engines: {node: '>=10'}
@@ -1307,6 +1325,11 @@ packages:
   sisteransi@1.0.5:
     resolution: {integrity: sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==}
 
+  sitemap@8.0.0:
+    resolution: {integrity: sha512-+AbdxhM9kJsHtruUF39bwS/B0Fytw6Fr1o4ZAIAEqA6cke2xcoO2GleBw9Zw7nRzILVEgz7zBM5GiTJjie1G9A==}
+    engines: {node: '>=14.0.0', npm: '>=6.0.0'}
+    hasBin: true
+
   smol-toml@1.3.4:
     resolution: {integrity: sha512-UOPtVuYkzYGee0Bd2Szz8d2G3RfMfJ2t3qVdZUAozZyAk+a0Sxa+QKix0YCwjL/A1RR0ar44nCxaoN9FxdJGwA==}
     engines: {node: '>= 18'}
@@ -1321,6 +1344,9 @@ packages:
 
   space-separated-tokens@2.0.2:
     resolution: {integrity: sha512-PEGlAwrG8yXGXRjW32fGbg66JAlOAwbObuqVoJpv/mRgoWDQfgH1wDPvtzWyUSNAXBGSk8h755YDbbcEy3SH2Q==}
+
+  stream-replace-string@2.0.0:
+    resolution: {integrity: sha512-TlnjJ1C0QrmxRNrON00JvaFFlNh5TTG00APw23j74ET7gkQpTASi6/L2fuiav8pzK715HXtUeClpBTw2NPSn6w==}
 
   string-width@4.2.3:
     resolution: {integrity: sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==}
@@ -1678,6 +1704,12 @@ snapshots:
       fast-xml-parser: 4.5.3
       kleur: 4.1.5
 
+  '@astrojs/sitemap@3.3.1':
+    dependencies:
+      sitemap: 8.0.0
+      stream-replace-string: 2.0.0
+      zod: 3.24.3
+
   '@astrojs/telemetry@3.2.1':
     dependencies:
       ci-info: 4.2.0
@@ -2031,9 +2063,15 @@ snapshots:
     dependencies:
       '@types/unist': 3.0.3
 
+  '@types/node@17.0.45': {}
+
   '@types/node@22.15.3':
     dependencies:
       undici-types: 6.21.0
+
+  '@types/sax@1.2.7':
+    dependencies:
+      '@types/node': 22.15.3
 
   '@types/unist@2.0.11': {}
 
@@ -2061,6 +2099,8 @@ snapshots:
     dependencies:
       normalize-path: 3.0.0
       picomatch: 2.3.1
+
+  arg@5.0.2: {}
 
   argparse@2.0.1: {}
 
@@ -3343,6 +3383,8 @@ snapshots:
       '@rollup/rollup-win32-x64-msvc': 4.40.1
       fsevents: 2.3.3
 
+  sax@1.4.1: {}
+
   semver@7.7.1: {}
 
   sharp@0.33.5:
@@ -3390,6 +3432,13 @@ snapshots:
 
   sisteransi@1.0.5: {}
 
+  sitemap@8.0.0:
+    dependencies:
+      '@types/node': 17.0.45
+      '@types/sax': 1.2.7
+      arg: 5.0.2
+      sax: 1.4.1
+
   smol-toml@1.3.4: {}
 
   source-map-js@1.2.1: {}
@@ -3397,6 +3446,8 @@ snapshots:
   source-map@0.7.4: {}
 
   space-separated-tokens@2.0.2: {}
+
+  stream-replace-string@2.0.0: {}
 
   string-width@4.2.3:
     dependencies:
