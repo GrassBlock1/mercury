@@ -11,7 +11,30 @@
   --terminal-red: #ef4444;
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
-
+/* Light theme */
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg-color: #f3f4f6;
+    --text-color: #374151;
+    --accent-color: #3b82f6;
+    --border-color: #d1d5db;
+    --header-color: #1f2937;
+    --terminal-green: #059669;
+    --terminal-yellow: #d97706;
+    --terminal-red: #dc2626;
+  }
+  :root:not([data-theme="light"]) {
+    --bg-color: #1f2937;
+    --text-color: #a5b4cf;
+    --accent-color: #64a0ff;
+    --border-color: #3b4351;
+    --header-color: #83a2ce;
+    --terminal-green: #4ade80;
+    --terminal-yellow: #fbbf24;
+    --terminal-red: #ef4444;
+  }
+}
+/* Light theme override (for switch) */
 :root[data-theme="light"] {
   --bg-color: #f3f4f6;
   --text-color: #374151;
@@ -114,6 +137,10 @@ main {
   font-size: 0.9rem;
   color: var(--text-color);
   opacity: 0.7;
+}
+
+.footer img {
+  vertical-align: middle;
 }
 
 /* Post styles */
