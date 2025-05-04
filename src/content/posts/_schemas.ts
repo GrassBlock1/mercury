@@ -1,6 +1,6 @@
 import { z } from 'astro:content';
 
-export const blogs = z.object({
+export const posts = z.object({
   title: z.string(),
   description: z.string(),
   pubDate: z.coerce.date(),
