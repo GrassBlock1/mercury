@@ -1,0 +1,21 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+    const pageEntries = await getCollection('pages');
+    return pageEntries.map(entry => ({
+        params: { slug: entry.slug }, props: { entry },
+    }));
+}
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+
+---
+
+<Layout title={`${entry.data.title} | Terminal Blog`} path={`/var/log/${entry.slug}`}>
+    <h1 class="post-title">{entry.data.title}</h1>
+    <div class="post-content">
+        <Content/>
+    </div>
+</Layout>
