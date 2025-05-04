@@ -1,33 +1,14 @@
 ---
 import Layout from '../layouts/Layout.astro';
+
 ---
 
 <Layout title="Home | Terminal Blog">
-  <h1 class="post-title">~/home</h1>
+  <h1 class="post-title">~/</h1>
   
   <div class="post-content">
-    <p class="typewriter">A random grassblock do some some writing work.</p>
-    <p class="typewriter" style="margin-top: 1.5rem;">Welcome to my terminal blog. Navigate using the links above.</p>
-    
-    <div style="margin-top: 2rem;">
-      <span class="command">ls -la</span>
-      <div style="margin-top: 0.5rem; margin-left: 1rem;">
-        <p>drwxr-xr-x  3 user group  96 Jun  8 15:42 .</p>
-        <p>drwxr-xr-x 15 user group 480 Jun  8 14:22 ..</p>
-        <p>-rw-r--r--  1 user group 283 Jun  8 15:42 about.md</p>
-        <p>-rw-r--r--  1 user group 148 Jun  8 15:40 projects.md</p>
-        <p>-rw-r--r--  1 user group 892 Jun  8 15:35 notes.md</p>
-      </div>
-    </div>
-    
-    <div style="margin-top: 2rem;">
-      <span class="command">cat about.md</span>
-      <div style="margin-top: 0.5rem; margin-left: 1rem;">
-        <p>
-          I'm a developer who enjoys minimalist design and terminal aesthetics.
-          This blog is a collection of my thoughts, projects, and experiments.
-        </p>
-      </div>
-    </div>
+    Not much here yet, but you can check out my blog posts <a href="/blog">here</a>.
+    <br />
+    If you are site owner, please edit <code>src/pages/index.astro</code> to customize this page.
   </div>
 </Layout>
