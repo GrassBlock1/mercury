@@ -19,16 +19,26 @@
 
   let fuse;
   let posts = [];
+  let searchInitialized = false;
 
   async function initializeSearch() {
-    const response = await fetch('/search-index.json');
-    posts = await response.json();
-    
-    fuse = new Fuse(posts, {
-      keys: ['title', 'description', 'content'],
-      threshold: 0.3,
-      includeMatches: true
-    });
+    // Prevent multiple initializations
+    if (searchInitialized) return;
+    try {
+      // Fetch the search index
+      const response = await fetch('/search-index.json');
+      posts = await response.json();
+
+      fuse = new Fuse(posts, {
+        keys: ['title', 'description', 'content'],
+        threshold: 0.3,
+        includeMatches: true
+      });
+      searchInitialized = true;
+      document.getElementById('search-results').innerHTML = '';
+    } catch (error) {
+        console.error('Error fetching search index:', error);
+    }
   }
 
   function performSearch(query) {
@@ -36,6 +46,8 @@
       document.getElementById('search-results').innerHTML = '';
       return;
     }
+
+    if (!searchInitialized) return;
 
     const results = fuse.search(query);
     const resultsElement = document.getElementById('search-results');
@@ -58,14 +70,27 @@
 
     resultsElement.innerHTML = html;
   }
-
-  // Initialize search when the component mounts
-  initializeSearch();
-
   // Add event listener for search input
   const searchInput = document.getElementById('search-input');
+
+  // Initialize search only when the input is focused or clicked
+  searchInput.addEventListener('focus', initializeSearch);
+  searchInput.addEventListener('click', initializeSearch);
+
   searchInput.addEventListener('input', (e) => {
-    performSearch(e.target.value);
+    if (!searchInitialized) {
+        initializeSearch().then(() => {
+            performSearch(e.target.value);
+        });
+    } else {
+        performSearch(e.target.value);
+    }
+  });
+
+  searchInput.addEventListener('focus', () => {
+    if (!searchInitialized) {
+      document.getElementById('search-results').innerHTML = '<p>Loading search index...</p>';
+    }
   });
 </script>
 
