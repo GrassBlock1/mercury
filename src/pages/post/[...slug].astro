@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
+import Comments from "../../components/Comments.astro";
 
 export async function getStaticPaths() {
   const blogEntries = await getCollection('posts');
@@ -15,7 +16,7 @@ const { Content } = await entry.render();
 const slug = Astro.params.slug;
 ---
 
-<Layout 
+<Layout
   title={entry.data.title}
   path={`~/grassblock/micr0blog/blog/${slug}`}
 >
@@ -26,6 +27,9 @@ const slug = Astro.params.slug;
       </div>
 
     <div style="margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+    <h2>Comments</h2>
+    <Comments path={`post/${slug}`} />
     <a href="/blog">&larr; Back to posts</a>
   </div>
+
 </Layout>
