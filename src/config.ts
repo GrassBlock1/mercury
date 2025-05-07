@@ -2,7 +2,7 @@ export const siteConfig = {
     title: '/var/log/mercury',
     description: 'A blog about software development, technology, and life.',
     comments: {
-        type: 'artalk', // 'artalk','giscus','fediverse','hatsu'
+        type: 'fediverse', // 'artalk','giscus','fediverse','hatsu'
         artalk: {
             instanceDomain: '', // the domain of your artalk instance
         },
@@ -24,14 +24,20 @@ export const siteConfig = {
         fediverse: {
             // use Mastodon (compatible) api to search posts and parse replies
             // it will search for the post's link by default
-            instanceDomain: '', // the domain of the fediverse instance to search posts from
-            useV2api: false, // use /api/v2/search instead of /api/v1/search to search on instance using newer version of mastodon
-            token: process.env.MASTODON_API_TOKEN, // the token to use to authenticate with the fediverse instance, usually a read:search-only token
-            // or use a reverse proxy api to return posts on instance, useful if you publish the site in SSG mode.
-            // the instanceDomain and token will be ignored if useReverseProxy is true and reverseProxyUrl is used.
-            useReverseProxy: false,
+            // the comments are rendered at the client side (by now)
+            // a reverse proxy is required in pure client-side rendering mode to get the posts from the fediverse instance
+            useReverseProxy: true,
             reverseProxyUrl: '', // the url of the reverse proxy, usually a cloudflare worker proxying the search api
-            accountId: '' // the account id to search posts from, can be got from api like: https://{instance}/api/v1/accounts/{username without domain part}
+            // the reverse proxy should be able to handle the following request:
+            // GET /api/v1/search?q={query}&type=statuses&account_id=12345678
+            // GET /api/v1/statuses/12345678/context
+            // response body should be returned from the origin fediverse instance as-is.
+            accountId: '', // the account id to search posts from, can be got from api like: https://{instance}/api/v1/accounts/{username without domain part}
+            // for development purpose only (by now):
+            // TODO: render the comments on the server-side when in server-side render/hybrid render mode
+            instanceDomain: '', // the domain of the fediverse instance to search posts from
+            useV2api: true, // use /api/v2/search instead of /api/v1/search to search on instance using newer version of mastodon/pleroma/akkoma
+            token: process.env.MASTODON_API_TOKEN, // the token to use to authenticate with the fediverse instance, usually a read:search-only token
         },
         hatsu: {
             // use hatsu.cli.rs to get replies from the fediverse

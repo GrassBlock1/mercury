@@ -1,5 +1,7 @@
 ---
 import {siteConfig} from "../config";
+import FediverseComments from "./helper/comments/Fediverse.astro";
+
 const method = siteConfig.comments.type
 const ArtalkConfig = siteConfig.comments.artalk
 const giscusConfig = siteConfig.comments.giscus
@@ -7,7 +9,7 @@ interface Props {
     path?: string;
 }
 
-const { path='/' } = Astro.props;
+let { path='/' } = Astro.props;
 ---
 {method === 'artalk' &&
     <div>
@@ -46,3 +48,4 @@ const { path='/' } = Astro.props;
       async
     ></script>
 )}
+{method === 'fediverse' && <FediverseComments path={path} /> }

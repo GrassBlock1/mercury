@@ -1,0 +1,249 @@
+---
+  import { siteConfig } from "../../../config";
+
+  const fediverseConfig = siteConfig.comments.fediverse;
+  const {
+    instanceDomain,
+    useV2api,
+    token,
+    useReverseProxy,
+    reverseProxyUrl,
+    accountId
+  } = fediverseConfig;
+
+  interface Props {
+    path: string;
+  }
+
+  const { path } = Astro.props;
+
+  // Create the full URL to search for
+  const fullSiteUrl = Astro.url.host;
+  const postUrl = `https://${fullSiteUrl}${path.startsWith('/') ? path : '/' + path}`;
+
+  // Define the search API endpoint based on configuration
+  let searchEndpoint;
+  if (useReverseProxy && reverseProxyUrl) {
+    searchEndpoint = reverseProxyUrl;
+  } else {
+    const apiVersion = useV2api ? 'v2' : 'v1';
+    searchEndpoint = `https://${instanceDomain}/api/${apiVersion}/search`;
+  }
+  ---
+
+  <div class="fediverse-comments">
+    <div class="fediverse-status">
+      <div id="loading-message">Loading comments from the Fediverse...</div>
+      <div id="error-message" style="display: none;"></div>
+      <div id="no-posts-message" style="display: none;">
+        No discussions found for this post on the Fediverse yet.
+      </div>
+    </div>
+    <div id="fediverse-replies"></div>
+  </div>
+
+  <script define:vars={{
+    searchEndpoint,
+    postUrl,
+    token,
+    useReverseProxy,
+    accountId,
+    instanceDomain
+  }}>
+    async function fetchFediverseComments() {
+      const loadingEl = document.getElementById('loading-message');
+      const errorEl = document.getElementById('error-message');
+      const noPostsEl = document.getElementById('no-posts-message');
+      const repliesContainer = document.getElementById('fediverse-replies');
+
+      try {
+        // Define request parameters
+        const params = new URLSearchParams();
+        if (!useReverseProxy) {
+          params.append('q', postUrl);
+          params.append('type', 'statuses');
+          if (accountId) {
+            params.append('account_id', accountId);
+          }
+        }
+
+        // Prepare fetch options
+        const options = {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+          }
+        };
+
+        if (token && !useReverseProxy) {
+          options.headers['Authorization'] = `Bearer ${token}`;
+        }
+
+        // Make the API request
+        const url = useReverseProxy
+          ? `${searchEndpoint}?url=${encodeURIComponent(postUrl)}`
+          : `${searchEndpoint}?${params.toString()}`;
+
+        const response = await fetch(url, options);
+
+        if (!response.ok) {
+          throw new Error(`Failed to fetch comments: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+
+        // Process the statuses
+        const statuses = data.statuses || [];
+
+        if (statuses.length === 0) {
+          loadingEl.style.display = 'none';
+          noPostsEl.style.display = 'block';
+          return;
+        }
+
+        // Find the original post (by checking for our URL)
+        const originalPost = statuses[0]
+
+        if (!originalPost) {
+          loadingEl.style.display = 'none';
+          noPostsEl.style.display = 'block';
+          return;
+        }
+
+        // Fetch the status and its context (replies)
+        const statusId = originalPost.id;
+        const contextUrl = `https://${instanceDomain}/api/v1/statuses/${statusId}/context`;
+        const contextResponse = await fetch(contextUrl, options);
+
+        if (!contextResponse.ok) {
+          throw new Error(`Failed to fetch replies: ${contextResponse.statusText}`);
+        }
+
+        const contextData = await contextResponse.json();
+        const replies = contextData.descendants || [];
+
+        // Render replies
+        if (replies.length > 0) {
+          const repliesHtml = replies.map(reply => `
+            <div class="reply">
+              <div class="post-header">
+                <img src="${reply.account.avatar}" alt="${reply.account.display_name}" class="avatar">
+                <div class="post-meta">
+                  <div class="post-author">${reply.account.display_name}</div>
+                  <div class="post-username">@${reply.account.acct}</div>
+                </div>
+              </div>
+              <div class="reply-content">
+                ${reply.content}
+              </div>
+              <div class="post-stats">
+                <span>🔁 ${reply.reblogs_count || 0}</span>
+                <span>⭐ ${reply.favourites_count || 0}</span>
+              </div>
+              <div class="post-link">
+                <a href="${reply.url}" target="_blank" rel="noopener noreferrer">View reply</a>
+              </div>
+            </div>
+          `).join('');
+
+          repliesContainer.innerHTML += `
+            <div class="replies-container">
+              ${repliesHtml}
+            </div>
+          `;
+        }
+
+        loadingEl.style.display = 'none';
+
+      } catch (error) {
+        console.error('Error fetching Fediverse comments:', error);
+        loadingEl.style.display = 'none';
+        errorEl.textContent = `Failed to load comments: ${error.message}`;
+        errorEl.style.display = 'block';
+      }
+    }
+
+    // Call the fetch function when the component is loaded
+    document.addEventListener('DOMContentLoaded', fetchFediverseComments);
+  </script>
+
+  <style>
+    .fediverse-comments {
+      margin-top: 2rem;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    .fediverse-status {
+      margin-bottom: 1rem;
+    }
+
+    #error-message {
+      color: #e74c3c;
+      padding: 0.5rem;
+      border-left: 3px solid #e74c3c;
+    }
+
+    .original-post, .reply {
+      border: 1px solid var(--border-color, #ddd);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      background-color: var(--comment-bg, rgba(0, 0, 0, 0.02));
+    }
+
+    .post-header, .reply-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      margin-right: 0.75rem;
+    }
+
+    .post-author {
+      font-weight: bold;
+    }
+
+    .post-username {
+      opacity: 0.7;
+      font-size: 0.9rem;
+    }
+
+    .post-content, .reply-content {
+      margin: 0.75rem 0;
+      overflow-wrap: break-word;
+    }
+
+    .post-stats {
+      display: flex;
+      gap: 1rem;
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      color: var(--text-secondary, #666);
+    }
+
+    .post-link {
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .post-link a {
+      color: var(--link-color, #0366d6);
+      text-decoration: none;
+    }
+
+    .post-link a:hover {
+      text-decoration: underline;
+    }
+
+    .replies-container {
+      margin-top: 1rem;
+      margin-left: 1rem;
+      border-left: 2px solid var(--border-color, #ddd);
+      padding-left: 1rem;
+    }
+  </style>
