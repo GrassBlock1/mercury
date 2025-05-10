@@ -3,6 +3,7 @@ import { siteConfig } from "../../../config";
 
 const fediverseConfig = siteConfig.comments.fediverse;
 const {
+  renderOnServer,
   instanceDomain,
   useV2api,
   token,
@@ -10,6 +11,8 @@ const {
   reverseProxyUrl,
   accountId
 } = fediverseConfig;
+
+const serverRender = fediverseConfig.renderOnServer
 
 interface Props {
   path: string;
@@ -22,7 +25,7 @@ const fullSiteUrl = Astro.url.host;
 const postUrl = `https://${fullSiteUrl}${path.startsWith('/') ? path : '/' + path}`;
 
 // Define the search API endpoint based on configuration
-let searchEndpoint;
+let searchEndpoint: string;
 if (useReverseProxy && reverseProxyUrl) {
   searchEndpoint = reverseProxyUrl;
 } else {
@@ -30,19 +33,123 @@ if (useReverseProxy && reverseProxyUrl) {
   searchEndpoint = `https://${instanceDomain}/api/${apiVersion}/search`;
 }
 
+// Prepare default variables
+let commentData: any = null;
+let replies: any[] = [];
+
+if (serverRender) {
+  // Server-side rendering - fetch data during build
+  // Prepare URL
+  const params = new URLSearchParams();
+  params.append('q', postUrl);
+  params.append('type', 'statuses');
+  if (accountId) {
+    params.append('account_id', accountId);
+  }
+  const url = `${searchEndpoint}?${params.toString()}`;
+
+  // Prepare fetch options
+  const options: RequestInit = {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+    }
+  };
+
+  // Add authorization if token is provided
+  if (token) {
+    (options.headers as Record<string, string>)['Authorization'] = `Bearer ${token}`;
+  }
+
+  // Fetch data
+  commentData = await fetch(url, options).then(r => r.json());
+
+  // Extract original post and get replies if available
+  const statuses = commentData.statuses || [];
+  if (statuses.length > 0) {
+    const originalPost = statuses[0];
+
+    // Fetch replies
+    if (originalPost) {
+      const statusId = originalPost.id;
+      const contextUrl = `https://${instanceDomain}/api/v1/statuses/${statusId}/context`;
+      const contextResponse = await fetch(contextUrl, options);
+      if (contextResponse.ok) {
+        const contextData = await contextResponse.json();
+        replies = contextData.descendants || [];
+      }
+    }
+  }
+}
 ---
 
-  <div class="fediverse-comments">
-    <div class="fediverse-status">
-      <div id="loading-message">Loading comments from the Fediverse...</div>
-      <div id="error-message" style="display: none;"></div>
-      <div id="no-posts-message" style="display: none;">
-        No discussions found for this post on the Fediverse yet.
-      </div>
-    </div>
-    <div id="fediverse-replies"></div>
+<div class="fediverse-comments">
+  <div class="fediverse-status">
+    {serverRender ? (
+        <>
+          {!commentData || !commentData.statuses || commentData.statuses.length === 0 ? (
+              <div>No discussions found for this post on the Fediverse yet.</div>
+          ) : null}
+
+          {commentData && commentData.statuses && commentData.statuses.length > 0 ? (
+              <div class="original-post">
+                <div class="post-header">
+                  <img src={commentData.statuses[0].account.avatar} alt={commentData.statuses[0].account.display_name} class="avatar" />
+                  <div class="post-meta">
+                    <div class="post-author">{commentData.statuses[0].account.display_name}</div>
+                    <div class="post-username">@{commentData.statuses[0].account.acct}</div>
+                  </div>
+                </div>
+                <div class="post-content" set:html={commentData.statuses[0].content} />
+                <div class="post-stats">
+                  <span>🔁 {commentData.statuses[0].reblogs_count || 0}</span>
+                  <span>⭐ {commentData.statuses[0].favourites_count || 0}</span>
+                </div>
+                <div class="post-link">
+                  <a href={commentData.statuses[0].url} target="_blank" rel="noopener noreferrer">View post</a>
+                </div>
+              </div>
+          ) : null}
+        </>
+    ) : (
+        <>
+          <div id="loading-message">Loading comments from the Fediverse...</div>
+          <div id="error-message" style="display: none;"></div>
+          <div id="no-posts-message" style="display: none;">
+            No discussions found for this post on the Fediverse yet.
+          </div>
+        </>
+    )}
   </div>
 
+  <div id="fediverse-replies">
+    {!serverRender ? (
+      <div class="replies-container">
+        {replies.map((reply) => (
+          <div class="reply">
+            <div class="post-header">
+              <img src={reply.account.avatar} alt={reply.account.display_name} class="avatar" />
+              <div class="post-meta">
+                <div class="post-author">{reply.account.display_name}</div>
+                <div class="post-username">@{reply.account.acct}</div>
+              </div>
+            </div>
+            <div class="reply-content" set:html={reply.content} />
+            <div class="post-stats">
+              <span>🔁 {reply.reblogs_count || 0}</span>
+              <span>⭐ {reply.favourites_count || 0}</span>
+            </div>
+            <div class="post-link">
+              <a href={reply.url} target="_blank" rel="noopener noreferrer">View reply</a>
+            </div>
+          </div>
+        ))}
+      </div>
+    ) : null}
+  </div>
+</div>
+
+{!serverRender && (
   <script define:vars={{
     searchEndpoint,
     postUrl,
@@ -103,13 +210,38 @@ if (useReverseProxy && reverseProxyUrl) {
         }
 
         // Find the original post (by checking for our URL)
-        const originalPost = statuses[0]
+        const originalPost = statuses[0];
 
         if (!originalPost) {
           loadingEl.style.display = 'none';
           noPostsEl.style.display = 'block';
           return;
         }
+
+        // Render the original post
+        const originalPostHtml = `
+          <div class="original-post">
+            <div class="post-header">
+              <img src="${originalPost.account.avatar}" alt="${originalPost.account.display_name}" class="avatar">
+              <div class="post-meta">
+                <div class="post-author">${originalPost.account.display_name}</div>
+                <div class="post-username">@${originalPost.account.acct}</div>
+              </div>
+            </div>
+            <div class="post-content">
+              ${originalPost.content}
+            </div>
+            <div class="post-stats">
+              <span>🔁 ${originalPost.reblogs_count || 0}</span>
+              <span>⭐ ${originalPost.favourites_count || 0}</span>
+            </div>
+            <div class="post-link">
+              <a href="${originalPost.url}" target="_blank" rel="noopener noreferrer">View post</a>
+            </div>
+          </div>
+        `;
+
+        document.querySelector('.fediverse-status').innerHTML = originalPostHtml;
 
         // Fetch the status and its context (replies)
         const statusId = originalPost.id;
@@ -147,15 +279,12 @@ if (useReverseProxy && reverseProxyUrl) {
             </div>
           `).join('');
 
-          repliesContainer.innerHTML += `
+          repliesContainer.innerHTML = `
             <div class="replies-container">
               ${repliesHtml}
             </div>
           `;
         }
-
-        loadingEl.style.display = 'none';
-
       } catch (error) {
         console.error('Error fetching Fediverse comments:', error);
         loadingEl.style.display = 'none';
@@ -167,84 +296,85 @@ if (useReverseProxy && reverseProxyUrl) {
     // Call the fetch function when the component is loaded
     document.addEventListener('DOMContentLoaded', fetchFediverseComments);
   </script>
+)}
 
-  <style>
-    .fediverse-comments {
-      margin-top: 2rem;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-    }
+<style>
+  .fediverse-comments {
+    margin-top: 2rem;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  }
 
-    .fediverse-status {
-      margin-bottom: 1rem;
-    }
+  .fediverse-status {
+    margin-bottom: 1rem;
+  }
 
-    #error-message {
-      color: #e74c3c;
-      padding: 0.5rem;
-      border-left: 3px solid #e74c3c;
-    }
+  #error-message {
+    color: #e74c3c;
+    padding: 0.5rem;
+    border-left: 3px solid #e74c3c;
+  }
 
-    .original-post, .reply {
-      border: 1px solid var(--border-color, #ddd);
-      border-radius: 8px;
-      padding: 1rem;
-      margin-bottom: 1rem;
-      background-color: var(--comment-bg, rgba(0, 0, 0, 0.02));
-    }
+  .original-post, .reply {
+    border: 1px solid var(--border-color, #ddd);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background-color: var(--comment-bg, rgba(0, 0, 0, 0.02));
+  }
 
-    .post-header, .reply-header {
-      display: flex;
-      align-items: center;
-      margin-bottom: 0.5rem;
-    }
+  .post-header, .reply-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
 
-    .avatar {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      margin-right: 0.75rem;
-    }
+  .avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    margin-right: 0.75rem;
+  }
 
-    .post-author {
-      font-weight: bold;
-    }
+  .post-author {
+    font-weight: bold;
+  }
 
-    .post-username {
-      opacity: 0.7;
-      font-size: 0.9rem;
-    }
+  .post-username {
+    opacity: 0.7;
+    font-size: 0.9rem;
+  }
 
-    .post-content, .reply-content {
-      margin: 0.75rem 0;
-      overflow-wrap: break-word;
-    }
+  .post-content, .reply-content {
+    margin: 0.75rem 0;
+    overflow-wrap: break-word;
+  }
 
-    .post-stats {
-      display: flex;
-      gap: 1rem;
-      margin-top: 0.5rem;
-      font-size: 0.9rem;
-      color: var(--text-secondary, #666);
-    }
+  .post-stats {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--text-secondary, #666);
+  }
 
-    .post-link {
-      margin-top: 0.5rem;
-      font-size: 0.9rem;
-    }
+  .post-link {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+  }
 
-    .post-link a {
-      color: var(--link-color, #0366d6);
-      text-decoration: none;
-    }
+  .post-link a {
+    color: var(--link-color, #0366d6);
+    text-decoration: none;
+  }
 
-    .post-link a:hover {
-      text-decoration: underline;
-    }
+  .post-link a:hover {
+    text-decoration: underline;
+  }
 
-    .replies-container {
-      margin-top: 1rem;
-      margin-left: 1rem;
-      border-left: 2px solid var(--border-color, #ddd);
-      padding-left: 1rem;
-    }
-  </style>
+  .replies-container {
+    margin-top: 1rem;
+    margin-left: 1rem;
+    border-left: 2px solid var(--border-color, #ddd);
+    padding-left: 1rem;
+  }
+</style>

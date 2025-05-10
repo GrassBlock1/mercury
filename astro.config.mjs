@@ -4,6 +4,8 @@ import sitemap from '@astrojs/sitemap';
 
 import mdx from '@astrojs/mdx';
 
+import cloudflare from '@astrojs/cloudflare';
+
 export default defineConfig({
   site: 'https://terminal-blog.example.com',
   base: '/',
@@ -20,5 +22,7 @@ export default defineConfig({
     }
   },
 
-  integrations: [sitemap(), mdx()]
+  integrations: [sitemap(), mdx()],
+
+  adapter: cloudflare()
 });

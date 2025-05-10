@@ -5,6 +5,7 @@ import FediverseComments from "./helper/comments/Fediverse.astro";
 const method = siteConfig.comments.type
 const ArtalkConfig = siteConfig.comments.artalk
 const giscusConfig = siteConfig.comments.giscus
+const FediverseConfig = siteConfig.comments.fediverse
 interface Props {
     path?: string;
 }
@@ -48,4 +49,6 @@ let { path='/' } = Astro.props;
       async
     ></script>
 )}
-{method === 'fediverse' && <FediverseComments path={path} /> }
+<!-- if prerender === true is set then render from client -->
+{(method === 'fediverse' && !FediverseConfig.renderOnServer ) && <FediverseComments path={path} /> }
+{(method === 'fediverse' && FediverseConfig.renderOnServer ) && <FediverseComments server:defer path={path} ><p>Loading comments...</p></FediverseComments> }
