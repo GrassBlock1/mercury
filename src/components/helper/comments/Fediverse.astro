@@ -1,35 +1,36 @@
 ---
-  import { siteConfig } from "../../../config";
+import { siteConfig } from "../../../config";
 
-  const fediverseConfig = siteConfig.comments.fediverse;
-  const {
-    instanceDomain,
-    useV2api,
-    token,
-    useReverseProxy,
-    reverseProxyUrl,
-    accountId
-  } = fediverseConfig;
+const fediverseConfig = siteConfig.comments.fediverse;
+const {
+  instanceDomain,
+  useV2api,
+  token,
+  useReverseProxy,
+  reverseProxyUrl,
+  accountId
+} = fediverseConfig;
 
-  interface Props {
-    path: string;
-  }
+interface Props {
+  path: string;
+}
 
-  const { path } = Astro.props;
+const { path } = Astro.props;
 
-  // Create the full URL to search for
-  const fullSiteUrl = Astro.url.host;
-  const postUrl = `https://${fullSiteUrl}${path.startsWith('/') ? path : '/' + path}`;
+// Create the full URL to search for
+const fullSiteUrl = Astro.url.host;
+const postUrl = `https://${fullSiteUrl}${path.startsWith('/') ? path : '/' + path}`;
 
-  // Define the search API endpoint based on configuration
-  let searchEndpoint;
-  if (useReverseProxy && reverseProxyUrl) {
-    searchEndpoint = reverseProxyUrl;
-  } else {
-    const apiVersion = useV2api ? 'v2' : 'v1';
-    searchEndpoint = `https://${instanceDomain}/api/${apiVersion}/search`;
-  }
-  ---
+// Define the search API endpoint based on configuration
+let searchEndpoint;
+if (useReverseProxy && reverseProxyUrl) {
+  searchEndpoint = reverseProxyUrl;
+} else {
+  const apiVersion = useV2api ? 'v2' : 'v1';
+  searchEndpoint = `https://${instanceDomain}/api/${apiVersion}/search`;
+}
+
+---
 
   <div class="fediverse-comments">
     <div class="fediverse-status">
