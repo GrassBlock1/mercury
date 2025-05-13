@@ -1,0 +1,14 @@
+{
+  "$schema": "https://aka.ms/azure/static-web-apps-cli/schema",
+  "configurations": {
+    "mercury": {
+      "appLocation": ".",
+      "outputLocation": "dist",
+      "appBuildCommand": "pnpm run build",
+      "run": "pnpm run dev",
+      "appDevserverUrl": "http://localhost:4321",
+      "appName": "mercury",
+      "resourceGroup": "mercury-rg"
+    }
+  }
+}
