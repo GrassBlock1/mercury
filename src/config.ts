@@ -1,6 +1,14 @@
 export const siteConfig = {
     title: '/var/log/mercury',
     description: 'A blog about software development, technology, and life.',
+    navBarItems: [
+        // additional items in the navbar
+        // the order of the items will be the same as the order in the array
+        // format is { text: string, link: string }
+        { text: "RSS", link: "/rss.xml" },
+        { text: "GitHub", link: "https://github.com/GrassBlock1/mercury" },
+    ],
+    customFooter: '<i>I have no mouth, and I must SCREAM</i>',
     comments: {
         type: 'fediverse', // 'artalk','giscus','fediverse','hatsu'
         artalk: {

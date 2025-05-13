@@ -13,6 +13,9 @@ interface Props {
 const defaultTitle = siteConfig.title
 const formattedPath = defaultTitle.toLowerCase().replace(/\s+/g, '-');
 
+const navBarItems = siteConfig.navBarItems
+const customFooter = siteConfig.customFooter
+
 const { title, path = formattedPath } = Astro.props;
 // TODO: make the path dynamic
 ---
@@ -36,6 +39,7 @@ const { title, path = formattedPath } = Astro.props;
         <nav class="nav">
           <a href="/">Home</a>
           <a href="/blog">Blog</a>
+          {navBarItems.map((item) => <a href={item.link}>{item.text}</a>)}
         </nav>
 
         <Search />
@@ -52,7 +56,8 @@ const { title, path = formattedPath } = Astro.props;
         <ThemeSwitcher/>
       </div>
       <div class="container">
-        Powered by <a href="https://git.gb0.dev/gb/mercury"><img src="/mercury.svg" width="16px" alt="mercury logo" /> mercury</a>
+        <Fragment set:html={customFooter} />
+        <p>Powered by <a href="https://git.gb0.dev/gb/mercury"><img src="/mercury.svg" width="16px" alt="mercury logo" /> mercury</a></p>
       </div>
     </footer>
   </body>
