@@ -19,6 +19,7 @@ const slug = Astro.params.slug;
 <Layout
   title={entry.data.title}
   path={`~/grassblock/micr0blog/blog/${slug}`}
+  description={entry.data.description}
 >
       <h1 class="post-title">{entry.data.title}</h1>
       <span class="post-date">{new Date(entry.data.pubDate).toISOString().split('T')[0]}</span>

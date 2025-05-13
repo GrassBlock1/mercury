@@ -4,9 +4,11 @@ import Search from '../components/Search.astro';
 import ThemeSwitcher from '../components/ThemeSwitcher.astro';
 import BackToTop from "../components/BackToTop.astro";
 import { siteConfig } from "../config";
+import Meta from "../components/helper/head/Meta.astro";
 
 interface Props {
   title: string;
+  description: string;
   path?: string;
 }
 
@@ -16,7 +18,7 @@ const formattedPath = defaultTitle.toLowerCase().replace(/\s+/g, '-');
 const navBarItems = siteConfig.navBarItems
 const customFooter = siteConfig.customFooter
 
-const { title, path = formattedPath } = Astro.props;
+const { title, path = formattedPath, description = siteConfig.description } = Astro.props;
 // TODO: make the path dynamic
 ---
 
@@ -27,6 +29,7 @@ const { title, path = formattedPath } = Astro.props;
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
+    <Meta title={title} description={description}/>
     <title>{title}</title>
   </head>
   <body>

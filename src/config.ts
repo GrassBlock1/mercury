@@ -1,6 +1,9 @@
 export const siteConfig = {
+    // site meta info
     title: '/var/log/mercury',
     description: 'A blog about software development, technology, and life.',
+    homepageOgImage: '',
+    // site components
     navBarItems: [
         // additional items in the navbar
         // the order of the items will be the same as the order in the array
@@ -8,6 +11,8 @@ export const siteConfig = {
         { text: "RSS", link: "/rss.xml" },
         { text: "GitHub", link: "https://github.com/GrassBlock1/mercury" },
     ],
+    // footer
+    // yes you can write html safely here
     customFooter: '<i>I have no mouth, and I must SCREAM</i>',
     comments: {
         type: 'fediverse', // 'artalk','giscus','fediverse','hatsu'
