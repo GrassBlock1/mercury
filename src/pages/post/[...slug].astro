@@ -3,6 +3,10 @@ import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import Comments from "../../components/Comments.astro";
 import {getImage} from "astro:assets";
+import { unified } from "unified";
+import { select } from "unist-util-select";
+import remarkMdx from "remark-mdx";
+import remarkParse from "remark-parse";
 
 export async function getStaticPaths() {
   const blogEntries = await getCollection('posts');
@@ -14,16 +18,19 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { Content } = await entry.render();
 
-
 const slug = Astro.params.slug;
+
+// get featured image and use it as og:image
+// use the custom cover image if it exists, otherwise use the featured image file in the same directory
 const featuredImages = import.meta.glob(`/src/content/posts/*/featured.*`,{import:'default',eager:true});
+const customFeaturedImage = entry.data.cover?.src
 const matchedImage = Object.keys(featuredImages).find(path => path.includes(slug));
 let matchedImage_src;
-if (matchedImage) {
+if (matchedImage && !customFeaturedImage) {
     matchedImage_src = await getImage({src: featuredImages[matchedImage], format: 'webp'}) || null;
 }
-const cover = entry.data.cover || matchedImage_src?.src || `/post/${slug}/og.webp`;
-//|| `/posts/${slug}/featured.webp` || `/posts/${slug}/featured.png` || `/posts/${slug}/featured.jpg`
+
+const cover = customFeaturedImage || matchedImage_src?.src || `/post/${slug}/featured.png` || '';
 ---
 
 <Layout
