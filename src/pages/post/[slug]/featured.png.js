@@ -13,19 +13,20 @@ export async function getStaticPaths() {
 async function getExternalImage(post) {
   const featuredImages = import.meta.glob(`/src/content/posts/*/featured.*`, {import: 'default', eager: true});
   const matchedImage = Object.keys(featuredImages).find(path => path.includes(post.slug));
-  let matchedImage_src;
+  let matchedImage_;
   if (matchedImage) {
-    matchedImage_src = await getImage({src: featuredImages[matchedImage], format: 'webp'}) || null;
+    matchedImage_ = await getImage({src: featuredImages[matchedImage], format: 'webp'}) || null;
   }
-  return matchedImage_src;
+  return matchedImage_?.src;
 }
 
 // This function dynamically generates og:images for posts that don't have a featured image
 export async function GET({ props }) {
   const {post} = props;
+  const ExternalImageURL = await getExternalImage(post);
   try {
     // Check if a custom cover image already exists
-    if (post.data.cover && await getExternalImage(post)) {
+    if (post.data.cover || ExternalImageURL) {
       // Redirect to the existing image
       return new Response(null);
     }
