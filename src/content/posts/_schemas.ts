@@ -1,9 +1,9 @@
 import { z } from 'astro:content';
 
-export const posts = z.object({
+export const posts = ({ image }:{image: ()=> z.ZodAny}) => z.object({
   title: z.string(),
   description: z.string(),
   pubDate: z.coerce.date(),
   updatedDate: z.coerce.date().optional(),
-  heroImage: z.string().optional()
+  cover: image().optional(),
 });

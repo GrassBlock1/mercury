@@ -14,12 +14,15 @@ const { entry } = Astro.props;
 const { Content } = await entry.render();
 
 const slug = Astro.params.slug;
+const cover = entry.data.cover
+//|| `/posts/${slug}/featured.webp` || `/posts/${slug}/featured.png` || `/posts/${slug}/featured.jpg`
 ---
 
 <Layout
   title={entry.data.title}
   path={`~/grassblock/micr0blog/blog/${slug}`}
   description={entry.data.description}
+  ogImage={cover}
 >
       <h1 class="post-title">{entry.data.title}</h1>
       <span class="post-date">{new Date(entry.data.pubDate).toISOString().split('T')[0]}</span>

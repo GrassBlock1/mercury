@@ -10,6 +10,7 @@ interface Props {
   title: string;
   description: string;
   path?: string;
+  ogImage: string;
 }
 
 const defaultTitle = siteConfig.title
@@ -18,7 +19,7 @@ const formattedPath = defaultTitle.toLowerCase().replace(/\s+/g, '-');
 const navBarItems = siteConfig.navBarItems
 const customFooter = siteConfig.customFooter
 
-const { title, path = formattedPath, description = siteConfig.description } = Astro.props;
+const { title, path = formattedPath, description = siteConfig.description, ogImage = "" } = Astro.props;
 // TODO: make the path dynamic
 ---
 
@@ -29,7 +30,7 @@ const { title, path = formattedPath, description = siteConfig.description } = As
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <Meta title={title} description={description}/>
+    <Meta title={title} description={description} ogImage={ogImage} />
     <title>{title}</title>
   </head>
   <body>
