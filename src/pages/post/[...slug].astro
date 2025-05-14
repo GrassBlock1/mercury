@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import Comments from "../../components/Comments.astro";
+import {getImage} from "astro:assets";
 
 export async function getStaticPaths() {
   const blogEntries = await getCollection('posts');
@@ -13,8 +14,15 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { Content } = await entry.render();
 
+
 const slug = Astro.params.slug;
-const cover = entry.data.cover
+const featuredImages = import.meta.glob(`/src/content/posts/*/featured.*`,{import:'default',eager:true});
+const matchedImage = Object.keys(featuredImages).find(path => path.includes(slug));
+let matchedImage_src;
+if (matchedImage) {
+    matchedImage_src = await getImage({src: featuredImages[matchedImage], format: 'webp'}) || null;
+}
+const cover = entry.data.cover || matchedImage_src?.src || `/post/${slug}/og.webp`;
 //|| `/posts/${slug}/featured.webp` || `/posts/${slug}/featured.png` || `/posts/${slug}/featured.jpg`
 ---
 
