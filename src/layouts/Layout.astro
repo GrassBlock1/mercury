@@ -18,6 +18,7 @@ const formattedPath = defaultTitle.toLowerCase().replace(/\s+/g, '-');
 
 const navBarItems = siteConfig.navBarItems
 const customFooter = siteConfig.customFooter
+const nekoType = siteConfig.neko?.type
 
 const { title, path = formattedPath, description = siteConfig.description, ogImage = "" } = Astro.props;
 // TODO: make the path dynamic
@@ -64,5 +65,13 @@ const { title, path = formattedPath, description = siteConfig.description, ogIma
         <p>Powered by <a href="https://git.gb0.dev/gb/mercury"><img src="/mercury.svg" width="16px" alt="mercury logo" /> mercury</a></p>
       </div>
     </footer>
+    { siteConfig.neko.enabled &&
+      <>
+        <script is:inline define:vars={{ nekoType  }}>
+          window.NekoType = nekoType;
+        </script>
+        <script is:inline src="https://webneko.net/n20171213.js"></script>
+      </>
+    }
   </body>
 </html>

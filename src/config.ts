@@ -14,8 +14,9 @@ export const siteConfig = {
     // footer
     // yes you can write html safely here
     customFooter: '<i>I have no mouth, and I must SCREAM</i>',
+    // comments
     comments: {
-        type: 'fediverse', // 'artalk','giscus','fediverse','hatsu'
+        type: 'artalk', // 'artalk','giscus','fediverse','hatsu'
         artalk: {
             instanceDomain: '', // the domain of your artalk instance
         },
@@ -58,5 +59,12 @@ export const siteConfig = {
             // use hatsu.cli.rs to get replies from the fediverse
             instanceDomain: '',
         }
+    },
+    // neko
+    // by enabling this, you can add a neko that follows cursor to your site
+    // this will load script from webneko.net
+    neko: {
+        enabled: false,
+        type: 'mike' // more available, for a full list, check https://webneko.net/
     }
 }
