@@ -7,9 +7,9 @@ posts.sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDat
 ---
 
 <Layout title="Blog | Terminal Blog">
-  <h1 class="post-title">~/blog</h1>
+  <h1 class="title">~/blog</h1>
   
-  <div class="post-content">
+  <div class="content">
     <p class="typewriter">Posts from the terminal.</p>
     
     <div style="margin-top: 2rem;">
@@ -17,7 +17,7 @@ posts.sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDat
       <div style="margin-top: 1rem; margin-left: 1rem;">
         {posts.map((post) => (
           <p>
-            <span style="color: var(--terminal-yellow);">{new Date(post.data.pubDate).toISOString().split('T')[0]}</span> 
+            <span style="color: #4c566a">{new Date(post.data.pubDate).toISOString().split('T')[0]}</span>
             <a href={`/post/${post.slug}`}>{post.data.title}</a>
           </p>
         ))}

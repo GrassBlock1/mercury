@@ -1,39 +1,40 @@
+@import url(@fontsource/space-mono);
 /* Global Styles for Terminal Blog */
 :root {
   /* Dark theme (default) */
-  --bg-color: #1f2937;
-  --text-color: #a5b4cf;
-  --accent-color: #64a0ff;
+  --bg-color: #2e3440;
+  --text-color: #d8dee9;
+  --accent-color: #81a1c1;
   --border-color: #3b4351;
-  --header-color: #83a2ce;
-  --terminal-green: #4ade80;
-  --terminal-yellow: #fbbf24;
-  --terminal-red: #ef4444;
-  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --header-color: #2e3440;
+  --terminal-green: #a3be8c;
+  --terminal-yellow: #ebcb8b;
+  --terminal-red: #bf616a;
+  --font-mono: 'Space Mono',ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 /* Light theme */
 @media (prefers-color-scheme: light) {
   :root:not([data-theme="dark"]) {
-    --bg-color: #f3f4f6;
-    --text-color: #374151;
-    --accent-color: #3b82f6;
+    --bg-color: #eceff4;
+    --text-color: #2e3440;
+    --accent-color: #81a1c1;
     --border-color: #d1d5db;
-    --header-color: #1f2937;
-    --terminal-green: #059669;
-    --terminal-yellow: #d97706;
-    --terminal-red: #dc2626;
+    --header-color: #2e3440;
+    --terminal-green: #a3be8c;
+    --terminal-yellow: #ebcb8b;
+    --terminal-red: #bf616a;
   }
 }
 /* Light theme override (for switch) */
 :root[data-theme="light"] {
-  --bg-color: #f3f4f6;
-  --text-color: #374151;
-  --accent-color: #3b82f6;
+  --bg-color: #eceff4;
+  --text-color: #2e3440;
+  --accent-color: #81a1c1;
   --border-color: #d1d5db;
-  --header-color: #1f2937;
-  --terminal-green: #059669;
-  --terminal-yellow: #d97706;
-  --terminal-red: #dc2626;
+  --header-color: #2e3440;
+  --terminal-green: #a3be8c;
+  --terminal-yellow: #ebcb8b;
+  --terminal-red: #bf616a;
 }
 
 
@@ -47,10 +48,13 @@ html, body {
   font-family: var(--font-mono);
   background-color: var(--bg-color);
   color: var(--text-color);
-  line-height: 1.6;
+  line-height: 1.5;
   height: 100%;
   width: 100%;
   transition: background-color 0.3s ease, color 0.3s ease;
+  text-align: left;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 a {
@@ -146,7 +150,6 @@ main {
   padding: 15px;
 }
 
-
 #toTopBtn {
   display: none;
   background: var(--border-color);
@@ -177,26 +180,46 @@ main {
   color: var(--bg-color);
 }
 
-
-
-/* Post styles */
-.post-title {
+/* Contents */
+h1.title {
   color: var(--header-color);
-  margin-bottom: 1rem;
-  font-size: 1.5rem;
-  font-weight: normal;
+  font-size: 1.75rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
 }
-
-.post-date {
-  color: var(--terminal-yellow);
-  font-size: 0.9rem;
-  margin-bottom: 1.5rem;
-  display: block;
-}
-
-.post-content {
+div.content {
   margin-bottom: 2rem;
+
+  ul, ol, li {
+    list-style-position: inside;
+  }
+  ul {
+    padding-left: 20px;
+    margin-top: 0.5em;
+    margin-bottom: 1em;
+  }
+  ul li {
+    padding-left: 0.5em;
+    margin-bottom: 0.5em;
+    line-height: 1.3;
+  }
+
+  pre {
+    padding: 1rem;
+  }
+  /* Highlighted Code Blocks */
+  pre.astro-code,
+  pre.astro-code span {
+    background-color: #3b4252 !important;
+  }
+
+  h1, h2, h3, h4 {
+    margin: 0.5rem 0;
+    line-height: 1.3;
+  }
 }
+
+
 
 /* Terminal Commands */
 .command {

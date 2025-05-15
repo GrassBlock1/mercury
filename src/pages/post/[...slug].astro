@@ -39,9 +39,9 @@ const cover = customFeaturedImage || matchedImage_src?.src || `/post/${slug}/fea
   description={entry.data.description}
   ogImage={cover}
 >
-      <h1 class="post-title">{entry.data.title}</h1>
-      <span class="post-date">{new Date(entry.data.pubDate).toISOString().split('T')[0]}</span>
-      <div class="post-content">
+      <h1 class="title">{entry.data.title}</h1>
+      <span class="date">{new Date(entry.data.pubDate).toISOString().split('T')[0]}</span>
+      <div class="content">
         <Content />
       </div>
 
@@ -52,3 +52,11 @@ const cover = customFeaturedImage || matchedImage_src?.src || `/post/${slug}/fea
   </div>
 
 </Layout>
+<style>
+span.date {
+    color: #4c566a;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+    display: block;
+}
+</style>

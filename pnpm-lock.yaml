@@ -23,6 +23,9 @@ importers:
       '@astrojs/sitemap':
         specifier: ^3.3.1
         version: 3.3.1
+      '@fontsource/space-mono':
+        specifier: ^5.2.5
+        version: 5.2.5
       astro:
         specifier: ^5.2.5
         version: 5.7.10(@azure/identity@4.9.1)(@types/node@22.15.3)(rollup@4.40.1)(typescript@5.8.3)(yaml@2.7.1)
@@ -544,6 +547,9 @@ packages:
   '@fastify/busboy@2.1.1':
     resolution: {integrity: sha512-vBZP4NlzfOlerQTnba4aqZoMhE/a9HY7HRqoOPaETQcSQuWEIyZMHGfVu6w9wGtGK5fED5qRs2DteVCjOH60sA==}
     engines: {node: '>=14'}
+
+  '@fontsource/space-mono@5.2.5':
+    resolution: {integrity: sha512-yFU6K17ko4LEDHl5554n6mCrmDbuc2xYGCZZkCRpAvRtCaJisUjxFdDdph2d2hiIElaiMlinmkmV8IWlbQCMJA==}
 
   '@hapi/hoek@9.3.0':
     resolution: {integrity: sha512-/c6rf4UJlmHlC9b5BaNvzAcFv7HZ2QHaV0D4/HNlBdvFnvQq8RI4kYdhyPCl7Xj+oWvTWQ8ujhqS53LIgAe6KQ==}
@@ -3748,6 +3754,8 @@ snapshots:
     optional: true
 
   '@fastify/busboy@2.1.1': {}
+
+  '@fontsource/space-mono@5.2.5': {}
 
   '@hapi/hoek@9.3.0': {}
 
