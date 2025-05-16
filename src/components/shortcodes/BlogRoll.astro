@@ -1,0 +1,19 @@
+---
+import {getCollection} from "astro:content";
+import { Image } from 'astro:assets';
+const links = await getCollection('links');
+---
+<h2>My Blogroll</h2>
+{links.length > 0 && links.map((link =>
+    <div class="link">
+        {link.data.avatar && <Image src={link.data.avatar} alt={`avatar of ${link.id}`} width="16" height="16"></Image>}
+        <a href={link.data.link} target="_blank" rel="noopener noreferrer">
+            {link.id}
+        </a> - {link.data.description}
+    </div>
+))}
+<style>
+    .link img {
+        vertical-align: middle;
+    }
+</style>

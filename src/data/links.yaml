@@ -1,0 +1,7 @@
+Link: # the name/title of the destination
+  link: https://www.youtube.com/watch?v=cqT0OKlEo9w # the link to the destination
+  avatar: https://example.org/avatar.png # set an avatar
+  description: We know each other for so long # the description
+Another Link:
+  link: https://google.com
+  description: Your heart's been aching, but you're too shy to say it
