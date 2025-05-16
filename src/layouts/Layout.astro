@@ -14,14 +14,15 @@ interface Props {
 }
 
 const defaultTitle = siteConfig.title
-const formattedPath = defaultTitle.toLowerCase().replace(/\s+/g, '-');
+const formattedRootPath = defaultTitle.toLowerCase().replace(/\s+/g, '-');
+const relativePath = Astro.url.pathname
+const path = formattedRootPath + (relativePath === '/' ? '' : relativePath)
 
 const navBarItems = siteConfig.navBarItems
 const customFooter = siteConfig.customFooter
 const nekoType = siteConfig.neko?.type
 
-const { title, path = formattedPath, description = siteConfig.description, ogImage = "" } = Astro.props;
-// TODO: make the path dynamic
+const { title, description = siteConfig.description, ogImage = "" } = Astro.props;
 ---
 
 <!doctype html>
