@@ -52,7 +52,7 @@ export async function GET(context) {
       },
       sanitize({ dropElements: ["script", "style"] }),
     ]);
-    feedItems.push({ ...post.data, link: `/blog/${post.slug}/`, content });
+    feedItems.push({ ...post.data, link: `/post/${post.slug}/`, content });
   }
 
   // Return our RSS feed XML response.
