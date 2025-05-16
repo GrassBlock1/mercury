@@ -1,0 +1,623 @@
+---
+
+---
+{/* WIP: a Fediverse Statuses Component*/}}
+{/* mainly made for Hugo, src code https://github.com/BlockG-ws/hugo-theme-laboratory/blob/master/layouts/_default/statuses.html */}
+{/* reworked some parts to make it work in astro */}}
+<h2>My Status</h2>
+<div class="container">
+    <div id="posts"></div>
+    <div class="loading">Loading...</div>
+    <div class="error"></div>
+    <div class="lightbox" id="lightbox"></div>
+</div>
+<style is:inline>
+    div.container {
+        margin: 0 auto;
+    }
+
+    .container .post {
+        border: 1px solid #ccc;
+        margin: 10px 0;
+        padding: 15px;
+        border-radius: 5px;
+    }
+
+    .container .post a {
+        line-break: anywhere;
+    }
+
+    .loading {
+        text-align: center;
+        padding: 20px;
+        display: none;
+    }
+
+    .loading.visible {
+        display: block;
+    }
+
+    .error {
+        color: red;
+        text-align: center;
+        padding: 20px;
+        display: none;
+    }
+    /* custom emoji */
+    .custom-emoji {
+        height: 1.2em;
+        width: auto;
+        vertical-align: middle;
+        margin: 0 0.1em;
+    }
+
+    .custom-emoji.emoji-error {
+        display: none;
+    }
+
+    /* attachments */
+    .reblogged-content .media-attachments {
+        padding-right: 10px;
+    }
+
+    .media-attachments {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .media-attachment {
+        position: relative;
+        width: 100%;
+        border-radius: 4px;
+        overflow: hidden;
+    }
+
+    .media-attachment img {
+        width: 100%;
+        height: auto;
+        cursor: pointer;
+        transition: opacity 0.3s;
+    }
+
+    .media-attachment img:hover {
+        opacity: 0.9;
+    }
+
+    .media-attachment.video {
+        aspect-ratio: 16/9;
+    }
+
+    .media-attachment video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .media-attachment audio {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .media-description {
+        font-size: 0.9em;
+        color: #666;
+        margin-top: 5px;
+    }
+
+    /* the lightbox */
+    .lightbox {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        z-index: 1000;
+        cursor: pointer;
+    }
+
+    .lightbox.active {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .lightbox img {
+        max-width: 90%;
+        max-height: 90vh;
+        object-fit: contain;
+    }
+
+    /* responsive */
+    @media (max-width: 600px) {
+        .media-attachments {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .spoiler .hidden {
+        display: none;
+    }
+
+    /* boosted toots */
+    .reblog-header {
+        color: #666;
+        margin-bottom: 10px;
+        font-size: 0.9em;
+    }
+
+    .reblog-header .username {
+        color: #2b90d9;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    .reblog-header .username:hover {
+        text-decoration: underline;
+    }
+
+    .reblogged-content {
+        border-left: 3px solid #2b90d9;
+        padding-left: 15px;
+        margin: 10px 0;
+        border-radius: 0 4px 4px 0;
+    }
+
+    .post-author {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .author-avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 4px;
+        margin-right: 10px;
+    }
+
+    .author-info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .display-name {
+        font-weight: bold;
+    }
+
+    .account-name {
+        color: #666;
+        font-size: 0.9em;
+    }
+
+    /* post actions */
+    .post-actions {
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px solid #eee;
+        display: flex;
+        gap: 15px;
+        font-size: 0.9em;
+    }
+
+    .post-actions .timestamp {
+        color: #666;
+        text-decoration: none;
+    }
+
+    .post-link {
+        color: #666;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .post-link:hover {
+        color: #2b90d9;
+    }
+
+    .post-link svg {
+        width: 16px;
+        height: 16px;
+    }
+    /* content warnings */
+    .content-warning {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        margin-bottom: 10px;
+    }
+
+    .spoiler-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px;
+        background-color: #e0e0e0;
+    }
+
+    .spoiler-text {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .spoiler-toggle {
+        background-color: #4a4a4a;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 3px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .spoiler-toggle:hover {
+        background-color: #666;
+    }
+
+    .spoiler-content {
+        padding: 10px;
+    }
+
+    .spoiler-content[hidden] {
+        display: none;
+    }
+
+    /* for static */
+    .status-metadata {
+        color: #666;
+        font-size: 0.9rem;
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+    }
+
+
+    .visibility {
+        text-transform: capitalize;
+        color: #888;
+    }
+    .source {
+        font-size: 0.8rem;
+        color: #999;
+        font-style: italic;
+    }
+</style>
+<script>
+function createFetcher(instanceDomain, userId, extraParams={}) {
+    const state = {
+        instanceDomain,
+        userId,
+        extraParams,
+        posts: [],
+        loading: false,
+        hasMore: true,
+        maxId: null,
+        emojiCache: new Map()
+    };
+
+    const postsContainer = document.getElementById('posts');
+    const loadingElement = document.querySelector('.loading');
+    const errorElement = document.querySelector('.error');
+    const lightbox = document.getElementById('lightbox');
+
+    // Setup lightbox
+    lightbox.addEventListener('click', () => {
+        lightbox.classList.remove('active');
+        lightbox.innerHTML = '';
+    });
+
+    // Setup content warning toggles
+    postsContainer.addEventListener('click', (event) => {
+        const toggleButton = event.target.closest('.spoiler-toggle');
+
+        if (toggleButton) {
+            const spoilerWrapper = toggleButton.closest('.content-warning');
+            const spoilerContent = spoilerWrapper.querySelector('.spoiler-content');
+
+            const isHidden = spoilerContent.hidden;
+            spoilerContent.hidden = !isHidden;
+
+            toggleButton.setAttribute('aria-expanded', !isHidden);
+            toggleButton.textContent = isHidden ? 'Hide content' : 'Show content';
+        }
+    });
+
+    // Throttle function to limit execution rate
+    function throttle(func, limit) {
+        let inThrottle;
+        return function() {
+            const args = arguments;
+            const context = this;
+            if (!inThrottle) {
+                func.apply(context, args);
+                inThrottle = true;
+                setTimeout(() => inThrottle = false, limit);
+            }
+        };
+    }
+
+    // Setup scroll listener for infinite loading
+    window.addEventListener('scroll', throttle(() => {
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 1000) {
+            if (!state.loading && state.hasMore) {
+                loadPosts();
+            }
+        }
+    }, 200));
+
+    function showInLightbox(imageUrl) {
+        const img = document.createElement('img');
+        img.src = imageUrl;
+        lightbox.innerHTML = '';
+        lightbox.appendChild(img);
+        lightbox.classList.add('active');
+    }
+
+    function updateEmojiCache(emojis) {
+        emojis.forEach(emoji => {
+            state.emojiCache.set(emoji.shortcode, emoji.url);
+        });
+    }
+
+    function replaceEmojis(content, emojis) {
+        // Update emoji cache
+        updateEmojiCache(emojis);
+
+        // Match all :shortcode: format text
+        return content.replace(/:([a-zA-Z0-9_]+):/g, (match, shortcode) => {
+            const emojiUrl = state.emojiCache.get(shortcode);
+            if (emojiUrl) {
+                return `<img
+                        class="custom-emoji"
+                        src="${emojiUrl}"
+                        alt=":${shortcode}:"
+                        title=":${shortcode}:"
+                        onerror="this.classList.add('emoji-error')"
+                    >`;
+            }
+            // Keep original text if emoji not found
+            return match;
+        });
+    }
+
+    function renderMediaAttachments(attachments) {
+        if (!attachments || attachments.length === 0) return '';
+
+        const mediaHtml = attachments.map(attachment => {
+            const description = attachment.description ?
+                `<div class="media-description">${attachment.description}</div>` : '';
+
+            switch (attachment.type) {
+                case 'image':
+                    return `
+                        <div class="media-attachment">
+                            <img
+                                src="${attachment.preview_url || attachment.url}"
+                                alt="${attachment.description || ''}"
+                                loading="lazy"
+                                onclick="window.fetcher.showInLightbox('${attachment.url}')"
+                            >
+                            ${description}
+                        </div>`;
+                case 'video':
+                    return `
+                        <div class="media-attachment video">
+                            <video
+                                controls
+                                preload="metadata"
+                                poster="${attachment.preview_url}"
+                            >
+                                <source src="${attachment.url}" type="video/mp4">
+                                Your browser does not support video playback.
+                            </video>
+                            ${description}
+                        </div>`;
+                case 'audio':
+                    return `
+                        <div class="media-attachment">
+                            <audio controls preload="metadata">
+                                <source src="${attachment.url}">
+                                Your browser does not support audio playback.
+                            </audio>
+                            ${description}
+                        </div>`;
+                default:
+                    return `
+                        <div class="media-attachment">
+                            <a href="${attachment.url}" target="_blank">
+                                Download media
+                            </a>
+                            ${description}
+                        </div>`;
+            }
+        }).join('');
+
+        return `<div class="media-attachments">${mediaHtml}</div>`;
+    }
+
+    function renderAuthor(account) {
+        return `
+            <div class="post-author">
+                <img
+                    class="author-avatar"
+                    src="${account.avatar}"
+                    alt="${account.display_name}"
+                    loading="lazy"
+                >
+                <div class="author-info">
+                    <span class="display-name">
+                        ${replaceEmojis(account.display_name, account.emojis || [])}
+                    </span>
+                    <span class="account-name">@${account.acct}</span>
+                </div>
+            </div>
+        `;
+    }
+
+    function renderPostActions(post) {
+        const postUrl = post.url;
+        return `
+            <div class="post-actions">
+                <span class="timestamp">${new Date(post.created_at).toLocaleString()}</span>
+                <a href="${postUrl}"
+                   class="post-link"
+                   target="_blank"
+                   title="在新窗口打开帖子">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z" />
+                    </svg>
+                    打开原帖
+                </a>
+            </div>
+        `;
+    }
+
+    function renderPostContent(post) {
+        const processedContent = replaceEmojis(post.content, post.emojis || []);
+        const mediaAttachments = renderMediaAttachments(post.media_attachments);
+
+        if (post.sensitive) {
+            return `
+                ${renderAuthor(post.account)}
+                <div class="content-warning">
+                    <div class="spoiler-header">
+                        <span class="spoiler-text">${replaceEmojis(post.spoiler_text, post.emojis || [])}</span>
+                        <button class="spoiler-toggle" aria-expanded="false">
+                            Show content
+                        </button>
+                    </div>
+                    <div class="spoiler-content" hidden>
+                        ${replaceEmojis(post.content, post.emojis || [])}
+                        ${mediaAttachments}
+                    </div>
+                </div>
+                ${renderPostActions(post)}
+            `;
+        }
+
+        return `
+            ${renderAuthor(post.account)}
+            <div class="content">${processedContent}</div>
+            ${mediaAttachments}
+            ${renderPostActions(post)}
+        `;
+    }
+
+    function renderPosts(posts) {
+        posts.forEach(post => {
+            const postElement = document.createElement('div');
+            postElement.className = 'post';
+
+            if (post.reblog) {
+                // Reblogged post
+                postElement.innerHTML = `
+                    <div class="reblog-header">
+                        <a href="${state.instanceDomain}/@${post.account.acct}"
+                           class="username"
+                           target="_blank">
+                            ${post.account.display_name}
+                        </a>
+                        转发了
+                    </div>
+                    <div class="reblogged-content">
+                        ${renderPostContent(post.reblog)}
+                    </div>
+                    <div class="post-actions">
+                        <span class="timestamp">${new Date(post.created_at).toLocaleString()}</span>
+                    </div>
+                `;
+            } else {
+                // Original post
+                postElement.innerHTML = renderPostContent(post);
+            }
+
+            postsContainer.appendChild(postElement);
+        });
+    }
+
+    function showLoading() {
+        loadingElement.classList.add('visible');
+    }
+
+    function hideLoading() {
+        loadingElement.classList.remove('visible');
+    }
+
+    function showError(message) {
+        errorElement.textContent = message;
+        errorElement.style.display = 'block';
+    }
+
+    async function loadPosts() {
+        try {
+            state.loading = true;
+            showLoading();
+
+            const params = new URLSearchParams({
+                limit: '20'
+            });
+
+            if (state.maxId) {
+                params.append('max_id', state.maxId);
+            }
+
+            // Add extra parameters
+            for (const [key, value] of Object.entries(state.extraParams)) {
+                if (value !== undefined && value !== null && value !== '') {
+                    params.append(key, value);
+                }
+            }
+
+            const response = await fetch(
+                `https://${state.instanceDomain}/api/v1/accounts/${state.userId}/statuses?${params}`,
+                {
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                }
+            );
+
+            if (!response.ok) {
+                console.error('Failed to fetch posts');
+            }
+
+            const posts = await response.json();
+
+            if (posts.length === 0) {
+                state.hasMore = false;
+                return;
+            }
+
+            state.maxId = posts[posts.length - 1].id;
+            state.posts = [...state.posts, ...posts];
+            renderPosts(posts);
+
+        } catch (error) {
+            showError(error.message);
+        } finally {
+            state.loading = false;
+            hideLoading();
+        }
+    }
+
+    // Initialize fetching
+    loadPosts();
+
+    // Return the public API
+    return {
+        loadMore: loadPosts,
+        showInLightbox
+    };
+}
+window.fetcher = createFetcher('', '', {
+    exclude_replies: true,
+    exclude_reblogs: true,
+    pinned: false,
+    only_media: false,
+    limit: 20
+});
+</script>
