@@ -40,8 +40,9 @@ export const siteConfig = {
             // it will search for the post's link by default
             renderOnServer: false, // render comments on server-side or client-side, may different from the astro config
             // the comments are rendered at the client side by default
-            // but if you want to deploy site on Cloudflare pages or so you can set it to true.
-            // (but in pure SSG mode, the comments will be rendered at build time, which mean delayed updates,maybe?)
+            // but if you want to deploy site on Cloudflare pages or other services that supported by astro adapters you can set it to true.
+            // you may get warning from the console about the project not containing any server rendered page, but it is ok.
+            // to fix this add a `export const prerender = false` to Comments.astro
             // a reverse proxy is recommended in pure client-side rendering mode to get the posts from the fediverse instance
             // that requires to be authorized to use search api the instance
             useReverseProxy: false,
