@@ -1,26 +1,46 @@
 # Mercury
 
-(WIP) Terminal-like blog theme built from [Astro](https://astro.build)
+Terminal-like blog theme built from [Astro](https://astro.build), still in early beta.
+
+Demo: https://icy-beach-00f5be01e.6.azurestaticapps.net/
 
 > 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
 
-## 🚀 Project Structure
+## 🌌 Features
+- Minimal, terminal like
+- Ship only necessary JavaScript
+- Full text search based on `Fuse.js`
+- Full text RSS
+- Create Blogrolls via a yaml file
+- Your status at Fediverse, now at your home
+- Comments powered by multiple engines
 
-Inside of your Astro project, you'll see the following folders and files:
+## 🚀 Getting Started
+clone the repo and install dependencies:
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src/
-│   ├── layouts/
-│   │   └── Layout.astro
-│   └── pages/
-│       └── index.astro
-└── package.json
+```bash
+git clone https://git.gb0.dev/gb/mercury.git
 ```
+```bash
+cd mercury && pnpm install
+```
+run the dev server:
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+```bash
+pnpm run dev
+```
+open [localhost:4321](http://localhost:4321) in your browser.
+
+## 🔧 Usage
+All you need is editing the `astro.config.mjs`'s site & base.
+
+For further config, edit `src/config.ts` according to the comment.
+
+To start writing, put your markdown & mdx files to /src/content/posts folder.
+
+To create a page, put markdown files into /src/content/pages folder.
+
+Shortcode-like components is also available at /src/components/shortcodes folder.
 
 ## 🧞 Commands
 
@@ -37,4 +57,7 @@ All commands are run from the root of the project, from a terminal:
 
 ## 👀 Want to learn more?
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+See the post [🕊](). I hope you like it. 💜
+
+## ⚖️ License
+GNU Affero Public License 3.0
