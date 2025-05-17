@@ -1,11 +1,21 @@
 ---
 const { tip = '' } = Astro.props
 ---
-{/* TODO: make it work in paragraph wrapped elements */}
 <span class="spoiler" title={tip}>
     <slot/>
 </span>
 <style>
+    :global(.spoiler p) {
+        background-color: #252525;
+        color: #252525;
+        transition: color 0.5s;
+        width: fit-content;
+    }
+
+    :global(.spoiler:hover p) {
+        color: #ffffff;
+    }
+
     .spoiler {
         background-color: #252525;
         color: #252525;
