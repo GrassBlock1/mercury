@@ -4,9 +4,14 @@ description: 'This is a test page'
 ---
 import BlogRoll  from "../../components/shortcodes/BlogRoll.astro"
 import FediStatuses from "../../components/shortcodes/FediStatuses.astro"
+import Spoiler from "../../components/shortcodes/Spoiler.astro"
 
 testestestest
 
 <BlogRoll/>
+
+<Spoiler tip="Spoiler Title">
+    ~~This is the content of the spoiler.~~
+</Spoiler>
 
 <FediStatuses instanceDomain='portal.gb0.dev' userId='me' />
