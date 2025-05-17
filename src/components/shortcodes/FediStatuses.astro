@@ -1,10 +1,13 @@
 ---
-
+// instanceDomain: the domain of the fediverse instance (e.g., "example.com")
+// userId: the user ID (could be the username when the instance uses software other than mastodon) of the account whose statuses you want to fetch
+// extraParams: any additional parameters to pass to the API (optional), in object format
+const { instanceDomain, userId, extraParams = '' } = Astro.props;
 ---
-{/* WIP: a Fediverse Statuses Component*/}}
+{/* WIP: a Fediverse Statuses Component*/}
 {/* mainly made for Hugo, src code https://github.com/BlockG-ws/hugo-theme-laboratory/blob/master/layouts/_default/statuses.html */}
-{/* reworked some parts to make it work in astro */}}
-<h2>My Status</h2>
+{/* reworked some parts to make it work in astro */}
+<h2>My Statuses</h2>
 <div class="container">
     <div id="posts"></div>
     <div class="loading">Loading...</div>
@@ -286,7 +289,7 @@
         font-style: italic;
     }
 </style>
-<script>
+<script define:vars={{ instanceDomain, userId, extraParams }}>
 function createFetcher(instanceDomain, userId, extraParams={}) {
     const state = {
         instanceDomain,
@@ -466,11 +469,11 @@ function createFetcher(instanceDomain, userId, extraParams={}) {
                 <a href="${postUrl}"
                    class="post-link"
                    target="_blank"
-                   title="在新窗口打开帖子">
+                   title="Open post in new tab">
                     <svg viewBox="0 0 24 24" fill="currentColor">
                         <path d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z" />
                     </svg>
-                    打开原帖
+                    Original
                 </a>
             </div>
         `;
@@ -521,7 +524,7 @@ function createFetcher(instanceDomain, userId, extraParams={}) {
                            target="_blank">
                             ${post.account.display_name}
                         </a>
-                        转发了
+                        boosted
                     </div>
                     <div class="reblogged-content">
                         ${renderPostContent(post.reblog)}
@@ -613,11 +616,5 @@ function createFetcher(instanceDomain, userId, extraParams={}) {
         showInLightbox
     };
 }
-window.fetcher = createFetcher('', '', {
-    exclude_replies: true,
-    exclude_reblogs: true,
-    pinned: false,
-    only_media: false,
-    limit: 20
-});
+window.fetcher = createFetcher(instanceDomain, userId, extraParams);
 </script>
