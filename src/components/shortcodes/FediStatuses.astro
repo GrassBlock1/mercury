@@ -193,8 +193,16 @@ const { instanceDomain, userId, extraParams = '' } = Astro.props;
     .account-name {
         color: #666;
         font-size: 0.9em;
+        /* fix overflow caused by long names */
+        word-break: break-word;
     }
-
+    /* post content */
+    .post .content pre code {
+        /*this should fix code overflows*/
+        white-space: pre-wrap;
+        overflow-wrap: break-word;
+        word-break: normal;
+    }
     /* post actions */
     .post-actions {
         margin-top: 10px;
