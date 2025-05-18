@@ -80,11 +80,11 @@ main {
 }
 
 .terminal-path {
-  color: var(--terminal-green);
-  padding: 1rem;
-  font-size: 1.2rem;
+  background-color: var(--accent-color);
+  color: var(--bg-color);
+  padding: 5px 10px;
+  font-size: 1rem;
   font-weight: 500;
-  border-radius: 4px;
   margin-bottom: 1rem;
   display: inline-block;
 }
