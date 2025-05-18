@@ -60,7 +60,7 @@
     const html = results
       .map(result => `
         <div class="search-result">
-          <a href="/blog/${result.item.slug}">
+          <a href="/post/${result.item.slug}">
             <span class="result-title">${result.item.title}</span>
             <span class="result-date">${new Date(result.item.pubDate).toISOString().split('T')[0]}</span>
           </a>
