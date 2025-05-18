@@ -13,7 +13,7 @@ const { Content } = await entry.render();
 
 ---
 
-<Layout title={`${entry.data.title} | Terminal Blog`} path={`/var/log/${entry.slug}`} description={entry.data.description} >
+<Layout title={entry.data.title} description={entry.data.description} >
     <h1 class="title">{entry.data.title}</h1>
     <div class="content">
         <Content/>
