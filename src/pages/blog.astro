@@ -6,7 +6,7 @@ const posts = await getCollection('posts');
 posts.sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime());
 ---
 
-<Layout title="Blog | Terminal Blog">
+<Layout title="Blog | Terminal Blog" description="List all files and folders in the directory.">
   <h1 class="title">~/blog</h1>
   
   <div class="content">

@@ -1,0 +1,25 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const url = Astro.url.pathname
+---
+
+<Layout title="404 | Terminal Blog" description="Page not found">
+  <h1 class="title">command not found.</h1>
+  
+  <div class="content">
+    <p class="typewriter">sh: <span class="path">~{url}</span>: command not found.</p>
+    
+    <div style="margin-top: 2rem;">
+      <span class="command">help</span>
+      <div style="margin-top: 1rem; margin-left: 1rem;">
+        <p>
+          Looks like this is an unknown command or file, try:
+        </p>
+        <p>
+          <a href="/">Return to Home</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</Layout>
