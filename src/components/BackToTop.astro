@@ -21,7 +21,14 @@
     // When the user clicks on the button, scroll to the top of the document
     toTopButton.addEventListener("click", toTop);
     function toTop() {
-        document.body.scrollTop = 0;
-        document.documentElement.scrollTop = 0;
+        try {
+            // scrollback gracefully
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        } catch (e) {
+            // if there is a error,return to top directly
+            console.error(e);
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
     }
 </script>
