@@ -3,8 +3,10 @@ import '../styles/global.css';
 import Search from '../components/Search.astro';
 import ThemeSwitcher from '../components/ThemeSwitcher.astro';
 import BackToTop from "../components/BackToTop.astro";
-import { siteConfig } from "../config";
 import Meta from "../components/helper/head/Meta.astro";
+
+import { siteConfig } from "../config";
+import Logo from '../assets/mercury.svg'
 
 interface Props {
   title: string;
@@ -65,7 +67,7 @@ const { title = pageTitle, description = siteConfig.description, ogImage = "" } 
       </div>
       <div class="container">
         <Fragment set:html={customFooter} />
-        <p>Powered by <a href="https://git.gb0.dev/gb/mercury"><img src="/mercury.svg" width="16px" alt="mercury logo" /> mercury</a></p>
+        <p>Powered by <a href="https://git.gb0.dev/gb/mercury" target="_blank"><Logo width={16} height={16} /> mercury</a></p>
       </div>
     </footer>
     { siteConfig.neko.enabled &&
