@@ -55,9 +55,33 @@ All commands are run from the root of the project, from a terminal:
 | `pnpm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
 | `pnpm run astro -- --help` | Get help using the Astro CLI                     |
 
+## 🗺 Roadmap
+- [x] Initial project setup
+- [x] Basic theme implementation
+- [ ] Better full-text search without `Fuse.js`
+- [ ] Multiple authors via YAML
+- [ ] i18n support
+- [ ] Integrate with Fediverse w/ activityPub
+- [ ] Plain text version when visiting the site via `curl`
+- [ ] Better support for printing version
+- [ ] Add support for more comment engines
+- [ ] Add support for umami statics
+- [ ] Improve documentation
+- [ ] Release v1.0
+
 ## 👀 Want to learn more?
 
 See the post [🕊](). I hope you like it. 💜
 
+## 😊 Special Thanks
+The terminal theme from [bearblog](https://bearblog.dev) is cool, and it inspired me to create a theme like this.
+
+[Bolt](https://bolt.new) by StackBlitz (anyway I'm not affiliated with them) helps me to create a starter template from screenshot when I don't know where to start, the one now is much different from the template though.
+
+Other tools like GitHub Copilot helps too.
+
+(I know the LLMs sometimes sucks, but it really helps most of the time)
+
+Also [delucis/astro-blog-full-text-rss](https://github.com/delucis/astro-blog-full-text-rss) for implementing full text RSS in pretty easy way
 ## ⚖️ License
 GNU Affero Public License 3.0
