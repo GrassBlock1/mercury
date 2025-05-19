@@ -23,7 +23,7 @@ importers:
       '@astrojs/sitemap':
         specifier: ^3.3.1
         version: 3.3.1
-      '@fontsource/space-mono':
+      '@fontsource-variable/jetbrains-mono':
         specifier: ^5.2.5
         version: 5.2.5
       astro:
@@ -548,8 +548,8 @@ packages:
     resolution: {integrity: sha512-vBZP4NlzfOlerQTnba4aqZoMhE/a9HY7HRqoOPaETQcSQuWEIyZMHGfVu6w9wGtGK5fED5qRs2DteVCjOH60sA==}
     engines: {node: '>=14'}
 
-  '@fontsource/space-mono@5.2.5':
-    resolution: {integrity: sha512-yFU6K17ko4LEDHl5554n6mCrmDbuc2xYGCZZkCRpAvRtCaJisUjxFdDdph2d2hiIElaiMlinmkmV8IWlbQCMJA==}
+  '@fontsource-variable/jetbrains-mono@5.2.5':
+    resolution: {integrity: sha512-G3sN1xq1moZd0JL+hFaA4MEdsiQS+JXC/z7m+EqA5/Fzn5CQlXGUaaNKFGQdDsFuLTnCfW0KOOSWHjygNfjEPw==}
 
   '@hapi/hoek@9.3.0':
     resolution: {integrity: sha512-/c6rf4UJlmHlC9b5BaNvzAcFv7HZ2QHaV0D4/HNlBdvFnvQq8RI4kYdhyPCl7Xj+oWvTWQ8ujhqS53LIgAe6KQ==}
@@ -3755,7 +3755,7 @@ snapshots:
 
   '@fastify/busboy@2.1.1': {}
 
-  '@fontsource/space-mono@5.2.5': {}
+  '@fontsource-variable/jetbrains-mono@5.2.5': {}
 
   '@hapi/hoek@9.3.0': {}
 

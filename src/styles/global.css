@@ -1,22 +1,24 @@
-@import url(@fontsource/space-mono);
+@import url(@fontsource-variable/jetbrains-mono);
 /* Global Styles for Terminal Blog */
 :root {
   /* Dark theme (default) */
   --bg-color: #2e3440;
   --text-color: #d8dee9;
+  --footer-text-color: #c8c8c8;
   --accent-color: #90a8c0;
   --border-color: #3b4351;
   --header-color: #eceff4;
   --terminal-green: #a3be8c;
   --terminal-yellow: #ebcb8b;
   --terminal-red: #bf616a;
-  --font-mono: 'Space Mono',ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --font-mono: 'JetBrains Mono',ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 /* Light theme */
 @media (prefers-color-scheme: light) {
   :root:not([data-theme="dark"]) {
     --bg-color: #eceff4;
     --text-color: #2e3440;
+    --footer-text-color: #4c566a;
     --accent-color: #486090;
     --border-color: #d1d5db;
     --header-color: #2e3440;
@@ -29,6 +31,7 @@
 :root[data-theme="light"] {
   --bg-color: #eceff4;
   --text-color: #2e3440;
+  --footer-text-color: #4c566a;
   --accent-color: #486090;
   --border-color: #d1d5db;
   --header-color: #2e3440;
@@ -130,8 +133,8 @@ main {
   text-align: center;
   padding: 2rem 0;
   font-size: 0.9rem;
-  color: var(--text-color);
-  opacity: 0.7;
+  font-weight: 300;
+  color: var(--footer-text-color);
 }
 
 .footer svg {
