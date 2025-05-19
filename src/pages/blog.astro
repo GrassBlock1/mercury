@@ -17,7 +17,7 @@ posts.sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDat
       <div style="margin-top: 1rem; margin-left: 1rem;">
         {posts.map((post) => (
           <p>
-            <span style="color: #d8d8d8">{new Date(post.data.pubDate).toISOString().split('T')[0]}</span>
+            <span class="list-date">{new Date(post.data.pubDate).toISOString().split('T')[0]}</span>
             <a href={`/post/${post.slug}`}>{post.data.title}</a>
           </p>
         ))}

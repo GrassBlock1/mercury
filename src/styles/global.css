@@ -4,7 +4,7 @@
   /* Dark theme (default) */
   --bg-color: #2e3440;
   --text-color: #d8dee9;
-  --footer-text-color: #c8c8c8;
+  --secondary-text-color: #c8c8c8;
   --accent-color: #90a8c0;
   --border-color: #3b4351;
   --header-color: #eceff4;
@@ -18,7 +18,7 @@
   :root:not([data-theme="dark"]) {
     --bg-color: #eceff4;
     --text-color: #2e3440;
-    --footer-text-color: #4c566a;
+    --secondary-text-color: #4c566a;
     --accent-color: #486090;
     --border-color: #d1d5db;
     --header-color: #2e3440;
@@ -31,7 +31,7 @@
 :root[data-theme="light"] {
   --bg-color: #eceff4;
   --text-color: #2e3440;
-  --footer-text-color: #4c566a;
+  --secondary-text-color: #4c566a;
   --accent-color: #486090;
   --border-color: #d1d5db;
   --header-color: #2e3440;
@@ -135,7 +135,7 @@ main {
   padding: 2rem 0;
   font-size: 0.9rem;
   font-weight: 300;
-  color: var(--footer-text-color);
+  color: var(--secondary-text-color);
 }
 
 .footer svg {
@@ -193,6 +193,19 @@ h1.title {
 }
 div.content {
   margin-bottom: 2rem;
+  span.date {
+    color: var(--secondary-text-color);
+    font-size: 0.9rem;
+    font-weight: 300;
+    margin-bottom: 1.5rem;
+    display: block;
+  }
+  span.list-date {
+    color: var(--secondary-text-color);
+    font-size: 0.9rem;
+    font-weight: 300;
+    margin-bottom: 1.5rem;
+  }
 
   ul, ol, li {
     list-style-position: inside;
