@@ -25,85 +25,202 @@ const noscript = siteConfig.noClientJavaScript
   </div>
   <div id="search-results" class="search-results"></div>
 </div>
-
 <script>
-  import Fuse from 'fuse.js';
+  /*
+  ====================================================================
 
-  let fuse;
-  let posts = [];
-  let searchInitialized = false;
+  tweaked from FAST SEARCH —
+  https://gist.github.com/cmod/5410eae147e4318164258742dd053993
 
-  async function initializeSearch() {
-    // Prevent multiple initializations
-    if (searchInitialized) return;
-    try {
-      // Fetch the search index
-      const response = await fetch('/search-index.json');
-      posts = await response.json();
+  ====================================================================
+  */
+  // Configuration
+  const CONFIG = {
+    search: {
+      minChars: 2,              // Minimum characters before searching
+      maxResults: 5,            // Maximum number of results to show
+      fields: {                 // Fields to search through
+        title: true,            // Allow searching in title
+        description: true,      // Allow searching in description
+        content: true           // Allow searching in contents
+      }
+    }
+  };
 
-      fuse = new Fuse(posts, {
-        keys: ['title', 'description', 'content'],
-        threshold: 0.3,
-        includeMatches: true
+  // Function to initialize search with custom config
+  function initSearch(): void {
+    // Cache DOM elements
+    const searchInput = document.getElementById('search-input') as HTMLInputElement;
+    const searchResults = document.getElementById('search-results') as HTMLElement;
+
+    let searchIndex: Array<{
+      title: string;
+      description?: string;
+      slug?: string;
+      pubDate?: Date;
+      searchableTitle: string;
+      searchableDesc: string;
+      searchableContent: string;
+    }> | null = null;
+    let resultsAvailable = false;
+    let firstRun = true;
+
+    // Load the search index
+    async function loadSearchIndex(): Promise<void> {
+      try {
+        const response = await fetch('/search-index.json');
+        if (!response.ok) throw new Error('Failed to load search index');
+        const data = await response.json();
+
+        searchIndex = data.map((item: any) => ({
+          ...item,
+          searchableTitle: item.title?.toLowerCase() || '',
+          searchableDesc: item.description?.toLowerCase() || '',
+          searchableContent: (item.content as string)?.toLowerCase() || ''
+        }));
+
+        if (searchInput && searchInput.value) {
+          performSearch(searchInput.value);
+        }
+      } catch (error) {
+        console.error('Error loading search index:', error);
+        if (searchResults) {
+          searchResults.innerHTML = '<li class="search-message">Error loading search index...</li>';
+        }
+      }
+    }
+
+    // Simple fuzzy match for single words
+    function simpleFuzzyMatch(text: string, term: string): boolean {
+      if (text.includes(term)) return true;
+      if (term.length < 3) return false;
+
+      let matches = 0;
+      let lastMatchIndex = -1;
+
+      for (let i = 0; i < term.length; i++) {
+        const found = text.indexOf(term[i], lastMatchIndex + 1);
+        if (found > -1) {
+          matches++;
+          lastMatchIndex = found;
+        }
+      }
+
+      return matches === term.length;
+    }
+
+    function performSearch(term: string): void {
+      term = term.toLowerCase().trim();
+
+      if (!term || !searchIndex) {
+        searchResults.innerHTML = '';
+        resultsAvailable = false;
+        return;
+      }
+
+      if (term.length < CONFIG.search.minChars) {
+        searchResults.innerHTML = '<span class="search-message">Please enter at least 2 characters...</span>';
+        resultsAvailable = false;
+        return;
+      }
+
+      // Split search into terms
+      const searchTerms = term.split(/\s+/).filter(t => t.length > 0);
+
+      // Search with scoring
+      const results = searchIndex
+        .map(item => {
+          let score = 0;
+          const matchesAllTerms = searchTerms.every(term => {
+            let matched = false;
+
+            // Title matches (weighted higher)
+            if (CONFIG.search.fields.title) {
+              if (item.searchableTitle.startsWith(term)) {
+                score += 3;  // Highest score for prefix matches in title
+                matched = true;
+              } else if (simpleFuzzyMatch(item.searchableTitle, term)) {
+                score += 2;  // Good score for fuzzy matches in title
+                matched = true;
+              }
+            }
+
+            // Other field matches
+            if (!matched) {
+              if (CONFIG.search.fields.description && item.searchableDesc.includes(term)) {
+                score += 0.5;  // Lower score for description matches
+                matched = true;
+              }
+              if (CONFIG.search.fields.content && item.searchableContent.includes(term)) {
+                score += 0.5;  // Lower score for content matches
+                matched = true;
+              }
+            }
+
+            return matched;
+          });
+
+          return {
+            item,
+            score: matchesAllTerms ? score : 0
+          };
+        })
+        .filter(result => result.score > 0)
+        .sort((a, b) => b.score - a.score)
+        .slice(0, CONFIG.search.maxResults)
+        .map(result => result.item);
+
+      resultsAvailable = results.length > 0;
+
+      if (!resultsAvailable) {
+        searchResults.innerHTML = '<span class="search-message">No matching results found...</span>';
+        return;
+      }
+
+      const searchItems = results.map(item => `
+      <div class="search-result">
+        <a href="/post/${item.slug}" tabindex="0">
+          <span class="result-title">${item.title}</span><br /> 
+          <span class="result-date">${new Date(item.pubDate).toISOString().split('T')[0]|| '' } — 
+          <em>${item.description || ''}</em></span>
+        </a>
+      </div>
+      `).join('');
+
+      searchResults.innerHTML = searchItems;
+    }
+
+    // Basic HTML escaping for security
+    function escapeHtml(unsafe: string): string {
+      if (!unsafe) return '';
+      return unsafe
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    // Add event listener for search input
+    if (searchInput) {
+      // Load index on focus
+      searchInput.addEventListener('focus', function() {
+        loadSearchIndex();
       });
-      searchInitialized = true;
-      document.getElementById('search-results').innerHTML = '';
-    } catch (error) {
-        console.error('Error fetching search index:', error);
+
+      searchInput.addEventListener('input', function() {
+        if (!searchIndex && !firstRun) {
+          searchResults.innerHTML = '<span class="search-message">Loading search index...</span>';
+          return;
+        }
+        performSearch(this.value);
+      });
     }
+    firstRun = false;
   }
 
-  function performSearch(query) {
-    if (!query) {
-      document.getElementById('search-results').innerHTML = '';
-      return;
-    }
-
-    if (!searchInitialized) return;
-
-    const results = fuse.search(query);
-    const resultsElement = document.getElementById('search-results');
-    
-    if (results.length === 0) {
-      resultsElement.innerHTML = '<p>No results found.</p>';
-      return;
-    }
-
-    const html = results
-      .map(result => `
-        <div class="search-result">
-          <a href="/post/${result.item.slug}">
-            <span class="result-title">${result.item.title}</span>
-            <span class="result-date">${new Date(result.item.pubDate).toISOString().split('T')[0]}</span>
-          </a>
-        </div>
-      `)
-      .join('');
-
-    resultsElement.innerHTML = html;
-  }
-  // Add event listener for search input
-  const searchInput = document.getElementById('search-input');
-
-  // Initialize search only when the input is focused or clicked
-  searchInput.addEventListener('focus', initializeSearch);
-  searchInput.addEventListener('click', initializeSearch);
-
-  searchInput.addEventListener('input', (e) => {
-    if (!searchInitialized) {
-        initializeSearch().then(() => {
-            performSearch(e.target.value);
-        });
-    } else {
-        performSearch(e.target.value);
-    }
-  });
-
-  searchInput.addEventListener('focus', () => {
-    if (!searchInitialized) {
-      document.getElementById('search-results').innerHTML = '<p>Loading search index...</p>';
-    }
-  });
+  // Initialize with default config
+  initSearch();
 </script>}
 
 <style>
