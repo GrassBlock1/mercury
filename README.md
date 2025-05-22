@@ -58,7 +58,8 @@ All commands are run from the root of the project, from a terminal:
 ## 🗺 Roadmap
 - [x] Initial project setup
 - [x] Basic theme implementation
-- [ ] Better full-text search without `Fuse.js`
+- [x] Better full-text search without `Fuse.js`
+- [ ] A mode to make the site 0 javascript
 - [ ] Multiple authors via YAML
 - [ ] i18n support
 - [ ] Integrate with Fediverse w/ activityPub
