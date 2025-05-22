@@ -1,7 +1,8 @@
 ---
-
+import {siteConfig} from "../config";
+const noscript = siteConfig.noClientJavaScript
 ---
-<button id="toTopBtn" title="Go to top">Top</button>
+{noscript ? <a href="#top"><button id="toTopBtn" style="display: block" title="Go to top">Top</button></a> : <button id="toTopBtn" title="Go to top">Top</button>
 <script>
     // Get the button
     let toTopButton = document.getElementById("toTopBtn");
@@ -31,4 +32,4 @@
             document.documentElement.scrollTop = 0;
         }
     }
-</script>
+</script>}

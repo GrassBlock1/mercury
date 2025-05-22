@@ -3,6 +3,13 @@ export const siteConfig = {
     title: '/var/log/mercury',
     description: 'A blog about software development, technology, and life.',
     homepageOgImage: '',
+    // features
+    noClientJavaScript: false, // disable client-side javascript, this will:
+    // 1. disable all built-in client-side javascript from rendering
+    // 2. the full text search will be redirected to a search engine
+    // 3. the comments will be replaced with email reply
+    // 4. the night mode & back to top will not use Javascript to function
+    // 5. the neko will be force-disabled
     // site components
     navBarItems: [
         // additional items in the navbar
@@ -16,7 +23,7 @@ export const siteConfig = {
     customFooter: '<i>I have no mouth, and I must SCREAM</i>',
     // comments
     comments: {
-        type: 'artalk', // 'artalk','giscus','fediverse','hatsu'
+        type: 'artalk', // 'artalk','giscus','fediverse','email','hatsu'
         artalk: {
             instanceDomain: '', // the domain of your artalk instance
         },

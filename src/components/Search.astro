@@ -1,5 +1,17 @@
 ---
+import {siteConfig} from "../config";
+const noscript = siteConfig.noClientJavaScript
 ---
+{noscript ?
+<form class="search-container" action="https://www.google.com/search" method="GET" target="_blank">
+  <div>
+    <label for="search-input"><span class="command">search</span></label>
+    <input name="q" type="text" id="search-input" class="search-input"  autocomplete="off" placeholder="Type to search..." />
+    <input type="hidden" name="as_sitesearch" value={Astro.url.host} />
+  </div>
+  <input type="submit" style="display: none" />
+</form>
+    :
 <div class="search-container">
   <div class="command-prompt">
     <span class="command">search</span>
@@ -92,7 +104,7 @@
       document.getElementById('search-results').innerHTML = '<p>Loading search index...</p>';
     }
   });
-</script>
+</script>}
 
 <style>
   .search-container {
