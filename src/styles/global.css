@@ -291,3 +291,11 @@ div.content {
     padding: 1rem;
   }
 }
+
+/* Printing */
+@media print {
+  /* Hide elements not needed for print */
+  nav.nav,.search-container,footer,div.extra-post {
+    display: none;
+  }
+}
