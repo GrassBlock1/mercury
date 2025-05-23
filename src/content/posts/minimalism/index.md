@@ -2,6 +2,7 @@
 title: 'The Art of Minimalism'
 description: 'Thoughts on minimalism in design and code'
 pubDate: '2025-06-05'
+author: 'Wheatley'
 ---
 
 Minimalism isn't just about having less, it's about making room for what matters.

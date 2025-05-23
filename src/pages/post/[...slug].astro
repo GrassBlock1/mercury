@@ -1,6 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import Comments from "../../components/Comments.astro";
 import {getImage} from "astro:assets";
 import { unified } from "unified";
@@ -21,6 +21,11 @@ const { entry } = Astro.props;
 const { Content } = await entry.render();
 const noscript = siteConfig.noClientJavaScript
 const slug = Astro.params.slug;
+const authorId = entry.data.author || siteConfig.defaultAuthor.id;
+
+// Get author data
+const authorData = await getEntry('authors', authorId);
+const authorInfo = authorData ? authorData.data : siteConfig.defaultAuthor;
 
 // get featured image and use it as og:image
 // use the custom cover image if it exists, otherwise use the featured image file in the same directory
@@ -39,6 +44,7 @@ const cover = customFeaturedImage || matchedImage_src?.src || `/post/${slug}/fea
   title={entry.data.title}
   description={entry.data.description}
   ogImage={cover}
+  author={authorInfo.name}
 >
       <h1 class="title">{entry.data.title}</h1>
       <span class="date">{new Date(entry.data.pubDate).toISOString().split('T')[0]}</span>
@@ -47,7 +53,7 @@ const cover = customFeaturedImage || matchedImage_src?.src || `/post/${slug}/fea
       </div>
 
     <div style="margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
-    <ReplyViaEmail title={entry.data.title} />
+    <ReplyViaEmail title={entry.data.title} email={authorInfo.email} />
         <br>
     <a href="/blog">&larr; Back to posts</a>
     {noscript && <h2>Comments</h2> <Comments path={`post/${slug}`} />}

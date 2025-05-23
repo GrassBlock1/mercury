@@ -1,9 +1,17 @@
 ---
-const { title, description, ogImage = "" } = Astro.props
+interface Props {
+    title: string;
+    description: string;
+    author?: string;
+    ogImage?: string;
+}
+
+const { title, author,description, ogImage = "" } = Astro.props
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 <meta name="title" content={title} />
+{author && <meta name="author" content={author} />}
 <meta name="description" content={description} />
 {/* Open Graph / Facebook */}
 <meta name="og:title" content={title} />

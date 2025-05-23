@@ -3,6 +3,11 @@ export const siteConfig = {
     title: '/var/log/mercury',
     description: 'A blog about software development, technology, and life.',
     homepageOgImage: '',
+    defaultAuthor: {
+      id: 'd6e4661d', // (optional) an id in the authors.yaml, will override the setting below (if id exists)
+      name: 'GrassBlock1',
+      email: 'hi@mercury.info',
+    },
     // features
     noClientJavaScript: false, // disable client-side javascript, this will:
     // 1. disable all built-in client-side javascript from rendering
@@ -10,7 +15,6 @@ export const siteConfig = {
     // 3. the comments will be globally disabled
     // 4. the night mode & back to top will not use Javascript to function
     // 5. the neko will be force-disabled
-    authorDefaultEmail: '',
     // site components
     navBarItems: [
         // additional items in the navbar

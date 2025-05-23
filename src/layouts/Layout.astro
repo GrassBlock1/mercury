@@ -12,6 +12,7 @@ import Logo from '../assets/mercury.svg'
 interface Props {
   title: string;
   description: string;
+  author?: string;
   path?: string;
   ogImage?: string;
 }
@@ -29,7 +30,7 @@ const navBarItems = siteConfig.navBarItems
 const customFooter = siteConfig.customFooter
 const nekoType = siteConfig.neko?.type
 
-const { title = pageTitle, description = siteConfig.description, ogImage = "" } = Astro.props;
+const { title = pageTitle, author = siteConfig.defaultAuthor.name,description = siteConfig.description, ogImage = "" } = Astro.props;
 ---
 
 <!doctype html>
@@ -39,7 +40,7 @@ const { title = pageTitle, description = siteConfig.description, ogImage = "" } 
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <Meta title={pageTitle} description={description} ogImage={ogImage} />
+    <Meta title={pageTitle} author={author} description={description} ogImage={ogImage} />
     <title>{pageTitle}</title>
   </head>
   <body>

@@ -1,0 +1,10 @@
+Wheatley: # the key name (id) of the author, which is used in the front matter
+  name: "Wheatley" # the display name of the author
+  email: "hello@example.org" # the email address of the author
+  social: # the social media accounts of the author, if any (there is no reference for this yet except for the twitter handle)
+    twitter: "@wheatley"
+    fediverse: "@"
+
+Glados: # you can have more if you like
+  name: "Glados"
+  email: "contact@example.org"
