@@ -1,0 +1,63 @@
+---
+
+---
+<div class="theme-switcher">
+    <input type="checkbox" id="theme-toggle" class="theme-toggle" />
+    <label for="theme-toggle" class="theme-label">
+        <span>Theme</span>
+    </label>
+</div>
+<style>
+    .theme-switcher {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Hide the checkbox but keep it accessible */
+    .theme-toggle {
+        opacity: 0;
+        cursor: pointer;
+        height: 1px;
+        width: 1px;
+        margin: -1px;
+    }
+
+    .theme-label span {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        line-height: normal;
+        font-size: 0.9rem;
+    }
+
+    /* Theme Switch */
+    /* light theme (when nojs checkbox is checked) */
+    /* TODO: more compatible way */
+    body:has(.theme-toggle:checked) {
+        --bg-color: #eceff4;
+        --text-color: #2e3440;
+        --secondary-text-color: #4c566a;
+        --accent-color: #486090;
+        --border-color: #d1d5db;
+        --header-color: #2e3440;
+        --terminal-green: #4b644b;
+        --terminal-yellow: #ebcb8b;
+        --terminal-red: #bf616a;
+    }
+    @media (prefers-color-scheme: light) {
+        /* Dark theme (when nojs checkbox is checked) */
+        body:has(.theme-toggle:checked) {
+            --bg-color: #2e3440;
+            --text-color: #d8dee9;
+            --secondary-text-color: #c8c8c8;
+            --accent-color: #90a8c0;
+            --border-color: #3b4351;
+            --header-color: #eceff4;
+            --terminal-green: #a3be8c;
+            --terminal-yellow: #ebcb8b;
+            --terminal-red: #bf616a;
+        }
+    }
+</style>

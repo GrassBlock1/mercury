@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import Search from '../components/Search.astro';
 import ThemeSwitcher from '../components/ThemeSwitcher.astro';
+import ThemeSwitcher_CSSOnly from '../components/ThemeSwitcher@CSSOnly.astro';
 import BackToTop from "../components/BackToTop.astro";
 import Meta from "../components/helper/head/Meta.astro";
 
@@ -66,7 +67,7 @@ const { title = pageTitle, description = siteConfig.description, ogImage = "" } 
     <footer class="footer">
       <div class="floating">
         <BackToTop/>
-        <ThemeSwitcher/>
+        {noscript ? <ThemeSwitcher_CSSOnly/> : <ThemeSwitcher/>}
       </div>
       <div class="container">
         <Fragment set:html={customFooter} />
