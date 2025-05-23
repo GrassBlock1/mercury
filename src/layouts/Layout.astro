@@ -74,7 +74,7 @@ const { title = pageTitle, description = siteConfig.description, ogImage = "" } 
         <p>Powered by <a href="https://git.gb0.dev/gb/mercury" target="_blank"><Logo width={16} height={16} /> mercury</a></p>
       </div>
     </footer>
-    { !noscript || siteConfig.neko.enabled &&
+    { (siteConfig.neko.enabled && !noscript) &&
       <>
         <script is:inline define:vars={{ nekoType  }}>
           window.NekoType = nekoType;
