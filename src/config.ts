@@ -7,9 +7,10 @@ export const siteConfig = {
     noClientJavaScript: false, // disable client-side javascript, this will:
     // 1. disable all built-in client-side javascript from rendering
     // 2. the full text search will be redirected to a search engine
-    // 3. the comments will be replaced with email reply
+    // 3. the comments will be globally disabled
     // 4. the night mode & back to top will not use Javascript to function
     // 5. the neko will be force-disabled
+    authorDefaultEmail: '',
     // site components
     navBarItems: [
         // additional items in the navbar
@@ -18,6 +19,9 @@ export const siteConfig = {
         { text: "RSS", link: "/rss.xml" },
         { text: "GitHub", link: "https://github.com/GrassBlock1/mercury" },
     ],
+    // search
+    // This only works when noClientJavaScript is enabled
+    searchEngine: 'bing', // 'google', 'duckduckgo', 'bing'(broken until M1cr0$0ft get support for it), defaults to 'google'
     // footer
     // yes you can write html safely here
     customFooter: '<i>I have no mouth, and I must SCREAM</i>',
