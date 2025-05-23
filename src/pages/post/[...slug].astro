@@ -7,6 +7,8 @@ import { unified } from "unified";
 import { select } from "unist-util-select";
 import remarkMdx from "remark-mdx";
 import remarkParse from "remark-parse";
+import {siteConfig} from "../../config";
+import ReplyViaEmail from "../../components/ReplyViaEmail.astro";
 
 export async function getStaticPaths() {
   const blogEntries = await getCollection('posts');
@@ -17,7 +19,7 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await entry.render();
-
+const noscript = siteConfig.noClientJavaScript
 const slug = Astro.params.slug;
 
 // get featured image and use it as og:image
@@ -45,9 +47,10 @@ const cover = customFeaturedImage || matchedImage_src?.src || `/post/${slug}/fea
       </div>
 
     <div style="margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
-    <h2>Comments</h2>
-    <Comments path={`post/${slug}`} />
+    <ReplyViaEmail title={entry.data.title} />
+        <br>
     <a href="/blog">&larr; Back to posts</a>
+    {noscript && <h2>Comments</h2> <Comments path={`post/${slug}`} />}
   </div>
 
 </Layout>
