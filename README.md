@@ -59,8 +59,8 @@ All commands are run from the root of the project, from a terminal:
 - [x] Initial project setup
 - [x] Basic theme implementation
 - [x] Better full-text search without `Fuse.js`
-- [ ] A mode to make the site 0 javascript
-- [ ] Multiple authors via YAML
+- [x] A mode to make the site 0 javascript
+- [x] Multiple authors via YAML
 - [ ] i18n support
 - [ ] Integrate with Fediverse w/ activityPub
 - [ ] Plain text version when visiting the site via `curl`
