@@ -64,7 +64,7 @@ All commands are run from the root of the project, from a terminal:
 - [ ] i18n support
 - [ ] Integrate with Fediverse w/ activityPub
 - [ ] Plain text version when visiting the site via `curl`
-- [ ] Better support for printing version
+- [x] Better support for printing version
 - [ ] Add support for more comment engines
 - [ ] Add support for umami statics
 - [ ] Improve documentation
