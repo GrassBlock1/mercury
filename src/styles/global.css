@@ -234,6 +234,12 @@ div.content {
     margin: 0.5rem 0;
     line-height: 1.3;
   }
+
+  /* Responsive Images */
+  img {
+    max-width: 100%;
+    height: 100%;
+  }
 }
 
 
@@ -299,3 +305,4 @@ div.content {
     display: none;
   }
 }
+
