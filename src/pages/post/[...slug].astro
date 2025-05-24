@@ -3,12 +3,9 @@ import Layout from '../../layouts/Layout.astro';
 import { getCollection, getEntry } from 'astro:content';
 import Comments from "../../components/Comments.astro";
 import {getImage} from "astro:assets";
-import { unified } from "unified";
-import { select } from "unist-util-select";
-import remarkMdx from "remark-mdx";
-import remarkParse from "remark-parse";
 import {siteConfig} from "../../config";
 import ReplyViaEmail from "../../components/ReplyViaEmail.astro";
+import { ExtractFirstImage } from '../../plugins/extract-images';
 
 export async function getStaticPaths() {
   const blogEntries = await getCollection('posts');
@@ -36,8 +33,9 @@ let matchedImage_src;
 if (matchedImage && !customFeaturedImage) {
     matchedImage_src = await getImage({src: featuredImages[matchedImage], format: 'webp'}) || null;
 }
+const firstImageURL = await ExtractFirstImage(Content,Astro.url.origin)
 
-const cover = customFeaturedImage || matchedImage_src?.src || `/post/${slug}/featured.png` || '';
+const cover = customFeaturedImage || matchedImage_src?.src || firstImageURL || `/post/${slug}/featured.png` || '';
 ---
 
 <Layout
