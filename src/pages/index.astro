@@ -1,15 +1,23 @@
 ---
 import Layout from '../layouts/Layout.astro';
-
+// Conditionally import content if file exists
+let HomePageContent;
+try {
+  const module = await import('../content/index.md');
+  HomePageContent = module.Content;
+} catch (e) {
+  // File doesn't exist or couldn't be imported
+  console.log('Homepage content not found, using default content');
+}
 ---
 
 <Layout title="" description="That a good start.">
   <h1 class="title">~/</h1>
   <div class="content">
+    {HomePageContent ? <HomePageContent/> :
     <h3>Welcome!</h3>
-
-    Not much here yet, but you can check out my blog posts <a href="/blog">here</a>.
-    <br />
-    If you are site owner, please edit <code>src/pages/index.astro</code> to customize this page.
+      <p>Not much here yet, but you can check out my blog posts <a href="/blog">here</a>.</p>
+      <p>If you are site owner, please create <code>src/content/index.md</code> to customize this page.</p>
+    }
   </div>
 </Layout>
