@@ -20,14 +20,22 @@ async function getExternalImage(post) {
   return matchedImage_?.src;
 }
 
+// Function to check for images in markdown without rendering
+function checkForImages(markdownContent) {
+  // Match markdown image syntax ![alt](url) or HTML <img> tags
+  const imageRegex = /!\[.*?]\(.*?\)|<img.*?src=["'].*?["'].*?>/g;
+  return imageRegex.test(markdownContent);
+}
+
 // This function dynamically generates og:images for posts that don't have a featured image
 export async function GET({ props }) {
   const {post} = props;
   const ExternalImageURL = await getExternalImage(post);
+  const hasImage = checkForImages(post.body);
   try {
     // Check if a custom cover image already exists
-    if (post.data.cover || ExternalImageURL) {
-      // Redirect to the existing image
+    if (post.data.cover || ExternalImageURL || hasImage) {
+      // set it to empty to prevent the image generation
       return new Response(null);
     }
 
