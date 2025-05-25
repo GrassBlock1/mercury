@@ -3,7 +3,7 @@ import {getContainerRenderer as getMDXRenderer} from "@astrojs/mdx";
 import {experimental_AstroContainer as AstroContainer} from "astro/container";
 import {transform, walk} from "ultrahtml";
 
-export async function ExtractFirstImage(Content, baseUrl = '') {
+export async function ExtractFirstImage(Content) {
     // Load MDX renderer. Other renderers for UI frameworks (e.g. React, Vue, etc.) would need adding here if you were using those.
     const renderers = await loadRenderers([getMDXRenderer()]);
 
@@ -22,15 +22,7 @@ export async function ExtractFirstImage(Content, baseUrl = '') {
             await walk(node, (node) => {
                 if (node.name === "img" && node.attributes.src) {
                     // Store the first image URL we find
-                    if (!firstImageUrl) {
-                        firstImageUrl = node.attributes.src.startsWith("/")
-                            ? baseUrl + node.attributes.src
-                            : node.attributes.src;
-                    }
-                    // Still update the src attribute if needed
-                    if (node.attributes.src.startsWith("/")) {
-                        node.attributes.src = baseUrl + node.attributes.src;
-                    }
+                    firstImageUrl = node.attributes.src;
                 }
             });
             return node;
