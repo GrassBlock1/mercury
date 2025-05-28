@@ -1,0 +1,33 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import {getCollection} from "astro:content";
+import {categoryLabel} from "astro/client/dev-toolbar/apps/audit/rules";
+
+export async function getStaticPaths() {
+    const allPosts = await getCollection('posts');
+    console.log(allPosts)
+    const uniqueCategories = [...new Set(allPosts.map((post: any) => post.data.categories ? post.data.categories : []).flat())];
+    return uniqueCategories.map((category) => {
+        const filteredPosts = allPosts.filter((post: any) => post.data.categories?.includes(category));
+        return {
+            params: { category },
+            props: { posts: filteredPosts },
+        };
+    });
+}
+
+const { category } = Astro.params;
+
+const { posts } = Astro.props;
+---
+<Layout title={`posts tagged with ${category}`} description={`Posts tagged with ${category}`}>
+    <h1 class="title">ls ~/blog | grep "{category}"</h1>
+    <ul>
+        {posts.map((post: any) =>
+            <p>
+                <span class="list-date">{new Date(post.data.pubDate).toISOString().split('T')[0]}</span>
+                <a href={`/post/${post.slug}`}>{post.data.title}</a>
+            </p>
+        )}
+    </ul>
+</Layout>
