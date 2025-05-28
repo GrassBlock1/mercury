@@ -26,6 +26,8 @@ export const siteConfig = {
     // search
     // This only works when noClientJavaScript is enabled
     searchEngine: 'bing', // 'google', 'duckduckgo', 'bing'(broken until M1cr0$0ft get support for it), defaults to 'google'
+    // content
+    displayAvatar: true, // display author avatar in the article list and info line of article page
     // footer
     // yes you can write html safely here
     customFooter: '<i>I have no mouth, and I must SCREAM</i>',

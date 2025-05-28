@@ -6,6 +6,7 @@ import {getImage} from "astro:assets";
 import {siteConfig} from "../../config";
 import ReplyViaEmail from "../../components/ReplyViaEmail.astro";
 import { ExtractFirstImage } from '../../plugins/extract-images';
+import AuthorInfo from "../../components/helper/authors/Info.astro";
 
 export async function getStaticPaths() {
   const blogEntries = await getCollection('posts');
@@ -45,6 +46,7 @@ const cover = customFeaturedImage || matchedImage_src?.src || firstImageURL || `
   author={authorInfo.name}
 >
       <h1 class="title">{entry.data.title}</h1>
+      <AuthorInfo id={authorId} />
       <span class="date">{new Date(entry.data.pubDate).toISOString().split('T')[0]}</span>
       <div class="content">
         <Content />
