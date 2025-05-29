@@ -1,4 +1,5 @@
 import { getCollection } from 'astro:content';
+import { getImage } from "astro:assets";
 
 export async function getStaticPaths() {
     const authorsData = await getCollection('authors');
@@ -10,6 +11,35 @@ export async function getStaticPaths() {
 
 export async function GET({ props }) {
     const { author } = props;
+
+    if (author.data.avatar) {
+        try {
+            const optimizedImage = await getImage({
+                src: author.data.avatar,
+                width: 64,
+                height: 64,
+                format: 'png'
+            });
+
+            // Fetch the optimized image
+            const imageResponse = await fetch(optimizedImage.src);
+            if (!imageResponse.ok) {
+                throw new Error('Failed to fetch optimized image');
+            }
+
+            const imageBuffer = await imageResponse.arrayBuffer();
+
+            return new Response(imageBuffer, {
+                headers: {
+                    'Content-Type': 'image/png',
+                    'Cache-Control': 'public, max-age=86400' // Cache for 24 hours
+                }
+            });
+        } catch (error) {
+            console.error('Error processing avatar image:', error);
+            // Fall through to the mcplayerid check if avatar processing fails
+        }
+    }
 
     if (!author.data.mcplayerid) {
         return new Response(null, { status: 404 });

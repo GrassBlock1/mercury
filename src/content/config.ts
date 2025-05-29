@@ -3,7 +3,7 @@ import {posts} from './posts/_schemas';
 import {pages} from "./pages/_schemas";
 import {file} from 'astro/loaders';
 import { z } from 'astro:content';
-import {siteConfig} from "../config.ts";
+import {authors} from '../data/authors._schema.ts';
 
 const blogCollection = defineCollection({
     type: 'content',
@@ -24,15 +24,7 @@ const blogRollData = defineCollection({
 
 const authorsData = defineCollection({
     loader: file("src/data/authors.yaml"),
-    schema: z.object({
-        name: z.string().default(siteConfig.defaultAuthor.name),
-        email: z.string().email().default(siteConfig.defaultAuthor.email),
-        mcplayerid: z.string().optional(),
-        social: z.object({
-            twitter: z.string().optional(),
-            fediverse: z.string().optional(),
-        }).optional(),
-    })
+    schema: authors,
 });
 
 export const collections = {

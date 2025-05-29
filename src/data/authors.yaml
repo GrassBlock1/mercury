@@ -1,7 +1,8 @@
 Wheatley: # the key name (id) of the author, which is used in the front matter
   name: "Wheatley" # the display name of the author
   email: "hello@example.org" # the email address of the author
-  mcplayerid: "Wheatley" # the Minecraft player ID of the author, if applicable
+  avatar: "https://minotar.net/helm/Wheatley/64.png" # the URL of the author's avatar image (takes precedence over the minecraft player avatar, a square image with no more than 64*64 is recommended)
+  mcplayerid: "Wheatley" # the Minecraft player ID of the author, if applicable (used for generating player avatars)
   social: # the social media accounts of the author, if any (there is no reference for this yet except for the twitter handle)
     twitter: "@wheatley"
     fediverse: "@"
