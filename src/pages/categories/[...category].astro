@@ -1,14 +1,16 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import {getCollection} from "astro:content";
-import {categoryLabel} from "astro/client/dev-toolbar/apps/audit/rules";
 
 export async function getStaticPaths() {
     const allPosts = await getCollection('posts');
-    console.log(allPosts)
-    const uniqueCategories = [...new Set(allPosts.map((post: any) => post.data.categories ? post.data.categories : []).flat())];
+    // Get all categories, ensuring the default 'uncategorized' is used when categories is undefined
+    const uniqueCategories = [...new Set(allPosts.map((post: any) =>
+        post.data.categories || ['uncategorized']).flat())];
+
     return uniqueCategories.map((category) => {
-        const filteredPosts = allPosts.filter((post: any) => post.data.categories?.includes(category));
+        const filteredPosts = allPosts.filter((post: any) =>
+            (post.data.categories || ['uncategorized']).includes(category));
         return {
             params: { category },
             props: { posts: filteredPosts },
@@ -31,3 +33,4 @@ const { posts } = Astro.props;
         )}
     </ul>
 </Layout>
+

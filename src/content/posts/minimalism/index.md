@@ -7,6 +7,8 @@ tags:
   - 'design'
   - 'code' 
   - 'minimalism'
+categories:
+  - 'thinking'
 ---
 
 Minimalism isn't just about having less, it's about making room for what matters.

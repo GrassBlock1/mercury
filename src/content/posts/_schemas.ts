@@ -5,8 +5,8 @@ export const posts = ({ image }) => z.object({
   description: z.string(),
   pubDate: z.coerce.date(),
   updatedDate: z.coerce.date().optional(),
-  categories: z.array(z.string()).optional().default(['uncategorized']),
-  tags: z.array(z.string()).optional().default([]),
+  categories: z.array(z.string()).default(['uncategorized']),
+  tags: z.array(z.string()).optional(),
   cover: image().optional(),
   author: z.string().optional(),
 });
