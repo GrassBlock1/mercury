@@ -78,6 +78,13 @@ export const siteConfig = {
             instanceDomain: '',
         }
     },
+    // umami analytics
+    // by enabling this, you can track the visitors of your site
+    umami: {
+        enabled: false, // enable umami analytics
+        instanceDomain: 'cloud.umami.is', // the url of the umami script, usually your-umami-instance.com (default: official cloud.umami.is)
+        websiteId: 'your-website-id', // the id of your website in umami, get it from your umami dashboard
+    },
     // neko
     // by enabling this, you can add a neko that follows cursor to your site
     // this will load script from webneko.net

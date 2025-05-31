@@ -18,6 +18,7 @@ interface Props {
 }
 
 const noscript = siteConfig.noClientJavaScript
+const umami = siteConfig.umami
 
 const defaultTitle = siteConfig.title
 const formattedRootPath = defaultTitle.toLowerCase().replace(/\s+/g, '-');
@@ -75,6 +76,7 @@ const { title = pageTitle, author = siteConfig.defaultAuthor.name,description = 
         <p>Powered by <a href="https://git.gb0.dev/gb/mercury" target="_blank"><Logo width={16} height={16} /> mercury</a></p>
       </div>
     </footer>
+    {umami.enabled && <script defer src=`https://${umami.instanceDomain}/script.js` data-website-id={umami.websiteId}></script>}
     { (siteConfig.neko.enabled && !noscript) &&
       <>
         <script is:inline define:vars={{ nekoType  }}>
