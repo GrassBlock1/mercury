@@ -75,7 +75,7 @@ async function getExternalImage(post) {
     return externalImageCache.get(post.slug);
   }
 
-  const featuredImages = import.meta.glob(`/src/content/posts/*/featured.*`, {import: 'default', eager: true});
+  const featuredImages = import.meta.glob(`/src/content/posts/*/featured.{avif,png,jpg,jpeg,webp}`, {import: 'default', eager: true});
   const matchedImage = Object.keys(featuredImages).find(path => path.includes(post.slug));
   let matchedImage_;
   if (matchedImage) {
