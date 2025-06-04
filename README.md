@@ -62,13 +62,13 @@ All commands are run from the root of the project, from a terminal:
 - [x] A mode to make the site 0 javascript
 - [x] Multiple authors via YAML
 - [ ] i18n support
-- [ ] Integrate with Fediverse w/ activityPub
-- [ ] Plain text version when visiting the site via `curl`
 - [x] Better support for printing version
 - [ ] Add support for more comment engines
-- [ ] Add support for umami statics
+- [x] Add support for umami statics
 - [ ] Improve documentation
 - [ ] Release v1.0
+- [ ] ~~Integrate with Fediverse w/ activityPub~~
+- [ ] ~~Plain text version when visiting the site via `curl`~~
 
 ## 👀 Want to learn more?
 
