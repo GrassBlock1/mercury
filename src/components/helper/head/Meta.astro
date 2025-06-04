@@ -1,4 +1,15 @@
 ---
+import Favicon from "../../../assets/favicon.png";
+import FaviconSvg from '../../../assets/favicon.svg';
+import {getImage} from "astro:assets";
+
+const appleTouchIcon = await getImage({
+    src: Favicon,
+    width: 180,
+    height: 180,
+    format: 'png'
+})
+
 interface Props {
     title: string;
     description: string;
@@ -13,6 +24,11 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 <meta name="title" content={title} />
 {author && <meta name="author" content={author} />}
 <meta name="description" content={description} />
+{/* PWA */}
+<link rel="icon" href="/favicon.ico" sizes="32x32" />
+<link rel="icon" href={FaviconSvg.src} type="image/svg+xml" />
+<link rel="apple-touch-icon" href={appleTouchIcon.src} />
+<link rel="manifest" href="/manifest.json" />
 {/* Open Graph / Facebook */}
 <meta name="og:title" content={title} />
 <meta name="og:description" content={description} />

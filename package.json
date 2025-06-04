@@ -18,6 +18,7 @@
     "@astrojs/sitemap": "^3.3.1",
     "@fontsource-variable/jetbrains-mono": "^5.2.5",
     "astro": "^5.2.5",
+    "ico-endec": "^0.1.6",
     "sharp": "^0.34.1",
     "ultrahtml": "^1.6.0"
   },

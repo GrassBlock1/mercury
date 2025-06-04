@@ -29,6 +29,9 @@ importers:
       astro:
         specifier: ^5.2.5
         version: 5.7.10(@azure/identity@4.9.1)(@types/node@22.15.3)(rollup@4.40.1)(typescript@5.8.3)(yaml@2.7.1)
+      ico-endec:
+        specifier: ^0.1.6
+        version: 0.1.6
       sharp:
         specifier: ^0.34.1
         version: 0.34.1
@@ -1837,6 +1840,9 @@ packages:
   human-signals@2.1.0:
     resolution: {integrity: sha512-B4FFZ6q/T2jhhksgkbEW3HBvWIfDW85snkQgawt07S7J5QXTk6BkNV+0yAeZrM5QpMAdYlocGoljn0sJ/WQkFw==}
     engines: {node: '>=10.17.0'}
+
+  ico-endec@0.1.6:
+    resolution: {integrity: sha512-ZdLU38ZoED3g1j3iEyzcQj+wAkY2xfWNkymszfJPoxucIUhK7NayQ+/C4Kv0nDFMIsbtbEHldv3V8PU494/ueQ==}
 
   ieee754@1.2.1:
     resolution: {integrity: sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==}
@@ -5178,6 +5184,8 @@ snapshots:
       - supports-color
 
   human-signals@2.1.0: {}
+
+  ico-endec@0.1.6: {}
 
   ieee754@1.2.1: {}
 
