@@ -1,0 +1,43 @@
+---
+const { icon, type = 'info'} = Astro.props;
+---
+<div class={`callout callout-${type}`}>
+    {icon && <span class="callout-icon">{icon}</span>}
+    <div class="callout-content">
+        <slot />
+    </div>
+</div>
+<style>
+    .callout {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        margin: 1rem auto;
+        background-color: var(--callout-bg, #f0f0f0);
+        color: var(--callout-text);
+    }
+
+    .callout-icon {
+        margin-right: 0.5rem;
+        font-size: 1.5rem;
+    }
+
+    .callout-content {
+        flex-grow: 1;
+    }
+
+    .callout-info {
+        --callout-bg: var(--terminal-green);
+        --callout-text: #2e3440;
+    }
+
+    .callout-warning {
+        --callout-bg: var(--terminal-yellow);
+        --callout-text: #2e3440;
+    }
+
+    .callout-danger {
+        --callout-bg: var(--terminal-red);
+        --callout-text: #111;
+    }
+</style>
