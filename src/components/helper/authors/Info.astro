@@ -3,14 +3,13 @@ import {Image} from "astro:assets";
 import {getEntry} from "astro:content";
 import {siteConfig} from "../../../config";
 
-const { id } = Astro.props;
+const { data } = Astro.props;
 
 // Get author data
-const authorData = await getEntry('authors', id || '');
-const authorAvatar = authorData?.data.mcplayerid ? `/images/avatars/${id}.png` : null;
-const authorName = authorData ? authorData.data.name : null;
+const authorAvatar = data?.data.mcplayerid ? `/images/avatars/${data.id}.png` : null;
+const authorName = data ? data.data.name : null;
 ---
-{(siteConfig.displayAvatar && authorData) &&
+{(siteConfig.displayAvatar && data) &&
         <>
             {authorAvatar && <Image src={authorAvatar} alt={`avatar of ${authorName}`} width=16 height=16 />}
             <span>{authorName} @ </span>

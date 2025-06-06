@@ -1,4 +1,4 @@
-import { z } from 'astro:content';
+import { z, reference } from 'astro:content';
 
 export const posts = ({ image }) => z.object({
   title: z.string(),
@@ -8,5 +8,5 @@ export const posts = ({ image }) => z.object({
   categories: z.array(z.string()).default(['uncategorized']),
   tags: z.array(z.string()).optional(),
   cover: image().optional(),
-  author: z.string().optional(),
+  author: reference('authors').optional(),
 });

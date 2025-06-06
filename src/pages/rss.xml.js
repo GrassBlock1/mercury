@@ -52,7 +52,16 @@ export async function GET(context) {
       },
       sanitize({ dropElements: ["script", "style"] }),
     ]);
-    feedItems.push({ ...post.data, link: `/post/${post.slug}/`, content });
+
+    // Make sure each feed item has required properties with proper formatting
+    feedItems.push({
+      title: post.data.title,
+      description: post.data.description || '',
+      pubDate: post.data.pubDate,
+      link: `${baseUrl}/post/${post.slug}`,
+      content,
+    });
+
   }
 
   // Return our RSS feed XML response.
