@@ -192,7 +192,7 @@ h1.title {
   margin-bottom: 0.5rem;
 }
 div.content {
-  margin-bottom: 2rem;
+  margin: 1rem auto;
   span.date {
     color: var(--secondary-text-color);
     font-size: 0.9rem;
