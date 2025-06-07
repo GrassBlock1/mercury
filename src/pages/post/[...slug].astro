@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+
 import { getCollection, getEntry } from 'astro:content';
 import Comments from "../../components/Comments.astro";
 import {getImage} from "astro:assets";
@@ -7,6 +8,7 @@ import {siteConfig} from "../../config";
 import ReplyViaEmail from "../../components/ReplyViaEmail.astro";
 import { ExtractFirstImage } from '../../plugins/extract-images';
 import AuthorInfo from "../../components/helper/authors/Info.astro";
+import TableOfContents from "../../components/TableOfContents.astro";
 
 export async function getStaticPaths() {
   const blogEntries = await getCollection('posts');
@@ -17,6 +19,8 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await entry.render();
+const headings = await entry.render().then(rendered => rendered.headings);
+
 const noscript = siteConfig.noClientJavaScript
 const slug = Astro.params.slug;
 const author = entry.data.author || {collection: 'authors', id: siteConfig.defaultAuthor.id};
@@ -48,6 +52,7 @@ const cover = customFeaturedImage || matchedImage_src?.src || firstImageURL || `
       <h1 class="title">{entry.data.title}</h1>
       <AuthorInfo data={authorData} />
       <span class="date">{new Date(entry.data.pubDate).toISOString().split('T')[0]}</span>
+        {headings.length !== 0 && <TableOfContents headings={headings} />}
       <div class="content">
         <Content />
       </div>
