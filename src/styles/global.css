@@ -223,6 +223,7 @@ div.content {
 
   pre {
     padding: 1rem;
+    margin: 1rem auto;
   }
   /* Highlighted Code Blocks */
   pre.astro-code,
