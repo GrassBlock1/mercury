@@ -6,6 +6,7 @@ tags: ["markdown", "css", "html", "sample"]
 ---
 import Callout from '/src/components/shortcodes/Callout.astro';
 import LinkCard from '/src/components/shortcodes/LinkCard.astro';
+import Spoiler from '/src/components/shortcodes/Spoiler.astro';
 
 This article offers a sample of basic and extended Markdown formatting that can be used, also it shows how some basic HTML elements are decorated.
 
@@ -19,6 +20,30 @@ import ExampleShortcode from '/src/components/shortcodes/ExampleShortcode.astro'
 
 your content here...
 </ExampleShortcode>
+```
+
+### Spoiler
+Inspired by the spoiler in [Moegirl wiki](https://zh.moegirl.org.cn/Mainpage), you can use the `Spoiler` component to hide content that you want to reveal later. This is useful for spoilers in game plots , movies plots, or any other content where you want to keep certain information hidden until the user chooses to reveal it.
+
+To reveal the content, readers can hover over the text to reveal it.
+<Spoiler>
+    A hot take: the theme is done through what is called 'vibe coding'.
+</Spoiler>
+
+```mdx
+<Spoiler>
+    A hot take: the theme is done through what is called 'vibe coding'.
+</Spoiler>
+```
+You can also display a 'tip' for the reader when hovered:
+<Spoiler tip='attention is all you need'>
+    A hot take: the theme is done through what is called 'vibe coding'.
+</Spoiler>
+
+```mdx
+<Spoiler tip='attention is all you need'>
+    A hot take: the theme is done through what is called 'vibe coding'.
+</Spoiler>
 ```
 
 ### Callouts
@@ -46,12 +71,17 @@ You can use callouts to highlight important information or warnings in your cont
 ```
 ### LinkCard
 You can use the `LinkCard` component to create cards that link to external resources or pages. This is useful for showcasing projects, documentation, or any other relevant links.
+
 <LinkCard url="https://astro.build"/>
 ```mdx
 <LinkCard url="https://astro.build"/>
 ```
+<Callout type="warning">
+    On a machine with bad network, this will significantly increase build time when no other params are passed to the component.
+</Callout>
 Or to customize the card further with a title and description:
 <LinkCard url="https://www.bilibili.com/video/BV1PC4y1L7mq/" title="Don't check the description" description="Don't click on the link" />
+
 ## Headings
 
 The following HTML `<h1>`—`<h6>` elements represent six levels of section headings. `<h1>` is the highest section level while `<h6>` is the lowest.
@@ -92,7 +122,7 @@ The blockquote element represents content that is quoted from another source, op
 
 ## Tables
 
-Tables aren't part of the core Markdown spec, but Hugo supports supports them out-of-the-box.
+Tables aren't part of the core Markdown spec, but Astro supports supports them out-of-the-box.
 
 | Name  | Age |
 | ----- | --- |
