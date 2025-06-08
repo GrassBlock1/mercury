@@ -1,0 +1,239 @@
+---
+interface Props {
+    url: string;
+    showArchive?: boolean;
+    title?: string;
+    description?: string;
+    siteName?: string;
+}
+
+const { url, showArchive = true} = Astro.props;
+
+const siteMetadata = {
+    title: Astro.props.title || '',
+    description: Astro.props.description || '',
+    siteName: Astro.props.siteName || '',
+    image: '',
+    domain: new URL(url).hostname || ''
+};
+
+// Get metadata from the URL
+async function fetchMetadata(url: string) {
+    try {
+        const response = await fetch(url, {
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (compatible; LinkCard/1.0)'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+
+        const html = await response.text();
+
+        // 提取元数据
+        const titleMatch = html.match(/<title[^>]*>([^<]+)<\/title>/i);
+        const descriptionMatch = html.match(/<meta[^>]+name=["']description["'][^>]+content=["']([^"']+)["']/i) ||
+            html.match(/<meta[^>]+property=["']og:description["'][^>]+content=["']([^"']+)["']/i);
+        const imageMatch = html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i) ||
+            html.match(/<meta[^>]+name=["']twitter:image["'][^>]+content=["']([^"']+)["']/i);
+        const siteNameMatch = html.match(/<meta[^>]+property=["']og:site_name["'][^>]+content=["']([^"']+)["']/i);
+
+        return {
+            title: titleMatch?.[1]?.trim() || new URL(url).hostname,
+            description: descriptionMatch?.[1]?.trim() || '',
+            image: imageMatch?.[1]?.trim() || '',
+            siteName: siteNameMatch?.[1]?.trim() || new URL(url).hostname,
+            domain: new URL(url).hostname
+        };
+    } catch (error) {
+        console.warn(`Failed to fetch metadata for ${url}:`, error);
+        const domain = new URL(url).hostname;
+        return {
+            title: domain,
+            description: '',
+            image: '',
+            siteName: domain,
+            domain
+        };
+    }
+}
+
+// Check if the URL is archived on the Wayback Machine at the build time
+async function checkArchive(url: string) {
+    try {
+        const archiveUrl = `https://archive.org/wayback/available?url=${encodeURIComponent(url)}`;
+        const response = await fetch(archiveUrl);
+        const data = await response.json();
+
+        if (data.archived_snapshots?.closest?.available) {
+            return data.archived_snapshots.closest.url;
+        }
+    } catch (error) {
+        console.warn(`Failed to check archive for ${url}:`, error);
+    }
+    return null;
+}
+
+// extract metadata and archive URL
+const metadata = Astro.props.title ? siteMetadata : await fetchMetadata(url);
+const archiveUrl = showArchive ? await checkArchive(url) : null;
+---
+
+<div class="link-card">
+    <a href={url} target="_blank" rel="noopener noreferrer" class="link-card__main">
+        {metadata.image && (
+                <div class="link-card__image">
+                    <img src={metadata.image} alt={metadata.title} loading="lazy" />
+                </div>
+        )}
+
+        <div class="link-card__content">
+            <div class="link-card__header">
+                <h3 class="link-card__title">{metadata.title}</h3>
+                <span class="link-card__domain">{metadata.domain}</span>
+            </div>
+
+            {metadata.description && (
+                    <p class="link-card__description">{metadata.description}</p>
+            )}
+
+            {metadata.siteName && <div class="link-card__footer">
+                <span class="link-card__site-name">{metadata.siteName}</span>
+            </div>
+            }
+        </div>
+    </a>
+
+    {showArchive && archiveUrl && (
+            <div class="link-card__archive">
+                <a href={archiveUrl} target="_blank" rel="noopener noreferrer" title="View archived version">
+                    View archived version
+                </a>
+            </div>
+    )}
+</div>
+
+<style>
+    .link-card {
+        border: 1px solid var(--border-color, #e1e5e9);
+        overflow: hidden;
+        max-width: 100%;
+        margin: 1rem 0;
+    }
+
+    .link-card__main {
+        display: flex;
+        text-decoration: none;
+        color: inherit;
+        min-height: 120px;
+    }
+
+    .link-card__image {
+        flex-shrink: 0;
+        width: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .link-card__image img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    .link-card__content {
+        flex: 1;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-width: 0;
+    }
+
+    .link-card__header {
+        margin-bottom: 8px;
+    }
+
+    .link-card__title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin: 0 0 4px 0;
+        line-height: 1.3;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        color: var(--header-color);
+    }
+
+    .link-card__domain {
+        font-size: 0.85rem;
+        color: var(--secondary-text-color);
+        text-transform: lowercase;
+    }
+
+    .link-card__description {
+        font-size: 0.9rem;
+        color: var(--text-color);
+        line-height: 1.4;
+        margin: 8px 0;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .link-card__footer {
+        margin-top: auto;
+    }
+
+    .link-card__site-name {
+        font-size: 0.8rem;
+        color: #888;
+        font-weight: 500;
+    }
+
+    .link-card__archive {
+        border-top: 1px solid var(--border-color, #e1e5e9);
+        padding: 8px 16px;
+    }
+
+    .link-card__archive a {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 0.8rem;
+        color: var(--secondary-text-color);
+        text-decoration: none;
+        transition: color 0.2s ease;
+    }
+
+    /* mobile devices */
+    @media (max-width: 768px) {
+        .link-card__main {
+            flex-direction: column;
+            min-height: auto;
+        }
+
+        .link-card__image {
+            width: 100%;
+            height: 160px;
+        }
+
+        .link-card__content {
+            padding: 12px;
+        }
+
+        .link-card__title {
+            font-size: 1rem;
+        }
+    }
+
+    /* Image not exist*/
+    .link-card__main:not(:has(.link-card__image)) .link-card__content {
+        padding: 20px;
+    }
+</style>

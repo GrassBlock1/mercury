@@ -5,6 +5,7 @@ description: "Sample article showcasing basic Markdown syntax and formatting for
 tags: ["markdown", "css", "html", "sample"]
 ---
 import Callout from '/src/components/shortcodes/Callout.astro';
+import LinkCard from '/src/components/shortcodes/LinkCard.astro';
 
 This article offers a sample of basic and extended Markdown formatting that can be used, also it shows how some basic HTML elements are decorated.
 
@@ -43,8 +44,14 @@ You can use callouts to highlight important information or warnings in your cont
   This is an error callout. It should be used to indicate critical issues that need immediate attention.
 </Callout>
 ```
-
-
+### LinkCard
+You can use the `LinkCard` component to create cards that link to external resources or pages. This is useful for showcasing projects, documentation, or any other relevant links.
+<LinkCard url="https://astro.build"/>
+```mdx
+<LinkCard url="https://astro.build"/>
+```
+Or to customize the card further with a title and description:
+<LinkCard url="https://www.bilibili.com/video/BV1PC4y1L7mq/" title="Don't check the description" description="Don't click on the link" />
 ## Headings
 
 The following HTML `<h1>`—`<h6>` elements represent six levels of section headings. `<h1>` is the highest section level while `<h6>` is the lowest.
