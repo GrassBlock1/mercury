@@ -34,6 +34,10 @@ There are other easy ways to support the project and show your appreciation, whi
    - Environment details (browser, OS, etc.)
 - For feature requests, describe the feature and why you think it would be useful
 
+For the language of the issue, please use English or Chinese. Both are OK, but using English is preferred as it allows more people to understand the issue and help with it.
+
+If you are not comfortable with either, you can still use your native language (or use a translator), but I may not be able to fully understand it.
+
 ## Development
 ### Development Environment
 This project is built using Astro, requiring a Node.js (v22.15.1 (lts) is recommended) environment.
@@ -87,6 +91,11 @@ Now you already made changes to the code and want to commit it. please:
 - Make sure local tests (`astro build`) pass before submitting
 - Link any related issues in the PR description (if any)
 - Provide a clear description of the changes
+
+For the language of the pull request message, please use English or Chinese. Both are OK, but using English is preferred as it allows more people to understand the issue and help with it.
+
+If you are not comfortable with either, you can still use your native language (or use a translator), but I may not be able to fully understand it.
+
 
 ## Code of Conduct
 Please be respectful and considerate of others when contributing. I want to maintain a welcoming and inclusive environment for everyone.
