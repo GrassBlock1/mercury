@@ -7,6 +7,7 @@ tags: ["markdown", "css", "html", "sample"]
 import Callout from '/src/components/shortcodes/Callout.astro';
 import LinkCard from '/src/components/shortcodes/LinkCard.astro';
 import Spoiler from '/src/components/shortcodes/Spoiler.astro';
+import Ruby from '/src/components/shortcodes/Ruby.astro';
 
 This article offers a sample of basic and extended Markdown formatting that can be used, also it shows how some basic HTML elements are decorated.
 ## Markdown in Astro
@@ -52,6 +53,17 @@ You can also display a 'tip' for the reader when hovered:
 </Spoiler>
 ```
 
+### Ruby
+The `Ruby` component allows you to quickly add ruby annotations to your text, which is useful for providing pronunciation or additional information about certain words, especially in East Asian languages.
+
+<Ruby text="汉" ruby="han" />
+<Ruby text="字" ruby="zi" />
+
+```mdx
+<Ruby text="汉" ruby="han" />
+<Ruby text="字" ruby="zi" />
+```
+
 ### Callouts
 You can use callouts to highlight important information or warnings in your content. Callouts are styled boxes that draw attention to specific parts of the text.
 <Callout icon='💁' type="info">
@@ -87,6 +99,9 @@ You can use the `LinkCard` component to create cards that link to external resou
 </Callout>
 Or to customize the card further with a title and description:
 <LinkCard url="https://www.bilibili.com/video/BV1PC4y1L7mq/" title="Don't check the description" description="Don't click on the link" />
+
+
+
 
 ## Headings
 
