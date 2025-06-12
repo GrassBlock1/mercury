@@ -28,6 +28,10 @@ export const siteConfig = {
     searchEngine: 'bing', // 'google', 'duckduckgo', 'bing'(broken until M1cr0$0ft get support for it), defaults to 'google'
     // content
     displayAvatar: true, // display author avatar in the article list and info line of article page
+    // encryption
+    // the global password to encrypt/decrypt the content, if set, all <ProtectedContent/> without specifying a password will be encrypted with this password
+    // you can use a different environment variable to set the password.
+    contentPassword: import.meta.env.CONTENT_PASSWORD,
     // footer
     // yes you can write html safely here
     customFooter: '<i>I have no mouth, and I must SCREAM</i>',

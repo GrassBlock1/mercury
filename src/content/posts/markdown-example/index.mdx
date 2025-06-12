@@ -8,6 +8,7 @@ import Callout from '/src/components/shortcodes/Callout.astro';
 import LinkCard from '/src/components/shortcodes/LinkCard.astro';
 import Spoiler from '/src/components/shortcodes/Spoiler.astro';
 import Ruby from '/src/components/shortcodes/Ruby.astro';
+import ProtectedContent from '/src/components/shortcodes/ProtectedContent.astro';
 
 This article offers a sample of basic and extended Markdown formatting that can be used, also it shows how some basic HTML elements are decorated.
 ## Markdown in Astro
@@ -100,8 +101,34 @@ You can use the `LinkCard` component to create cards that link to external resou
 Or to customize the card further with a title and description:
 <LinkCard url="https://www.bilibili.com/video/BV1PC4y1L7mq/" title="Don't check the description" description="Don't click on the link" />
 
+### Protected Content
+You can use the `ProtectedContent` component to protect certain parts of your content with a password. This is useful for sharing exclusive content or information that should only be accessible to certain users.
+<Callout type="warning">
+About security:
 
+    Although the encrypt process is happened at build and encrypted content is not visible in the rendered HTML. But it's still not 100% secure, as the password can be stored in the source code of a document (which could be public). Use it only for not really sensitive content.
+    Using a environment variable to store the password is recommended.
+</Callout>
 
+<ProtectedContent password="42">
+    Yes, what you input is the ultimate answer to *life*, *the universe*, and **everything**.
+</ProtectedContent>
+
+```mdx
+<ProtectedContent password="42">
+    Yes, what you input is the ultimate answer to *life*, *the universe*, and **everything**.
+</ProtectedContent>
+```
+
+<ProtectedContent>
+    And this will be encrypted with a global password, which is set in the environment variable `CONTENT_PASSWORD` or defined by `config.ts`. (config.ts takes precedence over the environment variable)
+</ProtectedContent>
+
+```mdx
+<ProtectedContent>
+   And this will be encrypted with a global password, which is set in the environment variable `CONTENT_PASSWORD` or defined by `config.ts`. (config.ts takes precedence over the environment variable)
+</ProtectedContent>
+```
 
 ## Headings
 

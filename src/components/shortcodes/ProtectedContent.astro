@@ -1,0 +1,131 @@
+---
+import { encrypt } from '../../plugins/encrypt';
+import {siteConfig} from "../../config";
+
+interface Props {
+    password?: string;
+    pwEnv?: string;
+}
+
+const { password: propPassword, pwEnv } = Astro.props;
+// Get password from props, environment variable, or site config
+const password = (pwEnv ? import.meta.env[pwEnv] : propPassword) || siteConfig.contentPassword || import.meta.env.CONTENT_PASSWORD || Math.random().toString();
+
+// Get the slot content
+const content = await Astro.slots.render('default');
+
+// Encrypt content at build time
+const { encryptedData, iv } = encrypt(content, password);
+---
+
+<div class="encrypted-content" data-encrypted={encryptedData} data-iv={iv}>
+    <div class="password-form">
+        <p>This content is protected. Enter the password to view it:</p>
+        <form>
+            <input type="password" class="decrypt-password" title="password" />
+            <button class="decrypt-button">Decrypt</button>
+        </form>
+    </div>
+    <div class="content-container hidden"></div>
+</div>
+
+<style>
+    div.encrypted-content {
+        border: 1px solid var(--border-color);
+    }
+    div.password-form {
+        margin: 0.5rem auto;
+    }
+    input[type="password"] {
+        background: var(--accent-color);
+        border: none;
+        padding: 0.25rem;
+    }
+    button {
+        background-color: var(--accent-color);
+        border: none;
+        padding: 0.25rem;
+    }
+    div.hidden {
+        display: none;
+    }
+</style>
+
+<script>
+    // Client-side decryption logic
+    document.addEventListener('DOMContentLoaded', () => {
+        const containers = document.querySelectorAll('.encrypted-content');
+
+        containers.forEach(container => {
+            const encryptedData = container.getAttribute('data-encrypted');
+            const iv = container.getAttribute('data-iv');
+            const passwordInput = container.querySelector('.decrypt-password');
+            const decryptButton = container.querySelector('.decrypt-button');
+            const contentContainer = container.querySelector('.content-container');
+            const passwordForm = container.querySelector('.password-form');
+
+            decryptButton.addEventListener('click', async () => {
+                try {
+                    const password = passwordInput.value;
+                    if (!password) return;
+
+                    const content = await decrypt(encryptedData, iv, password);
+                    contentContainer.innerHTML = content;
+                    contentContainer.classList.remove('hidden');
+                    passwordForm.classList.add('hidden');
+                } catch (error) {
+                    alert('Incorrect password');
+                    console.error('Decryption failed:', error);
+                }
+            });
+
+            // Allow pressing Enter to decrypt
+            passwordInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    decryptButton.click();
+                }
+            });
+        });
+
+        async function decrypt(encryptedData, iv, password) {
+            // Convert base64 to array buffer
+            const encryptedBytes = Uint8Array.from(atob(encryptedData), c => c.charCodeAt(0));
+            const ivBytes = Uint8Array.from(atob(iv), c => c.charCodeAt(0));
+
+            // Derive key from password
+            const encoder = new TextEncoder();
+            const passwordBytes = encoder.encode(password);
+            const keyMaterial = await window.crypto.subtle.importKey(
+                'raw',
+                passwordBytes,
+                { name: 'PBKDF2' },
+                false,
+                ['deriveBits', 'deriveKey']
+            );
+
+            const key = await window.crypto.subtle.deriveKey(
+                {
+                    name: 'PBKDF2',
+                    salt: ivBytes,
+                    iterations: 100000,
+                    hash: 'SHA-256'
+                },
+                keyMaterial,
+                { name: 'AES-GCM', length: 256 },
+                false,
+                ['decrypt']
+            );
+
+            // Decrypt
+            const decryptedBytes = await window.crypto.subtle.decrypt(
+                { name: 'AES-GCM', iv: ivBytes },
+                key,
+                encryptedBytes
+            );
+
+            // Convert array buffer to text
+            const decoder = new TextDecoder();
+            return decoder.decode(decryptedBytes);
+        }
+    });
+</script>
