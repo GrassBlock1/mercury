@@ -10,7 +10,7 @@ export const siteConfig = {
     },
     // features
     noClientJavaScript: false, // disable client-side javascript, this will:
-    // 1. disable all built-in client-side javascript from rendering
+    // 1. disable most built-in client-side javascript from rendering (protected content component and umami still needs javascript to function, sorry)
     // 2. the full text search will be redirected to a search engine
     // 3. the comments will be globally disabled
     // 4. the night mode & back to top will not use Javascript to function
@@ -25,7 +25,7 @@ export const siteConfig = {
     ],
     // search
     // This only works when noClientJavaScript is enabled
-    searchEngine: 'bing', // 'google', 'duckduckgo', 'bing'(broken until M1cr0$0ft get support for it), defaults to 'google'
+    searchEngine: 'duckduckgo', // 'google', 'duckduckgo', 'bing' (broken until M1cr0$0ft get support for it), defaults to 'google'
     // content
     displayAvatar: true, // display author avatar in the article list and info line of article page
     // encryption
