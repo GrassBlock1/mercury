@@ -21,28 +21,30 @@ const { encryptedData, iv } = encrypt(content, password);
 <div class="encrypted-content" data-encrypted={encryptedData} data-iv={iv}>
     <div class="password-form">
         <p>This content is protected. Enter the password to view it:</p>
-        <form>
+        <div>
             <input type="password" class="decrypt-password" title="password" />
             <button class="decrypt-button">Decrypt</button>
-        </form>
+        </div>
     </div>
     <div class="content-container hidden"></div>
 </div>
 
 <style>
-    div.encrypted-content {
-        border: 1px solid var(--border-color);
-    }
     div.password-form {
-        margin: 0.5rem auto;
+        margin: 0.25rem auto;
+    }
+    div.password-form div {
+        margin: 0.25rem auto;
     }
     input[type="password"] {
         background: var(--accent-color);
+        color: var(--bg-color);
         border: none;
         padding: 0.25rem;
     }
     button {
         background-color: var(--accent-color);
+        color: var(--bg-color);
         border: none;
         padding: 0.25rem;
     }
