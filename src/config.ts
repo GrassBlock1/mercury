@@ -85,10 +85,17 @@ export const siteConfig = {
     },
     // umami analytics
     // by enabling this, you can track the visitors of your site
-    umami: {
-        enabled: false, // enable umami analytics
-        instanceDomain: 'cloud.umami.is', // the url of the umami script, usually your-umami-instance.com (default: official cloud.umami.is)
-        websiteId: 'your-website-id', // the id of your website in umami, get it from your umami dashboard
+    siteAnalytics: {
+        enabled: false, // enable analytics
+        type: 'umami', // 'umami', 'goatcounter'
+        umami: {
+            instanceDomain: 'cloud.umami.is', // the domain of the umami instance, usually your-umami-instance.com (default: official cloud.umami.is)
+            websiteId: 'your-website-id', // the id of your website in umami, get it from your umami dashboard
+        },
+        goatcounter: {
+            // provide solutions for tracking visitors without Javascript
+            instanceDomain: 'yourcodehere.goatcounter.com', // the domain of the goatcounter instance, usually your-goatcounter-instance.com
+        },
     },
     // neko
     // by enabling this, you can add a neko that follows cursor to your site

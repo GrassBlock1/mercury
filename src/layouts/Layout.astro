@@ -18,7 +18,11 @@ interface Props {
 }
 
 const noscript = siteConfig.noClientJavaScript
-const umami = siteConfig.umami
+
+const statisticsEnabled = siteConfig.siteAnalytics.enabled
+const statisticsType = siteConfig.siteAnalytics.type
+const umamiConfig = siteConfig.siteAnalytics.umami
+const goatCounterConfig = siteConfig.siteAnalytics.goatcounter
 
 const defaultTitle = siteConfig.title
 const formattedRootPath = defaultTitle.toLowerCase().replace(/\s+/g, '-');
@@ -68,6 +72,7 @@ const { title = pageTitle, author = siteConfig.defaultAuthor.name,description = 
     <footer class="footer">
       <div class="floating">
         <BackToTop/>
+
         {noscript ? <ThemeSwitcher_CSSOnly/> : <ThemeSwitcher/>}
       </div>
       <div class="container">
@@ -75,10 +80,36 @@ const { title = pageTitle, author = siteConfig.defaultAuthor.name,description = 
         <p>Powered by <a href="https://git.gb0.dev/gb/mercury" target="_blank"><Logo width={16} height={16} /> mercury</a></p>
       </div>
     </footer>
-    {umami.enabled && <script defer src=`https://${umami.instanceDomain}/script.js` data-website-id={umami.websiteId}></script>}
+    {statisticsEnabled && statisticsType === 'umami' && (
+          <script
+            is:inline
+            defer
+            src={`https://${umamiConfig.instanceDomain}/script.js`}
+            data-website-id={umamiConfig.websiteId}
+          ></script>
+        )}
+    {statisticsEnabled && statisticsType === 'goatcounter' && (
+      <>
+        {noscript ? (
+          <img src={`https://${goatCounterConfig.instanceDomain}/count?p=/${Astro.url.pathname}`} alt="Analytics" />
+        ) : (
+          <>
+            <script
+              is:inline
+              async
+              data-goatcounter={`https://${goatCounterConfig.instanceDomain}/count`}
+              src={`https://${goatCounterConfig.instanceDomain}/count.js`}
+            ></script>
+            <noscript>
+              <img src={`https://${goatCounterConfig.instanceDomain}/count?p=/${Astro.url.pathname}`} alt="Analytics" />
+            </noscript>
+          </>
+        )}
+      </>
+    )}
     { (siteConfig.neko.enabled && !noscript) &&
       <>
-        <script is:inline define:vars={{ nekoType  }}>
+        <script is:inline define:vars={{ nekoType }}>
           window.NekoType = nekoType;
         </script>
         <script is:inline src="https://webneko.net/n20171213.js"></script>
