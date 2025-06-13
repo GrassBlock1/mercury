@@ -30,8 +30,9 @@ export const siteConfig = {
     displayAvatar: true, // display author avatar in the article list and info line of article page
     // encryption
     // the global password to encrypt/decrypt the content, if set, all <ProtectedContent/> without specifying a password will be encrypted with this password
-    // you can use a different environment variable to set the password.
-    contentPassword: import.meta.env.CONTENT_PASSWORD,
+    // To use an environment variable to set the password, replace the value with `import.meta.env.CONTENT_PASSWORD`
+    // (or process.env.CONTENT_PASSWORD, CONTENT_PASSWORD can be any string) and set the environment variable in your deployment service.
+    contentPassword: 'p1easeChangeMe!',
     // footer
     // yes you can write html safely here
     customFooter: '<i>I have no mouth, and I must SCREAM</i>',

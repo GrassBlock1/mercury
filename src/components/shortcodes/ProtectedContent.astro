@@ -9,7 +9,7 @@ interface Props {
 
 const { password: propPassword, pwEnv } = Astro.props;
 // Get password from props, environment variable, or site config
-const password = (pwEnv ? import.meta.env[pwEnv] : propPassword) || siteConfig.contentPassword || import.meta.env.CONTENT_PASSWORD || Math.random().toString();
+const password = (pwEnv ? import.meta.env[pwEnv] : propPassword) || siteConfig.contentPassword || import.meta.env.CONTENT_PASSWORD;
 
 // Get the slot content
 const content = await Astro.slots.render('default');
