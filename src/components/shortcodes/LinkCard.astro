@@ -4,10 +4,12 @@ interface Props {
     showArchive?: boolean;
     title?: string;
     description?: string;
+    pubDate?: Date | string;
+    updatedDate?: Date | string;
     siteName?: string;
 }
 
-const { url, showArchive = true} = Astro.props;
+const { url, showArchive = false, pubDate, updatedDate} = Astro.props;
 
 const siteMetadata = {
     title: Astro.props.title || '',
@@ -16,6 +18,16 @@ const siteMetadata = {
     image: '',
     domain: new URL(url).hostname || ''
 };
+
+// Format date to number only format (YYYYMMDD) for archive.org apis
+function formatDateToNumber(date: Date | string | undefined): string {
+    if (!date) return '';
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}${month}${day}`;
+}
 
 // Get metadata from the URL
 async function fetchMetadata(url: string) {
@@ -60,10 +72,13 @@ async function fetchMetadata(url: string) {
     }
 }
 
-// Check if the URL is archived on the Wayback Machine at the build time
+// Check if the URL is archived on the Wayback Machine at the updated/build time
+// TODO: bringing user's own archive service link
 async function checkArchive(url: string) {
     try {
-        const archiveUrl = `https://archive.org/wayback/available?url=${encodeURIComponent(url)}`;
+        // Determine which date to use (prefer updatedDate if available, or fallback to the build time)
+        const timestamp = (updatedDate ? formatDateToNumber(updatedDate) : formatDateToNumber(pubDate)) || formatDateToNumber(new Date());
+        const archiveUrl = `https://archive.org/wayback/available?url=${encodeURIComponent(url)}&timestamp=${timestamp}`;
         const response = await fetch(archiveUrl);
         const data = await response.json();
 

@@ -91,10 +91,21 @@ You can use callouts to highlight important information or warnings in your cont
 ### LinkCard
 You can use the `LinkCard` component to create cards that link to external resources or pages. This is useful for showcasing projects, documentation, or any other relevant links.
 
+This most simple one can be used like this:
 <LinkCard url="https://astro.build"/>
 ```mdx
 <LinkCard url="https://astro.build"/>
 ```
+or with a archive link:
+<LinkCard url="https://astro.build" showArchive="true" pubDate={frontmatter.pubDate} updatedDate={frontmatter.updatedDate} />
+```mdx
+<LinkCard url="https://astro.build" showArchive="true" pubDate={frontmatter.pubDate} updatedDate={frontmatter.updatedDate} />
+```
+<Callout type="info">
+    The `pubDate` or `updatedDate` props is optional, but in order to make the component to display the archived version around the date correctly, they should be passed.
+
+    Choose one or both of them according to your needs.
+</Callout>
 <Callout type="warning">
     On a machine with bad network, this will significantly increase build time when no other params are passed to the component.
 </Callout>
