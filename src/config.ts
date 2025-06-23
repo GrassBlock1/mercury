@@ -28,14 +28,19 @@ export const siteConfig = {
     searchEngine: 'duckduckgo', // 'google', 'duckduckgo', 'bing' (broken until M1cr0$0ft get support for it), defaults to 'google'
     // content
     displayAvatar: true, // display author avatar in the article list and info line of article page
+    newsletter: {
+        enabled: false, // enable newsletter subscription in post list page
+        type: 'listmonk', //  only 'listmonk' is supported for now, more will be added later
+        listmonk: {
+            instanceDomain: 'listmonk.yourdomain.com', // the domain of your listmonk instance
+            listuuid: '3546fc35-fd75-4163-936a-114514191981', // the id of the list to subscribe to, can be found in the listmonk admin panel
+        }
+    },
     // encryption
     // the global password to encrypt/decrypt the content, if set, all <ProtectedContent/> without specifying a password will be encrypted with this password
     // To use an environment variable to set the password, replace the value with `import.meta.env.CONTENT_PASSWORD`
     // (or process.env.CONTENT_PASSWORD, CONTENT_PASSWORD can be any string) and set the environment variable in your deployment service.
     contentPassword: 'p1easeChangeMe!',
-    // footer
-    // yes you can write html safely here
-    customFooter: '<i>I have no mouth, and I must SCREAM</i>',
     // comments
     comments: {
         type: 'artalk', // 'artalk','giscus','fediverse','email','hatsu'
@@ -83,6 +88,9 @@ export const siteConfig = {
             instanceDomain: '',
         }
     },
+    // footer
+    // yes you can write html safely here
+    customFooter: '<i>I have no mouth, and I must SCREAM</i>',
     // umami analytics
     // by enabling this, you can track the visitors of your site
     siteAnalytics: {

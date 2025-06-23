@@ -1,0 +1,39 @@
+---
+const { listmonkInstance, listuuid } = Astro.props;
+
+const inputId = Astro.props.listuuid.substring(0,5)
+---
+<details>
+<summary>Subscribe to newsletter</summary>
+    <form method="post" action={`https://${listmonkInstance}/subscription/form`} class="listmonk-form">
+        <div>
+            <input type="hidden" name="nonce" />
+
+            <input type="email" name="email" required placeholder="E-mail" />
+            <input type="text" name="name" placeholder="Name (optional)" />
+            <input id={inputId} type="checkbox" name="l" checked="checked" value={listuuid} hidden />
+
+            <input type="submit" value="Subscribe" />
+        </div>
+    </form>
+</details>
+<style>
+    input[type="email"], input[type="text"], input[type="submit"] {
+        display: block;
+    }
+    input[type="email"], input[type="text"] {
+        margin: 0.5rem 0;
+        background-color: #fefefe;
+        color: #111;
+        border: unset;
+        height: 1.5rem;
+    }
+    input[type="submit"] {
+        background-color: var(--terminal-green);
+        color: var(--bg-color);
+        border: unset;
+        padding: 0.2rem;
+        height: 1.5rem;
+        cursor: pointer;
+    }
+</style>
