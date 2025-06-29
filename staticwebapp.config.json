@@ -2,6 +2,11 @@
   "trailingSlash": "auto",
   "routes": [
     {
+      "route": "/post/*",
+      "redirect": "/blog/*",
+      "statusCode": 302
+    },
+    {
       "route": "/*",
       "headers": {
         "cache-control": "must-revalidate, max-age=15770000"

@@ -58,7 +58,7 @@ export async function GET(context) {
       title: post.data.title,
       description: post.data.description || '',
       pubDate: post.data.pubDate,
-      link: `${baseUrl}/post/${post.slug}`,
+      link: `${baseUrl}/blog/${post.slug}`,
       content,
     });
 

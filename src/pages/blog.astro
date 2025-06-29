@@ -20,7 +20,7 @@ posts.sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDat
         {posts.map((post) => (
           <p>
             <span class="list-date">{new Date(post.data.pubDate).toISOString().split('T')[0]}</span>
-            <a href={`/post/${post.slug}`}>{post.data.title}</a>
+            <a href={`/blog/${post.slug}`}>{post.data.title}</a>
           </p>
         ))}
         

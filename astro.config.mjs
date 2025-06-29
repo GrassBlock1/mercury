@@ -11,6 +11,10 @@ export default defineConfig({
   site: 'https://terminal-blog.example.com',
   base: '/',
   trailingSlash: 'ignore',
+  redirects: {
+    // for the old routes still can be accessed
+    "/post/[...slug]": "/blog/[...slug]"
+  },
 
   build: {
     format: 'directory'

@@ -40,7 +40,7 @@ if (matchedImage && !customFeaturedImage) {
 }
 const firstImageURL = await ExtractFirstImage(Content)
 
-const cover = customFeaturedImage || matchedImage_src?.src || firstImageURL || `/post/${slug}/featured.png` || '';
+const cover = customFeaturedImage || matchedImage_src?.src || firstImageURL || `/blog/${slug}/featured.png` || '';
 ---
 
 <Layout
@@ -61,7 +61,7 @@ const cover = customFeaturedImage || matchedImage_src?.src || firstImageURL || `
     <ReplyViaEmail title={entry.data.title} email={authorInfo.email} />
         <br>
     <a href="/blog">&larr; Back to posts</a>
-    {noscript && <h2>Comments</h2> <Comments path={`post/${slug}`} />}
+    {noscript && <h2>Comments</h2> <Comments path={`blog/${slug}`} />}
   </div>
 
 </Layout>

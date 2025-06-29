@@ -192,7 +192,7 @@ const domain = Astro.url.host
 
       const searchItems = results.map(item => `
       <div class="search-result">
-        <a href="/post/${item.slug}" tabindex="0">
+        <a href="/blog/${item.slug}" tabindex="0">
           <span class="result-title">${item.title}</span><br /> 
           <span class="result-date">${new Date(item.pubDate).toISOString().split('T')[0]|| '' } — 
           <em>${item.description || ''}</em></span>
