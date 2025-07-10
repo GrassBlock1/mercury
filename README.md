@@ -8,12 +8,14 @@ Demo: https://icy-beach-00f5be01e.6.azurestaticapps.net/
 
 ## 🌌 Features
 - Minimal, terminal like
-- Ship only necessary JavaScript
-- Full text search based on `Fuse.js`
+- Ship only necessary JavaScript (even can be no JavaScript at all)
+- Full text search ~~based on `Fuse.js`~~
 - Full text RSS
 - Create Blogrolls via a yaml file
 - Your status at Fediverse, now at your home
 - Comments powered by multiple engines
+- Umami/Goatcounter statics support
+- TeX formulas support
 
 ## 🚀 Getting Started
 clone the repo and install dependencies:
