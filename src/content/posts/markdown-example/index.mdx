@@ -247,3 +247,34 @@ X<sup>n</sup> + Y<sup>n</sup> = Z<sup>n</sup>
 Press <kbd>CTRL</kbd>+<kbd>ALT</kbd>+<kbd>Delete</kbd> to end the session.
 
 Most <mark>salamanders</mark> are nocturnal, and hunt for insects, worms, and other small creatures.
+
+### Formulas
+Thanks to the [remark-math](https://github.com/remarkjs/remark-math) and [KaTeX](https://katex.org/) , you can write mathematical formulas using LaTeX syntax.
+
+Both inline and block formulas are supported (see example below). Inline formulas can be written like `$$L$$` or `$L$`,
+
+while block formulas can be written like this:
+
+```latex
+$$
+-\frac{\hbar^2}{2m}\nabla^2\psi + V\psi = E\psi
+$$
+```
+
+or
+
+````markdown
+```math
+-\frac{\hbar^2}{2m}\nabla^2\psi + V\psi = E\psi
+```
+````
+
+By default, the reader can copy the formulas in LaTeX format by copy the rendered formulas, unless you set `noClientJavaScript` to `true` in the `config.ts` file.
+
+
+Lift($$L$$) can be determined by Lift Coefficient ($$C_L$$) like the following
+equation:
+
+$$
+L = \frac{1}{2} \rho v^2 S C_L
+$$

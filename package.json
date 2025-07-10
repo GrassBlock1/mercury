@@ -19,6 +19,9 @@
     "@fontsource-variable/jetbrains-mono": "^5.2.5",
     "astro": "^5.2.5",
     "ico-endec": "^0.1.6",
+    "katex": "^0.16.22",
+    "rehype-katex": "^7.0.1",
+    "remark-math": "^6.0.0",
     "sharp": "^0.34.1",
     "ultrahtml": "^1.6.0"
   },

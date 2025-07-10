@@ -9,6 +9,7 @@ import ReplyViaEmail from "../../components/ReplyViaEmail.astro";
 import { ExtractFirstImage } from '../../plugins/extract-images';
 import AuthorInfo from "../../components/helper/authors/Info.astro";
 import TableOfContents from "../../components/TableOfContents.astro";
+import "katex/dist/katex.css"
 
 export async function getStaticPaths() {
   const blogEntries = await getCollection('posts');
@@ -62,6 +63,11 @@ const cover = customFeaturedImage || matchedImage_src?.src || firstImageURL || `
         <br>
     <a href="/blog">&larr; Back to posts</a>
     {noscript && <h2>Comments</h2> <Comments path={`blog/${slug}`} />}
+    {!noscript &&
+        <script>
+            import "katex/dist/contrib/copy-tex.js"
+        </script>
+    }
   </div>
 
 </Layout>

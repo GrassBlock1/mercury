@@ -6,6 +6,8 @@ import mdx from '@astrojs/mdx';
 
 
 import cloudflare from '@astrojs/cloudflare';
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
 
 export default defineConfig({
   site: 'https://terminal-blog.example.com',
@@ -25,6 +27,8 @@ export default defineConfig({
       theme: 'nord',
       wrap: true
     },
+    remarkPlugins: [ remarkMath ],
+    rehypePlugins: [ rehypeKatex ]
   },
 
   integrations: [sitemap(), mdx()],
