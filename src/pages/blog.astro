@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import NewsLetter from "../components/NewsLetter.astro";
 import {siteConfig} from "../config";
+import ArticleList from "../components/ArticleList.astro";
 
 const posts = await getCollection('posts');
 posts.sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime());
@@ -16,22 +17,7 @@ posts.sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDat
     
     <div style="margin-top: 2rem;">
       <span class="command">ls -la posts/</span>
-      <div style="margin-top: 1rem; margin-left: 1rem;">
-        {posts.map((post) => (
-          <p>
-            <span class="list-date">{new Date(post.data.pubDate).toISOString().split('T')[0]}</span>
-            <a href={`/blog/${post.slug}`}>{post.data.title}</a>
-          </p>
-        ))}
-        
-        {posts.length === 0 && (
-          <>
-            <p>
-              <span style="color: var(--terminal-yellow);">No posts here yet</span>
-            </p>
-          </>
-        )}
-      </div>
+      <ArticleList posts={posts} displayDate={true} placeholder={true} />
     </div>
     
     <div style="margin-top: 2rem;">

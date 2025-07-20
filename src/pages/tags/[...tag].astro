@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import {getCollection} from "astro:content";
+import ArticleList from "../../components/ArticleList.astro";
 
 export async function getStaticPaths() {
     const allPosts = await getCollection('posts');
@@ -21,11 +22,6 @@ const { posts } = Astro.props;
 <Layout title={`posts tagged with ${tag}`} description={`Posts tagged with ${tag}`}>
     <h1 class="title">ls ~/blog | grep "{tag}"</h1>
     <ul>
-        {posts.map((post: any) =>
-            <p>
-                <span class="list-date">{new Date(post.data.pubDate).toISOString().split('T')[0]}</span>
-                <a href={`/blog/${post.slug}`}>{post.data.title}</a>
-            </p>
-        )}
+        <ArticleList posts={posts} displayDate={true} />
     </ul>
 </Layout>

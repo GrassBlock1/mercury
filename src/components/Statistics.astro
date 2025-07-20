@@ -1,0 +1,35 @@
+---
+import {siteConfig} from "../config";
+const noscript = siteConfig.noClientJavaScript
+const statisticsType = siteConfig.siteAnalytics.type
+const umamiConfig = siteConfig.siteAnalytics.umami
+const goatCounterConfig = siteConfig.siteAnalytics.goatcounter
+---
+{statisticsType === 'umami' && (
+    <script
+            is:inline
+            defer
+            src={`https://${umamiConfig.instanceDomain}/script.js`}
+            data-website-id={umamiConfig.websiteId}
+    ></script>
+)}
+
+{statisticsEnabled && statisticsType === 'goatcounter' && (
+    <>
+        {noscript ? (
+            <img src={`https://${goatCounterConfig.instanceDomain}/count?p=/${Astro.url.pathname}`} alt="Analytics" />
+        ) : (
+        <>
+            <script
+                is:inline
+                async
+                data-goatcounter={`https://${goatCounterConfig.instanceDomain}/count`}
+                src={`https://${goatCounterConfig.instanceDomain}/count.js`}
+            ></script>
+            <noscript>
+                <img src={`https://${goatCounterConfig.instanceDomain}/count?p=/${Astro.url.pathname}`} alt="Analytics" />
+            </noscript>
+        </>
+        )}
+    </>
+)}

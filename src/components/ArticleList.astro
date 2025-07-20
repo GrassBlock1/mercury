@@ -1,0 +1,19 @@
+---
+const { posts, displayDate = false, placeholder = false } = Astro.props;
+---
+<div style="margin-top: 1rem; margin-left: 1rem;">
+    {posts.map((post) => (
+            <p>
+                {displayDate && <span class="list-date">{new Date(post.data.pubDate).toISOString().split('T')[0]}</span>}
+                <a href={`/blog/${post.slug}`}>{post.data.title}</a>
+            </p>
+    ))}
+
+    {placeholder && posts.length === 0 && (
+            <>
+                <p>
+                    <span style="color: var(--terminal-yellow);">No posts here yet</span>
+                </p>
+            </>
+    )}
+</div>

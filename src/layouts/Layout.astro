@@ -8,6 +8,8 @@ import Meta from "../components/helper/head/Meta.astro";
 
 import { siteConfig } from "../config";
 import Logo from '../assets/mercury.svg'
+import Statistics from "../components/Statistics.astro";
+import Navbar from "../components/Navbar.astro";
 
 interface Props {
   title: string;
@@ -20,9 +22,6 @@ interface Props {
 const noscript = siteConfig.noClientJavaScript
 
 const statisticsEnabled = siteConfig.siteAnalytics.enabled
-const statisticsType = siteConfig.siteAnalytics.type
-const umamiConfig = siteConfig.siteAnalytics.umami
-const goatCounterConfig = siteConfig.siteAnalytics.goatcounter
 
 const defaultTitle = siteConfig.title
 const formattedRootPath = defaultTitle.toLowerCase().replace(/\s+/g, '-');
@@ -31,7 +30,6 @@ const path = formattedRootPath + (relativePath === '/' ? '' : relativePath)
 
 const pageTitle = (relativePath === '/' ? defaultTitle : `${Astro.props.title} - ${defaultTitle}`)
 
-const navBarItems = siteConfig.navBarItems
 const customFooter = siteConfig.customFooter
 const nekoType = siteConfig.neko?.type
 
@@ -54,13 +52,7 @@ const { title = pageTitle, author = siteConfig.defaultAuthor.name,description = 
         <div class="terminal-path">
           {path}
         </div>
-        
-        <nav class="nav">
-          <a href="/" class="home">~</a>
-          <a href="/blog">Blog</a>
-          {navBarItems.map((item) => <a href={item.link}>{item.text}</a>)}
-        </nav>
-
+        <Navbar />
         <Search />
         
         <div class="content-box">
@@ -80,33 +72,7 @@ const { title = pageTitle, author = siteConfig.defaultAuthor.name,description = 
         <p>Powered by <a href="https://git.gb0.dev/gb/mercury" target="_blank"><Logo width={16} height={16} /> mercury</a></p>
       </div>
     </footer>
-    {statisticsEnabled && statisticsType === 'umami' && (
-          <script
-            is:inline
-            defer
-            src={`https://${umamiConfig.instanceDomain}/script.js`}
-            data-website-id={umamiConfig.websiteId}
-          ></script>
-        )}
-    {statisticsEnabled && statisticsType === 'goatcounter' && (
-      <>
-        {noscript ? (
-          <img src={`https://${goatCounterConfig.instanceDomain}/count?p=/${Astro.url.pathname}`} alt="Analytics" />
-        ) : (
-          <>
-            <script
-              is:inline
-              async
-              data-goatcounter={`https://${goatCounterConfig.instanceDomain}/count`}
-              src={`https://${goatCounterConfig.instanceDomain}/count.js`}
-            ></script>
-            <noscript>
-              <img src={`https://${goatCounterConfig.instanceDomain}/count?p=/${Astro.url.pathname}`} alt="Analytics" />
-            </noscript>
-          </>
-        )}
-      </>
-    )}
+    {statisticsEnabled && <Statistics/>}
     { (siteConfig.neko.enabled && !noscript) &&
       <>
         <script is:inline define:vars={{ nekoType }}>
