@@ -1,0 +1,494 @@
+---
+import {siteConfig} from "../../../config";
+const hatsuHost = `https://${siteConfig.comments.hatsu.instanceDomain}`
+const {origin, pathname} = new URL(Astro.url)
+const url = new URL(pathname, origin).href
+
+import { transform } from "ultrahtml";
+import sanitize from "ultrahtml/transformers/sanitize";
+---
+<section id="comments" class="container">
+    <p>Comments by <a href="https://hatsu.cli.rs">Hatsu</a></p>
+    <p id="mastodon-comments-list"><button id="load-comment">Load Comments</button></p>
+    <div id="comments-wrapper" class="mastodon-comment">
+        <noscript><p>JavaScript is needed for loading comments, or you copy the post's URL to your clipboard and paste it into your Fediverse instance's search box., </p></noscript>
+    </div>
+</section>
+<style is:inline>
+    button#load-comment, button.addComment {
+        background-color: var(--accent-color);
+        color: var(--bg-color);
+        border-radius: 0.25rem;
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        cursor: pointer;
+        border: none;
+    }
+    button.button {
+        background-color: var(--accent-color);
+        color: var(--bg-color);
+        border-radius: 0.25rem;
+        padding: 0.25rem;
+        font-size: 1rem;
+        cursor: pointer;
+        border: none;
+    }
+    section#comments #comments-wrapper {
+        margin:1.5em 0;
+        padding:0 5px
+    }
+    section#comments .comment {
+        display:grid;
+        column-gap:1rem;
+        grid-template-areas:"avatar name" "avatar time" "avatar post" "...... interactions";
+        grid-template-columns:min-content;
+        justify-items:start;
+        margin:0 auto 0 -1em;
+        padding:.5em;
+    }
+    section#comments .comment.comment-reply {
+        margin:0 auto 0 1em;
+    }
+    section#comments .comment .avatar-link {
+        grid-area:avatar;
+        height:4rem;
+        position:relative;
+        width:4rem;
+    }
+    section#comments .comment .avatar-link .avatar {
+        max-height: 100%;
+        max-width: 100%;
+        border-radius: 50%;
+        box-sizing: border-box;
+    }
+    section#comments .comment .avatar-link.op::after {
+        background-color: var(--terminal-green);
+        border-radius:50%;
+        bottom:-.25rem;
+        color: #fafafa;
+        content:"✓";
+        display:block;
+        font-size:1.25rem;
+        font-weight:700;
+        height:1.5rem;
+        line-height:1.5rem;
+        position:absolute;
+        right:-.25rem;
+        text-align:center;
+        width:1.5rem
+    }
+    section#comments .comment .author {
+        align-items:center;
+        display:flex;
+        font-weight:700;
+        gap:.5em;
+        grid-area:name
+    }
+    section#comments .comment .author .instance {
+        background-color: var(--terminal-green);
+        border-radius:9999px;
+        color: #fafafa;
+        font-size:smaller;
+        font-weight:400;
+        padding:.25em .75em
+    }
+    section#comments .comment .author .instance:hover {
+        opacity:.8;
+        text-decoration:none
+    }
+    section#comments .comment .author .instance.op {
+        background-color: var(--terminal-green);
+        color: #fafafa
+    }
+    section#comments .comment .author .instance.op::before {
+        content:"✓";
+        font-weight:700;
+        margin-inline-end:.25em;
+        margin-inline-start:-.25em
+    }
+    section#comments .comment time {
+        grid-area:time;
+        line-height:1.5rem
+    }
+    section#comments .comment main {
+        grid-area:post
+    }
+    section#comments .comment main p:first-child {
+        margin-top:.25em
+    }
+    section#comments .comment main p:last-child {
+        margin-bottom:0
+    }
+    section#comments .comment footer {
+        grid-area:interactions
+    }
+    section#comments .comment footer .faves {
+        color:inherit
+    }
+    section#comments .comment footer .faves:hover {
+        opacity:.8;
+        text-decoration:none
+    }
+    section#comments .comment footer .faves::before {
+        color:yellow;
+        content:"☆";
+        font-size:2rem;
+        margin-inline-end:.25em
+    }
+    section#comments .comment .emoji {
+        display:inline;
+        height:1.25em;
+        vertical-align:middle;
+        width:1.25em
+    }
+    section#comments .comment .invisible {
+        display:none
+    }
+    section#comments .comment .ellipsis::after {
+        content:"…"
+    }
+    /*comment dialog*/
+    section#comments #comment-dialog {
+        width: 30em;
+        padding: 1em;
+        border-radius: 5px;
+        background-color: var(--bg-color);
+        margin: auto;
+    }
+    section#comments #comment-dialog {
+        color: var(--text-color);
+    }
+    section#comments #comment-dialog #close {
+        position: absolute;
+        top: 0;
+        right: 0;
+        background: none;
+        color: inherit;
+        border: none;
+        padding: 0.5em;
+        font: inherit;
+        outline: inherit;
+    }
+    section#comments #comment-dialog .input-row {
+        display: flex;
+    }
+    section#comments #comment-dialog .input-row > input {
+        flex-grow: 1;
+        margin-right: 0.5em;
+    }
+    section#comments #comment-dialog .input-row > button {
+        flex-basis: 3em;
+    }
+</style>
+<script define:vars={{ hatsuHost, url }}>
+    function escapeHtml(unsafe) {
+        return unsafe
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+    function emojify(input, emojis) {
+        let output = input;
+
+        emojis.forEach(emoji => {
+            let picture = document.createElement("picture");
+
+            let source = document.createElement("source");
+            source.setAttribute("srcset", escapeHtml(emoji.url));
+            source.setAttribute("media", "(prefers-reduced-motion: no-preference)");
+
+            let img = document.createElement("img");
+            img.className = "emoji";
+            img.setAttribute("src", escapeHtml(emoji.static_url));
+            img.setAttribute("alt", `:${emoji.shortcode}:`);
+            img.setAttribute("title", `:${emoji.shortcode}:`);
+            img.setAttribute("width", "20");
+            img.setAttribute("height", "20");
+
+            picture.appendChild(source);
+            picture.appendChild(img);
+
+            output = output.replace(`:${emoji.shortcode}:`, picture.outerHTML);
+        });
+
+        return output;
+    }
+
+    function loadComments() {
+        // get id (base64url encode)
+        // aHR0cHM6Ly9leGFtcGxlLmNvbS9mb28vYmFy
+        const id = btoa(url).replaceAll('+', '-').replaceAll('/', '_')
+        let commentsWrapper = document.getElementById("comments-wrapper");
+        document.getElementById("load-comment").innerHTML = "Loading";
+        fetch(new URL(`/api/v1/statuses/${id}/context`, hatsuHost))
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                    let descendants = data['descendants'];
+                    if (
+                        descendants &&
+                        Array.isArray(descendants) &&
+                        descendants.length > 0
+                    ) {
+                        commentsWrapper.innerHTML = "";
+
+
+                        descendants.forEach(function (status) {
+                            console.log(descendants)
+                            if (status.account.display_name.length > 0) {
+                                status.account.display_name = escapeHtml(status.account.display_name);
+                                status.account.display_name = emojify(status.account.display_name, status.account.emojis);
+                            } else {
+                                status.account.display_name = status.account.username;
+                            }
+                            ;
+
+                            let instance = "";
+                            if (!status.account.id.includes("o3o.ca")) {
+                                instance = status.account.id.split("/")[2];
+                            } else {
+                                instance = "o3o.ca";
+                            }
+
+                            const isReply = status.in_reply_to_id !== id;
+
+                            let op = false;
+                            if (status.account.username == "grassblock") {
+                                op = true;
+                            }
+
+                            status.content = emojify(status.content, status.emojis);
+
+                            let avatarSource = document.createElement("source");
+                            avatarSource.setAttribute("srcset", escapeHtml(status.account.avatar));
+                            avatarSource.setAttribute("media", "(prefers-reduced-motion: no-preference)");
+
+                            let avatarImg = document.createElement("img");
+                            avatarImg.className = "avatar";
+                            avatarImg.setAttribute("src", escapeHtml(status.account.avatar_static));
+                            avatarImg.setAttribute("alt", `@${status.account.username}@${instance} avatar`);
+
+                            let avatarPicture = document.createElement("picture");
+                            avatarPicture.appendChild(avatarSource);
+                            avatarPicture.appendChild(avatarImg);
+
+                            let avatar = document.createElement("a");
+                            avatar.className = "avatar-link";
+                            avatar.setAttribute("href", status.account.url);
+                            avatar.setAttribute("rel", "external nofollow");
+                            avatar.setAttribute("title", `View profile at @${status.account.username}@${instance}`);
+                            avatar.appendChild(avatarPicture);
+
+                            let instanceBadge = document.createElement("a");
+                            instanceBadge.className = "instance";
+                            instanceBadge.setAttribute("href", status.account.url);
+                            instanceBadge.setAttribute("title", `@${status.account.username}@${instance}`);
+                            instanceBadge.setAttribute("rel", "external nofollow");
+                            instanceBadge.textContent = instance;
+
+                            let display = document.createElement("span");
+                            display.className = "display";
+                            display.setAttribute("itemprop", "author");
+                            display.setAttribute("itemtype", "http://schema.org/Person");
+                            display.innerHTML = status.account.display_name;
+
+                            let header = document.createElement("header");
+                            header.className = "author";
+                            header.appendChild(display);
+                            header.appendChild(instanceBadge);
+
+                            let permalink = document.createElement("a");
+                            permalink.setAttribute("href", status.url);
+                            permalink.setAttribute("itemprop", "url");
+                            permalink.setAttribute("title", `View comment at ${instance}`);
+                            permalink.setAttribute("rel", "external nofollow");
+                            permalink.textContent = new Date(status.created_at).toLocaleString('en-US', {
+                                dateStyle: "long",
+                                timeStyle: "short",
+                            });
+
+                            let timestamp = document.createElement("time");
+                            timestamp.setAttribute("datetime", status.created_at);
+                            timestamp.appendChild(permalink);
+
+                            let main = document.createElement("main");
+                            main.setAttribute("itemprop", "text");
+                            main.innerHTML = status.content;
+
+                            let interactions = document.createElement("footer");
+                            if (status.favourites_count > 0) {
+                                let faves = document.createElement("a");
+                                faves.className = "faves";
+                                faves.setAttribute("href", `${status.url}/favourites`);
+                                faves.setAttribute("title", `Favorites from ${instance}`);
+                                faves.textContent = status.favourites_count;
+
+                                interactions.appendChild(faves);
+                            }
+
+                            let comment = document.createElement("article");
+                            //comment.id = `comment-${ status.id }`;
+                            comment.className = isReply ? "comment comment-reply" : "comment";
+                            comment.setAttribute("itemprop", "comment");
+                            comment.setAttribute("itemtype", "http://schema.org/Comment");
+                            comment.appendChild(avatar);
+                            comment.appendChild(header);
+                            comment.appendChild(timestamp);
+                            comment.appendChild(main);
+                            comment.appendChild(interactions);
+
+                            if (op === true) {
+                                comment.classList.add("op");
+
+                                avatar.classList.add("op");
+                                avatar.setAttribute(
+                                    "title",
+                                    "Blog post author; " + avatar.getAttribute("title")
+                                );
+
+                                instanceBadge.classList.add("op");
+                                instanceBadge.setAttribute(
+                                    "title",
+                                    "Blog post author: " + instanceBadge.getAttribute("title")
+                                );
+                            }
+
+                            // sanitize the comment
+                            const safeComment = transform(comment.outerHTML, sanitize({
+                                allowedTags: ['a', 'b', 'i', 'em', 'strong', 'p', 'br', 'img', 'code', 'pre', 's'],
+                                allowedAttributes: {
+                                    a: ['href', 'title', 'rel'],
+                                    img: ['src', 'alt', 'width', 'height'],
+                                    time: ['datetime']
+                                },
+                                allowedSchemes: ['http', 'https']
+                            }));
+                            commentsWrapper.innerHTML += safeComment;
+                        });
+                    } else {
+                        commentsWrapper.innerHTML = '<p>No comments yet</p>'
+                    }
+                    document.getElementById('load-comment').outerHTML = ''
+                    document.getElementById('comments-wrapper').innerHTML += `<br><p><button class="addComment">进行评论</button></p>`
+                    document.getElementById('comments-wrapper').innerHTML += `
+                <dialog id="comment-dialog">
+                   <div class="dialog-title">
+                    <b class="">Make a comment</b>
+                    <button title="Cancel" id="close" class="">&times;</button>
+                   </div>
+              <p>
+                  Comments are powered by the <a href="https://hatsu.cli.rs">Hatsu</a>, which is a federated comment system backed by Fediverse that allows you to interact with posts across different instances.
+                  
+                  You can use your existing Fediverse account to comment on this post, to do so enter the instance address of your Fediverse account below:
+              <p>
+              <p class="input-row">
+                  <input type="text" inputmode="url" autocapitalize="none" autocomplete="off"
+                      value="${localStorage.getItem("url") ?? ''}" id="instanceName"
+                      placeholder="例如：mastodon.social">
+                  <button class="button" id="go">前往</button>
+              </p>
+              <p>或是复制帖文的地址并通过自己网站的搜索框抓取这篇帖子进行互动：</p>
+              <p class="input-row">
+                  <input type="text" readonly id="copymInput" value="${url}">
+                  <button class="button" id="copym">复制</button>
+              </p>
+              <p>账号所在的实例使用 Misskey、Pleroma 等平台的用户，上面的方式可能不工作，请手动复制下面的链接到站点搜索框手动抓取进行互动：</p>
+              <p class="input-row">
+                  <input type="text" readonly id="copygInput" value="${hatsuHost}/posts/${url}">
+                  <button class="button" id="copyg">复制</button>
+              </p>
+                </dialog>`
+                    const dialog = document.getElementById('comment-dialog');
+
+                    // open dialog on button click
+                    Array.from(document.getElementsByClassName("addComment")).forEach(button => button.addEventListener('click', () => {
+                        dialog.showModal();
+                        // this is a very very crude way of not focusing the field on a mobile device.
+                        // the reason we don't want to do this, is because that will push the modal out of view
+                        if (dialog.getBoundingClientRect().y > 100) {
+                            document.getElementById("instanceName").focus();
+                        }
+                    }));
+
+                    // when click on 'Go' button: go to the instance specified by the user
+                    document.getElementById('go').addEventListener('click', () => {
+                        let instanceURL = document.getElementById('instanceName').value.trim();
+                        if (instanceURL === '') {
+                            // bail out - window.alert is not very elegant, but it works
+                            window.alert("请填入你的实例地址！");
+                            return;
+                        }
+
+                        // store the url in the local storage for next time
+                        localStorage.setItem('mastodonUrl', instanceURL);
+
+                        if (!instanceURL.startsWith('https://')) {
+                            instanceURL = `https://${instanceURL}`;
+                        }
+
+                        window.open(`${instanceURL}/authorize_interaction?uri=${url}`, '_blank');
+                    });
+
+                    // also when pressing enter in the input field
+                    document.getElementById('instanceName').addEventListener('keydown', e => {
+                        if (e.key === 'Enter') {
+                            document.getElementById('go').dispatchEvent(new Event('click'));
+                        }
+                    });
+
+                    // copy tye post's url when pressing copy
+                    document.getElementById('copym').addEventListener('click', () => {
+                        // select the input field, both for visual feedback, and so that the user can use CTRL/CMD+C for manual copying, if they don't trust you
+                        document.getElementById('copymInput').select();
+                        navigator.clipboard.writeText(url);
+                        // Confirm this by changing the button text
+                        document.getElementById('copym').innerHTML = '已复制！';
+                        // restore button text after a second.
+                        window.setTimeout(() => {
+                            document.getElementById('copym').innerHTML = '复制';
+                        }, 1000);
+                    });
+
+                    // copy tye post's url when pressing copy
+                    document.getElementById('copyg').addEventListener('click', () => {
+                        // select the input field, both for visual feedback, and so that the user can use CTRL/CMD+C for manual copying, if they don't trust you
+                        document.getElementById('copygInput').select();
+                        navigator.clipboard.writeText(url);
+                        // Confirm this by changing the button text
+                        document.getElementById('copyg').innerHTML = '已复制！';
+                        // restore button text after a second.
+                        window.setTimeout(() => {
+                            document.getElementById('copyg').innerHTML = '复制';
+                        }, 1000);
+                    });
+
+                    // close dialog on button click, or escape button
+                    document.getElementById('close').addEventListener('click', () => {
+                        dialog.close();
+                    });
+                    dialog.addEventListener('keydown', e => {
+                        if (e.key === 'Escape') dialog.close();
+                    });
+
+                    // Close dialog, if clicked on backdrop
+                    dialog.addEventListener('click', event => {
+                        var rect = dialog.getBoundingClientRect();
+                        var isInDialog =
+                            rect.top <= event.clientY
+                            && event.clientY <= rect.top + rect.height
+                            && rect.left <= event.clientX
+                            && event.clientX <= rect.left + rect.width;
+                        if (!isInDialog) {
+                            dialog.close();
+                        }
+                    })
+                }
+            )
+    }
+
+    document.getElementById("load-comment").addEventListener("click", loadComments);
+</script>

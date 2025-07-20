@@ -1,6 +1,7 @@
 ---
 import {siteConfig} from "../config";
 import FediverseComments from "./helper/comments/Fediverse.astro";
+import HatsuComments from "./helper/comments/Hatsu.astro";
 
 const method = siteConfig.comments.type
 const ArtalkConfig = siteConfig.comments.artalk
@@ -52,3 +53,4 @@ let { path='/' } = Astro.props;
 <!-- if prerender === true is set then render from client -->
 {(method === 'fediverse' && !FediverseConfig.renderOnServer ) && <FediverseComments path={path} /> }
 {(method === 'fediverse' && FediverseConfig.renderOnServer ) && <FediverseComments server:defer path={path} ><p>Loading comments...</p></FediverseComments> }
+{method === 'hatsu' && <HatsuComments /> }
