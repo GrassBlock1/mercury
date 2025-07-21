@@ -54,6 +54,7 @@ export const siteConfig = {
             category:"[ENTER CATEGORY NAME HERE]",
             categoryId:"[ENTER CATEGORY ID HERE]",
             mapping:"pathname",
+            term: "Welcome to comment powered by @giscus",
             strict:"0",
             reactionsEnabled:"1",
             emitMetadata:"0",

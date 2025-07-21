@@ -3,10 +3,10 @@ import {siteConfig} from "../config";
 import FediverseComments from "./helper/comments/Fediverse.astro";
 import HatsuComments from "./helper/comments/Hatsu.astro";
 import Artalk from "./helper/comments/Artalk.astro";
+import Giscus from "./helper/comments/Giscus.astro";
 
 const method = siteConfig.comments.type
 
-const giscusConfig = siteConfig.comments.giscus
 const FediverseConfig = siteConfig.comments.fediverse
 interface Props {
     path?: string;
@@ -15,24 +15,7 @@ interface Props {
 let { path='/' } = Astro.props;
 ---
 {method === 'artalk' && <Artalk path={path} />}
-{method === 'giscus' && (
-    <script
-      src="https://giscus.app/client.js"
-      data-repo={giscusConfig.repo}
-      data-repo-id={giscusConfig.repoId}
-      data-category={giscusConfig.category}
-      data-category-id={giscusConfig.categoryId}
-      data-mapping={giscusConfig.mapping}
-      data-strict={giscusConfig.strict}
-      data-reactions-enabled={giscusConfig.reactionsEnabled}
-      data-emit-metadata={giscusConfig.emitMetadata}
-      data-input-position={giscusConfig.inputPosition}
-      data-theme={giscusConfig.theme}
-      data-lang={giscusConfig.lang}
-      crossorigin="anonymous"
-      async
-    ></script>
-)}
+{method === 'giscus' && <Giscus/>}
 <!-- if prerender === true is set then render from client -->
 {(method === 'fediverse' && !FediverseConfig.renderOnServer ) && <FediverseComments path={path} /> }
 {(method === 'fediverse' && FediverseConfig.renderOnServer ) && <FediverseComments server:defer path={path} ><p>Loading comments...</p></FediverseComments> }

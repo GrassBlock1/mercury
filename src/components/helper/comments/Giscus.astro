@@ -1,0 +1,24 @@
+---
+import {siteConfig} from "../../../config";
+
+const giscusConfig = siteConfig.comments.giscus
+---
+<giscus-widget
+        repo={giscusConfig.repo}
+        repoid={giscusConfig.repoId}
+        category={giscusConfig.category}
+        categoryid={giscusConfig.categoryId}
+        mapping={giscusConfig.mapping}
+        strict={giscusConfig.strict}
+        term={giscusConfig.term}
+        reactionsEnabled={giscusConfig.reactionsEnabled}
+        emitMetadata={giscusConfig.emitMetadata}
+        inputPosition={giscusConfig.inputPosition}
+        theme={giscusConfig.theme}
+        lang={giscusConfig.lang}
+        crossorigin="anonymous"
+        loading="lazy"
+></giscus-widget>
+<script>
+    import 'giscus';
+</script>
