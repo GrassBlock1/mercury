@@ -44,7 +44,7 @@ export const siteConfig = {
     contentPassword: 'p1easeChangeMe!',
     // comments
     comments: {
-        type: 'artalk', // 'artalk','giscus','fediverse','email','hatsu'
+        type: 'artalk', // 'artalk','giscus','fediverse','email','hatsu','oom'
         artalk: {
             instanceDomain: '', // the domain of your artalk instance
         },

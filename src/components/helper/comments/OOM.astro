@@ -1,0 +1,14 @@
+---
+import Comments from "../../../assets/js/oom-comments.js";
+import "../../../assets/css/oom-styles.css";
+
+//Register the custom element with your desired name
+customElements.define("oom-comments", Comments);
+const { mastodonLink, bskyLink } = Astro.props;
+---
+<oom-comments
+        mastodon={mastodonLink}
+        bluesky={bskyLink}
+        cache="600" >
+    No comments yet
+</oom-comments>
