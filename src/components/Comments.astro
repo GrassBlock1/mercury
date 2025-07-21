@@ -2,9 +2,10 @@
 import {siteConfig} from "../config";
 import FediverseComments from "./helper/comments/Fediverse.astro";
 import HatsuComments from "./helper/comments/Hatsu.astro";
+import Artalk from "./helper/comments/Artalk.astro";
 
 const method = siteConfig.comments.type
-const ArtalkConfig = siteConfig.comments.artalk
+
 const giscusConfig = siteConfig.comments.giscus
 const FediverseConfig = siteConfig.comments.fediverse
 interface Props {
@@ -13,25 +14,7 @@ interface Props {
 
 let { path='/' } = Astro.props;
 ---
-{method === 'artalk' &&
-    <div>
-        <!-- CSS -->
-        <link href={`https://${ArtalkConfig.instanceDomain}/dist/Artalk.css`} rel="stylesheet">
-
-        <!-- JS -->
-        <script src={`https://${ArtalkConfig.instanceDomain}/dist/Artalk.js`}></script>
-
-        <!-- Artalk -->
-        <div id="Comments"></div>
-        <script define:vars={{ instanceDomain: ArtalkConfig.instanceDomain, pagePath: path }}>
-                Artalk.init({
-                    el: '#Comments',
-                    pageKey: pagePath, // Using the passed variable
-                    server: `https://${instanceDomain}`, // Using the passed variable
-                })
-        </script>
-    </div>
-}
+{method === 'artalk' && <Artalk path={path} />}
 {method === 'giscus' && (
     <script
       src="https://giscus.app/client.js"

@@ -1,0 +1,22 @@
+---
+import {siteConfig} from "../../../config";
+import 'artalk/Artalk.css';
+const ArtalkInstanceDomain = siteConfig.comments.artalk.instanceDomain
+
+const { path } = Astro.props;
+---
+<div>
+    <!-- Artalk -->
+    <div id="comments" data-path={path} data-server={ArtalkInstanceDomain}></div>
+    <script>
+        import Artalk from "artalk";
+        const atkElement = document.querySelector('#comments');
+        Artalk.init({
+            el: '#comments',
+            pageKey: atkElement?.getAttribute('data-path') || window.location.pathname,
+            server: `https://${atkElement?.getAttribute('data-server')}`,
+            darkMode: "auto",
+            versionCheck: false
+        });
+    </script>
+</div>
