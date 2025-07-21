@@ -8,15 +8,11 @@ import Giscus from "./helper/comments/Giscus.astro";
 const method = siteConfig.comments.type
 
 const FediverseConfig = siteConfig.comments.fediverse
-interface Props {
-    path?: string;
-}
 
-let { path='/' } = Astro.props;
 ---
-{method === 'artalk' && <Artalk path={path} />}
-{method === 'giscus' && <Giscus/>}
+{method === 'artalk' && <Artalk />}
+{method === 'giscus' && <Giscus />}
 <!-- if prerender === true is set then render from client -->
-{(method === 'fediverse' && !FediverseConfig.renderOnServer ) && <FediverseComments path={path} /> }
-{(method === 'fediverse' && FediverseConfig.renderOnServer ) && <FediverseComments server:defer path={path} ><p>Loading comments...</p></FediverseComments> }
+{(method === 'fediverse' && !FediverseConfig.renderOnServer ) && <FediverseComments /> }
+{(method === 'fediverse' && FediverseConfig.renderOnServer ) && <FediverseComments server:defer><p>Loading comments...</p></FediverseComments> }
 {method === 'hatsu' && <HatsuComments /> }

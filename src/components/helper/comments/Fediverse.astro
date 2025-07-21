@@ -14,15 +14,8 @@ const {
 
 const serverRender = fediverseConfig.renderOnServer
 
-interface Props {
-  path: string;
-}
-
-const { path } = Astro.props;
-
 // Create the full URL to search for
-const fullSiteUrl = Astro.url.host;
-const postUrl = `https://${fullSiteUrl}${path.startsWith('/') ? path : '/' + path}`;
+const postUrl = Astro.url.href;
 
 // Define the search API endpoint based on configuration
 let searchEndpoint: string;
