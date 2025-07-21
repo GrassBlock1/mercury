@@ -234,6 +234,9 @@ const domain = Astro.url.host
 
   // Initialize with default config
   initSearch();
+
+  // Re-initialize when Astro's view transitions occur, this provides fix for SPA navigation
+  document.addEventListener('astro:page-load', initSearch);
 </script>}
 
 <style>

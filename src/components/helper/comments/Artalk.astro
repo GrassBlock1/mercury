@@ -8,13 +8,26 @@ const ArtalkInstanceDomain = siteConfig.comments.artalk.instanceDomain
     <div id="comments" data-path={Astro.url.pathname} data-server={ArtalkInstanceDomain}></div>
     <script>
         import Artalk from "artalk";
-        const atkElement = document.querySelector('#comments');
-        Artalk.init({
-            el: '#comments',
-            pageKey: atkElement?.getAttribute('data-path') || window.location.pathname,
-            server: `https://${atkElement?.getAttribute('data-server')}`,
-            darkMode: "auto",
-            versionCheck: false
+
+        function initArtalk() {
+            const atkElement = document.querySelector('#comments');
+
+            if (!atkElement) return;
+            Artalk.init({
+                el: '#comments',
+                pageKey: atkElement?.getAttribute('data-path') || window.location.pathname,
+                server: `https://${atkElement?.getAttribute('data-server')}`,
+                darkMode: "auto",
+                versionCheck: false
+            });
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', initArtalk);
+
+        // Re-initialize on view transitions, fix issues with Astro's ClientRouter
+        document.addEventListener('astro:page-load', () => {
+            initArtalk();
         });
     </script>
 </div>

@@ -19,6 +19,9 @@ interface Props {
   ogImage?: string;
 }
 
+import { ClientRouter } from "astro:transitions";
+const spaEnabled = siteConfig.spa
+
 const noscript = siteConfig.noClientJavaScript
 
 const statisticsEnabled = siteConfig.siteAnalytics.enabled
@@ -44,6 +47,8 @@ const { title = pageTitle, author = siteConfig.defaultAuthor.name,description = 
     <meta name="generator" content={Astro.generator} />
     <Meta title={pageTitle} author={author} description={description} ogImage={ogImage} />
     <title>{pageTitle}</title>
+    {spaEnabled && <ClientRouter fallback="animate" />}
+    <!--transitional animation is broken in firefox though-->
   </head>
   <body>
     <main>

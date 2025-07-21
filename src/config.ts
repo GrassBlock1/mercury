@@ -9,6 +9,7 @@ export const siteConfig = {
       email: 'hi@mercury.info',
     },
     // features
+    spa: false, // enable single page application mode, this will enable navigation (with fade transitions) without reloading the page, and enable client-side routing
     noClientJavaScript: false, // disable client-side javascript, this will:
     // 1. disable most built-in client-side javascript from rendering (protected content component and umami still needs javascript to function, sorry)
     // 2. the full text search will be redirected to a search engine
