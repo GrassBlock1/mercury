@@ -1,6 +1,7 @@
 ---
 title: 'The Art of Minimalism'
 description: 'Thoughts on minimalism in design and code'
+summary: 'Exploring the principles of minimalism and its application in design and coding practices.'
 pubDate: '2025-06-05'
 author: 'Wheatley'
 tags: 

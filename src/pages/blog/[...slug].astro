@@ -52,9 +52,10 @@ const cover = customFeaturedImage || matchedImage_src?.src || firstImageURL || `
       <h1 class="title">{entry.data.title}</h1>
       <AuthorInfo data={authorData} />
       <span class="date">{new Date(entry.data.pubDate).toISOString().split('T')[0]}</span>
-        {headings.length !== 0 && <TableOfContents headings={headings} />}
+          {headings.length !== 0 && <TableOfContents headings={headings} />}
+          {entry.data.summary && <p class="summary">{entry.data.summary}</p> }
       <div class="content">
-        <Content />
+          <Content />
       </div>
 
     <div class="extra-post" style="margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
@@ -68,6 +69,11 @@ const cover = customFeaturedImage || matchedImage_src?.src || firstImageURL || `
         </script>
     }
   </div>
-
 </Layout>
-
+<style>
+    p.summary {
+        font-style: italic;
+        color: var(--secondary-text-color);
+        margin: 1rem;
+    }
+</style>
