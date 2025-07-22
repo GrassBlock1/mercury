@@ -20,9 +20,9 @@ export const siteConfig = {
     navBarItems: [
         // additional items in the navbar
         // the order of the items will be the same as the order in the array
-        // format is { text: string, link: string }
-        { text: "RSS", link: "/rss.xml" },
-        { text: "GitHub", link: "https://github.com/GrassBlock1/mercury" },
+        // format is { text: string, link: string, openInNewTab?: boolean (default: true) }
+        { text: "RSS", link: "/rss.xml", openInNewTab: true },
+        { text: "GitHub", link: "https://github.com/GrassBlock1/mercury", openInNewTab: false },
     ],
     // search
     // This only works when noClientJavaScript is enabled
