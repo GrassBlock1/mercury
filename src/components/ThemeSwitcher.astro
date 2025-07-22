@@ -50,25 +50,19 @@
 <script>
   // Constants for theme options
   const THEME_AUTO = 'auto';
-  const THEME_DARK = 'dark';
-  const THEME_LIGHT = 'light';
 
   // DOM elements
-  const themeDropdown = document.getElementById('theme-dropdown');
-  const menuBody = document.getElementById('menu-body');
-  const dropdownItems = document.querySelectorAll('.dropdown-item');
   const root = document.documentElement;
 
   // Get system preference
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const systemTheme = prefersDark ? THEME_DARK : THEME_LIGHT;
 
   // Get saved theme from localStorage or default to auto
   const savedThemeMode = localStorage.getItem('themeMode') || THEME_AUTO;
-  const savedTheme = localStorage.getItem('theme');
 
   // Function to update active state in dropdown menu
   function updateActiveState(activeTheme) {
+    const dropdownItems = document.querySelectorAll('.dropdown-item');
     dropdownItems.forEach(item => {
       if (item.getAttribute('data-theme') === activeTheme) {
         item.classList.add('active');
@@ -98,22 +92,32 @@
     }
   }
 
+  function addHandlers(){
+    const dropdownItems = document.querySelectorAll('.dropdown-item');
+    // Add click handlers to dropdown items
+    dropdownItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const selectedTheme = item.getAttribute('data-theme');
+        applyTheme(selectedTheme);
+      });
+    });
+
+    // Listen for system preference changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+      if (savedThemeMode === THEME_AUTO) {
+        // Only update if we're in auto mode
+        root.removeAttribute('data-theme');
+      }
+    });
+  }
+
   // Initialize theme
   applyTheme(savedThemeMode);
+  addHandlers();
 
-  // Add click handlers to dropdown items
-  dropdownItems.forEach(item => {
-    item.addEventListener('click', () => {
-      const selectedTheme = item.getAttribute('data-theme');
-      applyTheme(selectedTheme);
+  // Reapply theme on page switch
+    document.addEventListener('astro:page-load', () => {
+        applyTheme(savedThemeMode || THEME_AUTO);
+        addHandlers();
     });
-  });
-
-  // Listen for system preference changes
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-    if (savedThemeMode === THEME_AUTO) {
-      // Only update if we're in auto mode
-      root.removeAttribute('data-theme');
-    }
-  });
 </script>
