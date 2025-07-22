@@ -2,6 +2,9 @@
 title: 'My Terminal Setup'
 description: 'A walkthrough of my current terminal configuration'
 pubDate: '2025-06-08'
+author: 
+  - 'Glados'
+  - 'Wheatley'
 ---
 ![cover from mohammad-rahmani-oXlXu2qukGE-unsplash](./demo.png)
 Here's my current terminal setup:

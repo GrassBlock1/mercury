@@ -23,11 +23,11 @@ const { Content, headings } = await entry.render();
 
 const noscript = siteConfig.noClientJavaScript
 const slug = Astro.params.slug;
-const author = entry.data.author || {collection: 'authors', id: siteConfig.defaultAuthor.id};
+const author = Array.isArray(entry.data.author) ? entry.data.author : (entry.data.author !== undefined ? [entry.data.author] : [{collection: 'authors', id: siteConfig.defaultAuthor.id}]);
 
 // Get author data
-const authorData = await getEntry(author);
-const authorInfo = authorData ? authorData.data : siteConfig.defaultAuthor;
+const authorData = await Promise.all((author).map((singleAuthor) => getEntry(singleAuthor).then(authorEntry => authorEntry.data)))
+const authorInfo =  authorData.includes(undefined) ? [{data: siteConfig.defaultAuthor}] : authorData;
 
 // get featured image and use it as og:image
 // use the custom cover image if it exists, otherwise use the featured image file in the same directory
@@ -36,7 +36,7 @@ const customFeaturedImage = entry.data.cover?.src
 const matchedImage = Object.keys(featuredImages).find(path => path.includes(slug));
 let matchedImage_src;
 if (matchedImage && !customFeaturedImage) {
-    matchedImage_src = await getImage({src: featuredImages[matchedImage], format: 'webp'}) || null;
+    matchedImage_src = await getImage({src: featuredImages[matchedImage] as ImageMetadata, format: 'webp'}) || null;
 }
 const firstImageURL = await ExtractFirstImage(Content)
 
@@ -47,10 +47,10 @@ const cover = customFeaturedImage || matchedImage_src?.src || firstImageURL || `
   title={entry.data.title}
   description={entry.data.description}
   ogImage={cover}
-  author={authorInfo.name}
+  author={authorInfo.map((a: any) => a.name).join(', ')}
 >
       <h1 class="title">{entry.data.title}</h1>
-      <AuthorInfo data={authorData} />
+        {authorInfo.map((a: any) => <AuthorInfo data={a} />)}
       <span class="date">{new Date(entry.data.pubDate).toISOString().split('T')[0]}</span>
           {headings.length !== 0 && <TableOfContents headings={headings} />}
           {entry.data.summary && <p class="summary">{entry.data.summary}</p> }
@@ -59,7 +59,7 @@ const cover = customFeaturedImage || matchedImage_src?.src || firstImageURL || `
       </div>
 
     <div class="extra-post" style="margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
-    <ReplyViaEmail title={entry.data.title} email={authorInfo.email} />
+    <ReplyViaEmail title={entry.data.title} email={authorInfo[0].email} />
         <br>
     <a href="/blog">&larr; Back to posts</a>
     {!noscript && <h2>Comments</h2> <Comments />}

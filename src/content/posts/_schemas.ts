@@ -10,5 +10,5 @@ export const posts = ({ image }) => z.object({
   categories: z.array(z.string()).default(['uncategorized']),
   tags: z.array(z.string()).optional(),
   cover: image().optional(),
-  author: reference('authors').optional(),
+  author: z.union([z.array(reference('authors')), reference('authors')]).optional(),
 });
