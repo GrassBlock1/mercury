@@ -1,4 +1,6 @@
 ---
+import { getMetadata, getWaybackMetadata } from '../../plugins/get-metadata';
+
 interface Props {
     url: string;
     showArchive?: boolean;
@@ -29,71 +31,12 @@ function formatDateToNumber(date: Date | string | undefined): string {
     return `${year}${month}${day}`;
 }
 
-// Get metadata from the URL
-async function fetchMetadata(url: string) {
-    try {
-        const response = await fetch(url, {
-            headers: {
-                'User-Agent': 'Mozilla/5.0 (compatible; LinkCard/1.0)'
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP ${response.status}`);
-        }
-
-        const html = await response.text();
-
-        // 提取元数据
-        const titleMatch = html.match(/<title[^>]*>([^<]+)<\/title>/i);
-        const descriptionMatch = html.match(/<meta[^>]+name=["']description["'][^>]+content=["']([^"']+)["']/i) ||
-            html.match(/<meta[^>]+property=["']og:description["'][^>]+content=["']([^"']+)["']/i);
-        const imageMatch = html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i) ||
-            html.match(/<meta[^>]+name=["']twitter:image["'][^>]+content=["']([^"']+)["']/i);
-        const siteNameMatch = html.match(/<meta[^>]+property=["']og:site_name["'][^>]+content=["']([^"']+)["']/i);
-
-        return {
-            title: titleMatch?.[1]?.trim() || new URL(url).hostname,
-            description: descriptionMatch?.[1]?.trim() || '',
-            image: imageMatch?.[1]?.trim() || '',
-            siteName: siteNameMatch?.[1]?.trim() || new URL(url).hostname,
-            domain: new URL(url).hostname
-        };
-    } catch (error) {
-        console.warn(`Failed to fetch metadata for ${url}:`, error);
-        const domain = new URL(url).hostname;
-        return {
-            title: domain,
-            description: '',
-            image: '',
-            siteName: domain,
-            domain
-        };
-    }
-}
-
-// Check if the URL is archived on the Wayback Machine at the updated/build time
-// TODO: bringing user's own archive service link
-async function checkArchive(url: string) {
-    try {
-        // Determine which date to use (prefer updatedDate if available, or fallback to the build time)
-        const timestamp = (updatedDate ? formatDateToNumber(updatedDate) : formatDateToNumber(pubDate)) || formatDateToNumber(new Date());
-        const archiveUrl = `https://archive.org/wayback/available?url=${encodeURIComponent(url)}&timestamp=${timestamp}`;
-        const response = await fetch(archiveUrl);
-        const data = await response.json();
-
-        if (data.archived_snapshots?.closest?.available) {
-            return data.archived_snapshots.closest.url;
-        }
-    } catch (error) {
-        console.warn(`Failed to check archive for ${url}:`, error);
-    }
-    return null;
-}
+// Determine which date to use (prefer updatedDate if available, or fallback to the build time)
+const timestamp = (updatedDate ? formatDateToNumber(updatedDate) : formatDateToNumber(pubDate)) || formatDateToNumber(new Date());
 
 // extract metadata and archive URL
-const metadata = Astro.props.title ? siteMetadata : await fetchMetadata(url);
-const archiveUrl = showArchive ? await checkArchive(url) : null;
+const metadata = Astro.props.title ? siteMetadata : await getMetadata(url);
+const archiveUrl = showArchive ? await getWaybackMetadata(url, timestamp) : null;
 ---
 
 <div class="link-card">
