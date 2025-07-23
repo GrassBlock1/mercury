@@ -49,25 +49,27 @@ const cover = customFeaturedImage || matchedImage_src?.src || firstImageURL || `
   ogImage={cover}
   author={authorInfo.map((a: any) => a.name).join(', ')}
 >
-      <h1 class="title">{entry.data.title}</h1>
-        {authorInfo.map((a: any) => <AuthorInfo data={a} />)}
-      <span class="date">{new Date(entry.data.pubDate).toISOString().split('T')[0]}</span>
-          {headings.length !== 0 && <TableOfContents headings={headings} />}
-          {entry.data.summary && <p class="summary">{entry.data.summary}</p> }
-      <div class="content">
-          <Content />
-      </div>
+    <article>
+        <h1 class="title">{entry.data.title}</h1>
+            {authorInfo.map((a: any) => <AuthorInfo data={a} />)}
+        <span class="date">{new Date(entry.data.pubDate).toISOString().split('T')[0]}</span>
+            {headings.length !== 0 && <TableOfContents headings={headings} />}
+            {entry.data.summary && <p class="summary">{entry.data.summary}</p> }
+        <div class="content">
+            <Content />
+        </div>
 
-    <div class="extra-post" style="margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
-    <ReplyViaEmail title={entry.data.title} email={authorInfo[0].email} />
-        <br>
-    <a href="/blog">&larr; Back to posts</a>
-    {!noscript && <h2>Comments</h2> <Comments />}
-    {!noscript &&
-        <script>
-            import "katex/dist/contrib/copy-tex.js"
-        </script>
-    }
+        <div class="extra-post" style="margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+        <ReplyViaEmail title={entry.data.title} email={authorInfo[0].email} />
+            <br>
+        <a href="/blog">&larr; Back to posts</a>
+        {!noscript && <h2>Comments</h2> <Comments />}
+        {!noscript &&
+            <script>
+                import "katex/dist/contrib/copy-tex.js"
+            </script>
+        }
+    </article>
   </div>
 </Layout>
 <style>
