@@ -58,8 +58,8 @@ const cover = customFeaturedImage || matchedImage_src?.src || firstImageURL || `
         <div class="content">
             <Content />
         </div>
-
-        <div class="extra-post" style="margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+    </article>
+    <div class="extra-post" style="margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
         <ReplyViaEmail title={entry.data.title} email={authorInfo[0].email} />
             <br>
         <a href="/blog">&larr; Back to posts</a>
@@ -69,8 +69,7 @@ const cover = customFeaturedImage || matchedImage_src?.src || firstImageURL || `
                 import "katex/dist/contrib/copy-tex.js"
             </script>
         }
-    </article>
-  </div>
+    </div>
 </Layout>
 <style>
     p.summary {

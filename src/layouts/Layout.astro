@@ -50,33 +50,29 @@ const { title = pageTitle, author = siteConfig.defaultAuthor.name,description = 
     {spaEnabled && <ClientRouter fallback="animate" />}
     <!--transitional animation is broken in firefox though-->
   </head>
-  <body>
-    <main>
-      {noscript && <div id="top" style="visibility: hidden">Back To Top</div>}
-      <div class="container">
-        <div class="terminal-path">
-          {path}
-        </div>
-        <Navbar />
-        <Search />
-        
-        <div class="content-box">
-          <slot />
-        </div>
-      </div>
-    </main>
-    
-    <footer class="footer">
-      <div class="floating">
-        <BackToTop/>
+  <body class="container">
+        {noscript && <div id="top" style="visibility: hidden">Back To Top</div>}
+        <header>
+              <div class="terminal-path">
+                {path}
+              </div>
+              <Navbar />
+              <Search />
+        </header>
+        <main class="content-box">
+              <slot />
+        </main>
 
-        {noscript ? <ThemeSwitcher_CSSOnly/> : <ThemeSwitcher/>}
-      </div>
-      <div class="container">
-        <Fragment set:html={customFooter} />
-        <p>Powered by <a href="https://git.gb0.dev/gb/mercury" target="_blank"><Logo width={16} height={16} /> mercury</a></p>
-      </div>
-    </footer>
+      <footer class="footer">
+        <div class="floating">
+          <BackToTop/>
+          {noscript ? <ThemeSwitcher_CSSOnly/> : <ThemeSwitcher/>}
+        </div>
+        <div class="container">
+          <Fragment set:html={customFooter} />
+          <p>Powered by <a href="https://git.gb0.dev/gb/mercury" target="_blank"><Logo width={16} height={16} /> mercury</a></p>
+        </div>
+      </footer>
     {statisticsEnabled && <Statistics/>}
     { (siteConfig.neko.enabled && !noscript) &&
       <>
