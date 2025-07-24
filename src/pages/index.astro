@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import {siteConfig} from "../config";
 // Conditionally import content if file exists
 let HomePageContent;
 try {
@@ -21,3 +22,13 @@ try {
     }
   </div>
 </Layout>
+
+{!siteConfig.noClientJavaScript &&
+<script>
+  console.log(`%c
+    _  ______________  ______   _ 
+    |\\/||___|__/|   |  ||__/ \\_/  
+    |  ||___|  \\|___|__||  \\  |`, 'font-family: monospace; font-size: 1.2rem;','\n');
+
+  console.log('Powered by %castro.build','color: #fff;background: #d358c5;');
+</script>}
