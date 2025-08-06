@@ -2,6 +2,7 @@
 import Favicon from "../../../assets/favicon.png";
 import FaviconSvg from '../../../assets/favicon.svg';
 import {getImage} from "astro:assets";
+import {siteConfig} from "../../../config";
 
 const appleTouchIcon = await getImage({
     src: Favicon,
@@ -24,6 +25,13 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 <meta name="title" content={title} />
 {author && <meta name="author" content={author} />}
 <meta name="description" content={description} />
+{/* RSS */}
+<link
+        rel="alternate"
+        type="application/rss+xml"
+        title={`${siteConfig.title}/feed`}
+        href={new URL("rss.xml", Astro.site)}
+/>
 {/* PWA */}
 <link rel="icon" href="/favicon.ico" sizes="32x32" />
 <link rel="icon" href={FaviconSvg.src} type="image/svg+xml" />
