@@ -1,0 +1,155 @@
+---
+// If you want to fetch data from GitHub or Forgejo, uncomment the lines containing the GitHub/Forgejo.
+// Since echarts does not support different color for different data sources,
+// we will use only local data for now.
+//import { fetchDataForAllYears } from "../../plugins/heatmapdata/github";
+//import { fetchForgejoData } from "../../plugins/heatmapdata/forgejo";
+import { generateLocalData } from "../../plugins/heatmapdata/local";
+interface Props {
+    GithubUserName?: string;
+    ForgejoInfo?: {
+        instance: string;
+        username: string;
+    }[];
+}
+const { GithubUserName, ForgejoInfo } = Astro.props;
+
+//const GithubData = GithubUserName ? await fetchDataForAllYears(GithubUserName) : null;
+//const ForgejoData = ForgejoInfo ? (await Promise.all(ForgejoInfo.map(info => fetchForgejoData(info.instance, info.username)))) : null;
+const LocalData = await generateLocalData();
+const allData = [
+//  {
+//    type: "heatmap",
+//    coordinateSystem: 'calendar',
+//    data: GithubData
+//
+//  },
+ // {
+// type: "heatmap",
+//    coordinateSystem: 'calendar',
+//    data: ForgejoData
+//  },
+  {
+    type: "heatmap",
+    coordinateSystem: 'calendar',
+    data: LocalData
+  }
+]
+---
+<div class="heatmap">
+  <div class="chart" id="heatmap-chart"></div>
+    <div data-chartdata={JSON.stringify(allData)} id="heatmap-data" class="hidden">
+      <!-- This div holds the chart data in JSON format for ECharts to use -->
+    </div>
+</div>
+<script>
+  import * as echarts from 'echarts';
+  console.log(JSON.parse(document.getElementById('heatmap-data')?.getAttribute('data-chartdata')))
+  function setupHeatmap() {
+      const chartElement = document.getElementById('heatmap-chart');
+      if (!chartElement) {
+            console.error('Heatmap chart element not found');
+          return;
+      }
+      const chart = echarts.init(chartElement);
+      let monthsAgo = 12; // One year ago
+      function getRangeArr() {
+          const windowWidth = window.innerWidth;
+          if (windowWidth >= 600) {
+              monthsAgo = 12; // One year ago
+          } else if (windowWidth >= 400) {
+              monthsAgo = 9; // Nine months ago
+          } else {
+              monthsAgo = 6;
+          }
+      }
+      getRangeArr();
+      const startDate = echarts.time.format(new Date(Date.now() - 30 * 24 * 60 * 60 * 1000 * monthsAgo),'{yyyy}-{MM}-{dd}', false); // One year before today
+      const endDate = echarts.time.format(new Date(),'{yyyy}-{MM}-{dd}', false)
+
+      const textColor = window.getComputedStyle(document.documentElement).getPropertyValue('--secondary-text-color') || '#000';
+
+      const options = {
+          title: {
+              top: 0,
+              left: 'center',
+              text: 'Blog Post Heatmap',
+              textStyle: {
+                  color: textColor,
+                  fontFamily: 'monospace',
+              }
+          },
+          tooltip: {
+              hideDelay: 1000,
+              enterable: true,
+          },
+          visualMap: {
+              min: 0,
+              max: 5,
+              type: 'piecewise',
+              orient: 'horizontal',
+              left: 'center',
+              top: 25,
+              inRange: {
+                  //  [floor color, ceiling color]
+                  color: ['#90a8c0', '#486090']
+              },
+              textStyle: {
+                  color: textColor,
+                  fontFamily: 'monospace',
+              },
+              splitNumber: 4,
+              text: ['k words', ''],
+              showLabel: true,
+              itemGap: 20,
+          },
+          calendar: {
+              top: 80,
+              left: 20,
+              right: 4,
+              cellSize: ['auto', 12],
+              range: [startDate, endDate],
+              itemStyle: {
+                  color: 'rgba(255, 255, 255, 0.3)', // transparent background
+                  borderWidth: 1.5,
+                  borderColor: '#fafafa',
+              },
+              dayLabel: {
+                    color: textColor,
+                    fontFamily: 'monospace',
+              },
+              monthLabel: {
+                    color: textColor,
+                    fontFamily: 'monospace',
+                    margin: 10,
+                    fontSize: 12,
+              },
+              yearLabel: { show: false },
+              // the splitline between months. set to transparent for now.
+              splitLine: {
+                  lineStyle: {
+                      color: 'rgba(0, 0, 0, 0.0)',
+                  }
+              }
+          },
+          series: JSON.parse(document.getElementById('heatmap-data')?.getAttribute('data-chartdata') || '[]')
+      }
+      chart.setOption(options)
+      // Handle resize
+      window.addEventListener("resize", () => {
+          chart.resize();
+      });
+  }
+  document.addEventListener('DOMContentLoaded', setupHeatmap);
+  // Re-initialize when Astro's view transitions occur, this provides fix for SPA navigation
+  document.addEventListener('astro:page-load', setupHeatmap);
+</script>
+<style>
+    .chart {
+        width: 100%;
+        height: 200px;
+    }
+    .hidden {
+        display: none;
+    }
+</style>

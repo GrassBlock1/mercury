@@ -4,6 +4,7 @@ import sitemap from '@astrojs/sitemap';
 
 import mdx from '@astrojs/mdx';
 
+import { remarkWordCount } from './src/plugins/wordcount.js';
 
 import cloudflare from '@astrojs/cloudflare';
 import remarkMath from "remark-math";
@@ -27,7 +28,7 @@ export default defineConfig({
       theme: 'nord',
       wrap: true
     },
-    remarkPlugins: [ remarkMath ],
+    remarkPlugins: [ remarkMath, remarkWordCount ],
     rehypePlugins: [ rehypeKatex ]
   },
 
