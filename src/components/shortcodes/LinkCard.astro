@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import { getMetadata, getWaybackMetadata } from '../../plugins/get-metadata';
 
 interface Props {
@@ -43,7 +44,7 @@ const archiveUrl = showArchive ? await getWaybackMetadata(url, timestamp) : null
     <a href={url} target="_blank" rel="noopener noreferrer" class="link-card__main">
         {metadata.image && (
                 <div class="link-card__image">
-                    <img src={metadata.image} alt={metadata.title} loading="lazy" />
+                    <Image src={metadata.image} alt={metadata.title} width=512 height=512 loading="lazy" />
                 </div>
         )}
 
