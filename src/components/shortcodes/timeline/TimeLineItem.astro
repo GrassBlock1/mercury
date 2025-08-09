@@ -1,0 +1,30 @@
+---
+const { title, date } = Astro.props;
+---
+
+<div class="timeline-header">
+    <div class="timeline-circle"></div>
+    <h3>{date}</h3>
+</div>
+<p><strong>{title}</strong></p>
+<div class="timeline-item-content">
+    <slot />
+</div>
+
+<style>
+    div.timeline-circle {
+        width: 1.5rem;
+        height: 1.5rem;
+        background-color: var(--secondary-color);
+        border-radius: 50%;
+        margin-left: -4rem;
+    }
+    div.timeline-header {
+        display: flex;
+        align-items: center;
+        gap: 2.5rem;
+    }
+    div.timeline-item-content {
+        margin: 0.5rem 0;
+    }
+</style>

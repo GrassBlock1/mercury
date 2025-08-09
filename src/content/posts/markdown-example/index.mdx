@@ -9,6 +9,7 @@ import LinkCard from '/src/components/shortcodes/LinkCard.astro';
 import Spoiler from '/src/components/shortcodes/Spoiler.astro';
 import Ruby from '/src/components/shortcodes/Ruby.astro';
 import ProtectedContent from '/src/components/shortcodes/ProtectedContent.astro';
+import TimeLine from '/src/components/shortcodes/timeline/TimeLine.astro';
 
 This article offers a sample of basic and extended Markdown formatting that can be used, also it shows how some basic HTML elements are decorated.
 ## Markdown in Astro
@@ -140,6 +141,59 @@ About security:
    And this will be encrypted with a global password, which is set in the environment variable `CONTENT_PASSWORD` or defined by `config.ts`. (config.ts takes precedence over the environment variable)
 </ProtectedContent>
 ```
+
+### Timeline
+You can use the `Timeline` component to create a timeline of events or milestones. This is useful for showcasing the history of a project, a series of events, or any other chronological information.
+
+Simply use the `TimeLine` component like this:
+```mdx
+
+<TimeLine>
+## Date
+**Event**
+Description of the event.
+</TimeLine>
+```
+
+<TimeLine>
+### October 28, 2011
+**"Levels" released**
+
+A track that would become synonymous with the EDM boom of the early 2010s, "Levels" was Avicii's breakout hit. The song's infectious synth riff and the iconic vocal sample from Etta James's "Something's Got a Hold on Me" created a euphoric anthem that catapulted Avicii to international stardom. The idea for the vocal sample reportedly came to him after hearing it in a song by Pretty Lights. Before its official release, "Levels" was already generating significant buzz in the electronic music community, with Avicii teasing it in his live sets. Its release marked a pivotal moment, solidifying Avicii's position as a leading figure in the burgeoning EDM scene and influencing a wave of producers to come.
+
+### June 17, 2013
+**"Wake Me Up" released**
+
+In a bold move that would redefine the boundaries of mainstream dance music, Avicii unveiled "Wake Me Up" at the Ultra Music Festival in Miami. The track, a revolutionary blend of country and EDM featuring the soulful vocals of Aloe Blacc and the guitar work of Incubus's Mike Einziger, initially left the festival crowd perplexed. However, this audacious experiment proved to be a stroke of genius. "Wake Me Up" went on to become a global phenomenon, topping charts in numerous countries. The song's lyrics speak of a journey of self-discovery and a desire to live life to the fullest, a theme that resonated deeply with listeners worldwide. The initial negative reaction at Ultra only served to highlight Avicii's forward-thinking approach to music production, proving that taking creative risks could lead to groundbreaking success.
+
+### September 13, 2013
+**"True" released**
+
+Following the monumental success of "Wake Me Up," Avicii released his debut studio album, True. The album was a testament to his genre-bending philosophy, further exploring the fusion of electronic music with elements of country, folk, and soul. *True* featured a collection of tracks that would become fan favorites, including the powerful and emotive "Hey Brother." The album showcased Avicii's versatility as a producer, proving that dance music could be both commercially successful and artistically innovative. *True* solidified Avicii's status as a mainstream artist who was not afraid to push creative boundaries.
+### October 9, 2013
+**"Hey Brother" released**
+
+One of the standout tracks from True, "Hey Brother" featured the distinct bluegrass vocals of Dan Tyminski. The song's lyrics convey a powerful message of camaraderie and unconditional support, themes that struck a chord with a global audience. The fusion of electronic beats with the organic sounds of bluegrass was another example of Avicii's innovative production style. The song's music video, which depicted a story of two brothers during wartime, further amplified its emotional impact.
+### December 1, 2014
+**"The Nights" released**
+
+Originally released as part of the The Days / Nights EP, "The Nights" is an ode to living a life full of memories and adventure. The song's uplifting melody and anthemic chorus are complemented by lyrics inspired by a poem his father wrote. It’s a heartfelt tribute to his father and the advice he received to live a life he would remember. The track's infectious energy and positive message made it another global hit for Avicii, frequently used in sports montages and celebrations.
+
+### May 22, 2015
+**"Waiting for Love" released**
+
+Co-produced with fellow DJ and producer Martin Garrix, "Waiting for Love" is a powerful and emotional track featuring the vocals of Simon Aldred of the British band Cherry Ghost. The song's lyrics explore the pain of loss and the hope of reunion. The accompanying music video, which tells the story of an elderly man embarking on a journey to find his lost wife, added a poignant visual narrative to the song, touching the hearts of many.
+
+### October 2, 2015
+**"Stories" released**
+
+Avicii's second studio album, Stories, continued to showcase his musical evolution. The album featured a diverse range of collaborations with artists such as Chris Martin of Coldplay, Wyclef Jean, and Zac Brown Band. With *Stories*, Avicii delved deeper into songwriting and narrative, with each track telling a unique story. The album demonstrated his growth as an artist who was constantly seeking to expand his sonic palette and explore new musical territories.
+
+### June 6, 2019
+**"Tim" released**
+
+Following Avicii's tragic passing in April 2018, his family, along with a team of his close collaborators, decided to complete the album he had been working on. The result was Tim, a posthumous album that serves as a poignant and powerful final chapter in his musical legacy. The album features vocals from artists like Aloe Blacc and Chris Martin and touches on themes of love, loss, and self-reflection. The lead single, "SOS," featuring Aloe Blacc, is a raw and honest portrayal of struggling with inner demons. The release of *Tim* was a bittersweet moment for fans, offering a final glimpse into the creative genius of an artist who left the world too soon. All proceeds from the album went to the Tim Bergling Foundation, a charity set up by his family to support mental health awareness.
+</TimeLine>
 
 ## Headings
 

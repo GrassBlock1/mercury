@@ -1,0 +1,74 @@
+---
+/*
+<TimeLine>
+### Date
+**Event**
+Description of the event.
+</TimeLine>
+will be automatically converted to a timeline item:
+<Timeline>
+<TimelineItem>
+</TimelineItem>
+</Timeline>
+*/
+import TimeLineItem from "./TimeLineItem.astro";
+import { parse } from "ultrahtml";
+import {querySelectorAll} from 'ultrahtml/selector'
+
+/* These code has a lot of children LoL */
+function parseTimeLineContent(content: string) {
+    if (!content) return [];
+    const html = parse(content);
+
+    // Find all h4 elements (dates)
+    const dates = querySelectorAll(html,'h3');
+    if (!dates) return [];
+    // Extract data for each timeline item
+    const items = []
+    for (let i = 0; i < dates.length; i++) {
+        const dateEl = dates[i];
+
+        const date = dateEl.children[0].value;
+
+        // Get the title from the strong tag following this date
+        let title = '';
+        let descriptionHTML = '';
+        // Find next strong element
+        const titleEl = dates[i].parent?.children[1+3*i].children[0].children[0];
+        if (titleEl) {
+            title = titleEl.value;
+            const descriptionEl = titleEl.parent.parent.parent.children[2+3*i].children[0];
+
+            descriptionHTML = `<p>${descriptionEl.value}</p>`;
+        }
+
+        items.push({ date, title, descriptionHTML });
+    }
+    return items;
+}
+
+const renderedHTML = await Astro.slots.render('default');
+const timelineItems = parseTimeLineContent(renderedHTML);
+
+---
+<ol class="timeline">
+    {timelineItems.map(item => (
+            <li>
+                <TimeLineItem date={item.date} title={item.title}>
+                    <Fragment set:html={item.descriptionHTML} />
+                </TimeLineItem>
+            </li>
+    ))}
+</ol>
+<style>
+    ol.timeline {
+        border-left: var(--secondary-color) .5rem solid ;
+        padding: .5rem .5rem .5rem 2rem;
+    }
+    ol.timeline li {
+        list-style: none outside none;
+        margin: 1rem auto;
+        padding: 1rem;
+        border: var(--secondary-text-color) 1px solid;
+    }
+</style>
