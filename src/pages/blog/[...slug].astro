@@ -3,7 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 
 import { getCollection, getEntry } from 'astro:content';
 import Comments from "../../components/Comments.astro";
-import {getImage} from "astro:assets";
+import {getImage, Image} from "astro:assets";
 import {siteConfig} from "../../config";
 import ReplyViaEmail from "../../components/ReplyViaEmail.astro";
 import { ExtractFirstImage } from '../../plugins/extract-images';
@@ -60,8 +60,9 @@ const cover = customFeaturedImage || matchedImage_src?.src || firstImageURL || `
         <span class="date">(Updated on {new Date(lastUpdated).toISOString().split('T')[0]})</span>
         <span>|</span>
         <span class="wordcount">{wordcount.words} words</span>
-            {headings.length !== 0 && <TableOfContents headings={headings} />}
-            {entry.data.summary && <p class="summary">{entry.data.summary}</p> }
+        { (cover && cover !== firstImageURL && cover !== `/blog/${slug}/featured.png`) && <Image class="cover" width=720 height=480 src={cover} alt={`cover of ${entry.data.title}`}  /> }
+        {headings.length !== 0 && <TableOfContents headings={headings} />}
+        {entry.data.summary && <p class="summary">{entry.data.summary}</p> }
         <div class="content">
             <Content />
         </div>
@@ -83,5 +84,10 @@ const cover = customFeaturedImage || matchedImage_src?.src || firstImageURL || `
         font-style: italic;
         color: var(--secondary-text-color);
         margin: 1rem;
+    }
+    img.cover {
+        width: 100%;
+        height: auto;
+        margin: 1rem auto;
     }
 </style>
