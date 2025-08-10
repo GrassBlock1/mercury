@@ -7,7 +7,6 @@ import BackToTop from "../components/BackToTop.astro";
 import Meta from "../components/helper/head/Meta.astro";
 
 import { siteConfig } from "../config";
-import Logo from '../assets/mercury.svg'
 import Statistics from "../components/Statistics.astro";
 import Navbar from "../components/Navbar.astro";
 
@@ -20,6 +19,7 @@ interface Props {
 }
 
 import { ClientRouter } from "astro:transitions";
+import PoweredBy from "../components/PoweredBy.astro";
 const spaEnabled = siteConfig.spa
 
 const noscript = siteConfig.noClientJavaScript
@@ -70,7 +70,7 @@ const { title = pageTitle, author = siteConfig.defaultAuthor.name,description = 
         </div>
         <div class="container">
           <Fragment set:html={customFooter} />
-          <p>Powered by <a href="https://git.gb0.dev/gb/mercury" target="_blank"><Logo width={16} height={16} /> mercury</a></p>
+          <PoweredBy />
         </div>
       </footer>
     {statisticsEnabled && <Statistics/>}
