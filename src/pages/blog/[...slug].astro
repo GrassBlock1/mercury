@@ -19,11 +19,15 @@ export async function getStaticPaths() {
 }
 
 const { entry } = Astro.props;
-const { Content, headings } = await entry.render();
+const { Content, headings, remarkPluginFrontmatter } = await entry.render();
 
 const noscript = siteConfig.noClientJavaScript
 const slug = Astro.params.slug;
 const author = Array.isArray(entry.data.author) ? entry.data.author : (entry.data.author !== undefined ? [entry.data.author] : [{collection: 'authors', id: siteConfig.defaultAuthor.id}]);
+
+// Get Wordcount and Last Updated Date
+const wordcount = remarkPluginFrontmatter.wordcount;
+const lastUpdated = remarkPluginFrontmatter.lastModified;
 
 // Get author data
 const authorData = await Promise.all((author).map((singleAuthor) => getEntry(singleAuthor).then(authorEntry => authorEntry?.data)))
@@ -53,6 +57,9 @@ const cover = customFeaturedImage || matchedImage_src?.src || firstImageURL || `
         <h1 class="title">{entry.data.title}</h1>
             {authorInfo.map((a: any) => <AuthorInfo data={a} />)}
         <span class="date">{new Date(entry.data.pubDate).toISOString().split('T')[0]}</span>
+        <span class="date">(Updated on {new Date(lastUpdated).toISOString().split('T')[0]})</span>
+        <span>|</span>
+        <span class="wordcount">{wordcount.words} words</span>
             {headings.length !== 0 && <TableOfContents headings={headings} />}
             {entry.data.summary && <p class="summary">{entry.data.summary}</p> }
         <div class="content">
