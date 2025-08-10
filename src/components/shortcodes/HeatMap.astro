@@ -43,8 +43,30 @@ const allData = [
     </div>
 </div>
 <script>
-  import * as echarts from 'echarts';
-  console.log(JSON.parse(document.getElementById('heatmap-data')?.getAttribute('data-chartdata')))
+  // Import the echarts core module, which provides the necessary interfaces for using echarts.
+  import * as echarts from 'echarts/core';
+  import { HeatmapChart } from 'echarts/charts';
+  // Import the title, tooltip, calendar and visual map components
+  import {
+      TitleComponent,
+      TooltipComponent,
+      VisualMapComponent,
+      CalendarComponent,
+  } from 'echarts/components';
+
+  // Import the Canvas renderer
+  import { CanvasRenderer } from 'echarts/renderers';
+
+  // Register the required components
+  echarts.use([
+      HeatmapChart,
+      TitleComponent,
+      TooltipComponent,
+      VisualMapComponent,
+      CalendarComponent,
+      CanvasRenderer
+  ]);
+
   function setupHeatmap() {
       const chartElement = document.getElementById('heatmap-chart');
       if (!chartElement) {
