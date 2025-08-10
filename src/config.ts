@@ -93,6 +93,10 @@ export const siteConfig = {
     // footer
     // yes you can write html safely here
     customFooter: '<i>I have no mouth, and I must SCREAM</i>',
+    // the preset of the powered by text
+    // defaults to 'Powered by Mercury', see PoweredBy.astro for more details
+    // choose from 'default', 'withastro', 'plain', 'plainwithastro', 'formula', 'iconsonly' and 'none', any other value will be treated as 'default'
+    poweredByPreset: '',
     // umami analytics
     // by enabling this, you can track the visitors of your site
     siteAnalytics: {

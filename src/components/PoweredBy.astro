@@ -1,4 +1,34 @@
 ---
 import Logo from '../assets/mercury.svg'
+import AstroLogo from '../assets/astro.svg'
+import {siteConfig} from "../config";
+
+const presets = [
+  'withastro',
+  'plain',
+  'plainwithastro',
+  'formula',
+  'iconsonly',
+  'none'
+]
+
+const preset = siteConfig.poweredByPreset
 ---
-<p>Powered by <a href="https://git.gb0.dev/gb/mercury" target="_blank"><Logo width={16} height={16} /> mercury</a></p>
+{preset === 'withastro' && <p>Powered by <a href="https://git.gb0.dev/gb/mercury" target="_blank"><Logo width={16} height={16} /> mercury</a> and <AstroLogo width={16} height={16}/> Astro </p>}
+
+{preset === 'plain' && <p>Powered by <a href="https://git.gb0.dev/gb/mercury" target="_blank">mercury</a></p>}
+
+{preset === 'plainwithastro' && <p>Powered by <a href="https://git.gb0.dev/gb/mercury" target="_blank"><Logo width={16} height={16} /> mercury</a> and <AstroLogo width={16} height={16}/> Astro </p>}
+
+{preset === 'formula' && <p><a href="https://astro.build">Astro</a> + <a href="https://git.gb0.dev/gb/mercury">mercury</a> + love -> this awesome website</p>}
+
+{preset === 'iconsonly' &&
+  <p>
+    <a href="https://git.gb0.dev/gb/mercury" target="_blank"><Logo width={16} height={16} /></a>
+    <a href="https://astro.build" target="_blank"><AstroLogo width={16} height={16}/></a>
+  </p>
+}
+
+{preset === 'none' && <p></p>}
+
+{(!presets.includes(preset) || preset === '') && <p>Powered by <a href="https://git.gb0.dev/gb/mercury" target="_blank"><Logo width={16} height={16} /> mercury</a></p>}
