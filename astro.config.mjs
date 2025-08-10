@@ -4,13 +4,14 @@ import sitemap from '@astrojs/sitemap';
 
 import mdx from '@astrojs/mdx';
 
-import { remarkWordCount } from './src/plugins/wordcount.js';
+import { remarkWordCount } from './src/plugins/remark/wordcount.js';
 
 import cloudflare from '@astrojs/cloudflare';
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 
 import partytown from '@astrojs/partytown';
+import {remarkModifiedTime} from "./src/plugins/remark/modified-time.mjs";
 
 export default defineConfig({
   site: 'https://terminal-blog.example.com',
@@ -30,7 +31,7 @@ export default defineConfig({
       theme: 'nord',
       wrap: true
     },
-    remarkPlugins: [ remarkMath, remarkWordCount ],
+    remarkPlugins: [ remarkMath, remarkWordCount, remarkModifiedTime ],
     rehypePlugins: [ rehypeKatex ]
   },
 
