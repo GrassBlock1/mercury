@@ -65,7 +65,7 @@ const cover = customFeaturedImage || matchedImage_src?.src || firstImageURL || `
         <h1 class="title">{entry.data.title}</h1>
             {authorInfo.map((a: any) => <AuthorInfo data={a} />)}
         <span class="date">{pubDate}</span>
-        {pubDate === lastUpdatedDate && <span class="date">({t('article.last_update')} {lastUpdatedDate})</span>}
+        {new Date(lastUpdated) > new Date(entry.data.date) && <span class="date">({t('article.last_update')} {lastUpdatedDate})</span>}
         <span>|</span>
         <span class="wordcount">{wordcount.words} {t('article.word_count')}</span>
         { (cover && cover !== firstImageURL && cover !== `/blog/${slug}/featured.png`) && <Image class="cover" width=720 height=480 src={cover} alt={`cover of ${entry.data.title}`}  /> }
