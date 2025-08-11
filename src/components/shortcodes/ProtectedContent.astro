@@ -1,6 +1,11 @@
 ---
 import { encrypt } from '../../plugins/encrypt';
 import {siteConfig} from "../../config";
+import { getLangFromUrl, useTranslations, useTranslatedPath } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
 
 interface Props {
     password?: string;
@@ -20,10 +25,10 @@ const { encryptedData, iv } = encrypt(content, password);
 
 <div class="encrypted-content" data-encrypted={encryptedData} data-iv={iv}>
     <div class="password-form">
-        <p>This content is protected. Enter the password to view it:</p>
+        <p>{t('component.protected_content.tip')}</p>
         <div>
             <input type="password" class="decrypt-password" title="password" />
-            <button class="decrypt-button">Decrypt</button>
+            <button class="decrypt-button">{t('component.protected_content.button_label')}</button>
         </div>
     </div>
     <div class="content-container hidden"></div>

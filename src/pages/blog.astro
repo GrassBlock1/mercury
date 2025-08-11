@@ -4,16 +4,20 @@ import { getCollection } from 'astro:content';
 import NewsLetter from "../components/NewsLetter.astro";
 import {siteConfig} from "../config";
 import ArticleList from "../components/ArticleList.astro";
+import { getLangFromUrl, useTranslations, useTranslatedPath } from '../i18n/utils';
 
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
 const posts = await getCollection('posts');
 posts.sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime());
 ---
 
-<Layout title="Blog Posts" description="List all files and folders in the directory.">
+<Layout title="Blog Posts" description="List all posts on the website.">
   <h1 class="title">~/blog</h1>
   
   <div class="content">
-    <p class="typewriter">Posts from the terminal.</p>
+    <p class="typewriter">{t('posts.description')}</p>
     
     <div style="margin-top: 2rem;">
       <span class="command">ls -la posts/</span>
@@ -22,9 +26,9 @@ posts.sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDat
     
     <div style="margin-top: 2rem;">
       <p>
-        <span class="command">cat rss.txt</span>
+        <span class="command">cat subscribe.txt</span>
         <br />
-        <a href="/rss.xml" style="margin-left: 1rem;">Subscribe to RSS feed</a>
+        <a href="/rss.xml" style="margin-left: 1rem;">{t('subscribe.rss')}</a>
       </p>
       {siteConfig.newsletter.enabled && <NewsLetter listmonkInstance={siteConfig.newsletter.listmonk.instanceDomain} listuuid={siteConfig.newsletter.listmonk.listuuid} />}
     </div>

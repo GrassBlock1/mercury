@@ -1,11 +1,16 @@
 ---
+import { getLangFromUrl, useTranslations, useTranslatedPath } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
 ---
 <div class="theme-dropdown" id="theme-dropdown">
-  <button class="theme-switcher" id="theme-switcher">Theme</button>
+  <button class="theme-switcher" id="theme-switcher">{t('widget.theme_mode')}</button>
   <div class="menu-body" id="menu-body">
-    <div class="dropdown-item" data-theme="auto">System</div>
-    <div class="dropdown-item" data-theme="dark">Dark</div>
-    <div class="dropdown-item" data-theme="light">Light</div>
+    <div class="dropdown-item" data-theme="auto">{t('widget.theme_mode.auto')}</div>
+    <div class="dropdown-item" data-theme="dark">{t('widget.theme_mode.dark')}</div>
+    <div class="dropdown-item" data-theme="light">{t('widget.theme_mode.light')}</div>
   </div>
 </div>
 

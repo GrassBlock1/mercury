@@ -1,19 +1,65 @@
+import { i18n } from "astro:config/client"
+
 export const languages = {
     en: 'English',
     zh_hans: '中文（简体）',
 };
 
-export const defaultLang = 'en';
+export const defaultLang: string = i18n?.defaultLocale || 'en';
 export const showDefaultLang = false;
 
 export const ui = {
     en: {
         'nav.home': 'Home',
-        'nav.about': 'About',
-        'nav.twitter': 'Twitter',
+        'nav.blog': 'Blog',
+        'search.placeholder': 'Search posts...',
+        'posts.description': 'Posts from the terminal.',
+        'subscribe.rss': 'Subscribe to RSS feed',
+        'subscribe.newsletter': 'Subscribe to Newsletter',
+        'subscribe.newsletter.description': 'Get the latest posts delivered right to your inbox.',
+        'subscribe.newsletter.email_label': 'E-mail',
+        'subscribe.newsletter.name_label': 'Name (optional)',
+        'widget.back_to_top': 'Top',
+        'widget.back_to_top.title': 'Back to top',
+        'widget.theme_mode': 'Theme',
+        'widget.theme_mode.light': 'Light',
+        'widget.theme_mode.dark': 'Dark',
+        'widget.theme_mode.auto': 'System',
+        'article.last_update': 'Updated on',
+        'article.word_count': 'words',
+        'article.toc': 'Table of Contents',
+        'article.reply_via_email': 'Reply via Email',
+        'article.reply_via_email.body': 'Hi,I would like to reply to your post',
+        'article.back_to_posts': 'Back to posts',
+        'article.comments': 'Comments',
+        'component.protected_content.tip': 'This content is protected. Enter the password to view it:',
+        'component.protected_content.button_label': 'Decrypt',
+        'component.link_card.view_archived_version': 'View archived version',
     },
     zh_hans: {
         'nav.home': '首页',
-        'nav.about': '关于',
+        'nav.blog': '博客',
+        'search.placeholder': '搜索文章',
+        'subscribe.rss': '订阅 RSS',
+        'subscribe.newsletter': '订阅 Newsletter',
+        'subscribe.newsletter.description': '新文章第一时间送达您的邮箱。',
+        'subscribe.newsletter.email_label': '邮箱',
+        'subscribe.newsletter.name_label': '名称（可选）',
+        'widget.back_to_top': '回顶',
+        'widget.back_to_top.title': '回到顶部',
+        'widget.theme_mode': '主题',
+        'widget.theme_mode.light': '浅色主题',
+        'widget.theme_mode.dark': '深色主题',
+        'widget.theme_mode.auto': '跟随系统',
+        'article.last_update': '编辑于',
+        'article.word_count': '字',
+        'article.toc': '文章目录',
+        'article.reply_via_email': '邮件回复',
+        'article.reply_via_email.body': '您好，我想回复您的文章：',
+        'article.back_to_posts': '返回文章列表',
+        'article.comments': '评论区',
+        'component.protected_content.tip': '此内容已被加密，请输入密码以查看：',
+        'component.protected_content.button_label': '确定',
+        'component.link_card.view_archived_version': '查看互联网档案馆的存档版本',
     },
 } as const;

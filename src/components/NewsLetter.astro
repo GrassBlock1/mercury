@@ -1,16 +1,21 @@
 ---
-const { listmonkInstance, listuuid } = Astro.props;
+import { getLangFromUrl, useTranslations, useTranslatedPath } from '../i18n/utils';
 
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
+const { listmonkInstance, listuuid } = Astro.props;
 const inputId = Astro.props.listuuid.substring(0,5)
 ---
 <details>
-<summary>Subscribe to newsletter</summary>
+<summary>{t('subscribe.newsletter')}}</summary>
+    <small>{t('subscribe.newsletter.description')}</small>
     <form method="post" action={`https://${listmonkInstance}/subscription/form`} class="listmonk-form">
         <div>
             <input type="hidden" name="nonce" />
 
-            <input type="email" name="email" required placeholder="E-mail" />
-            <input type="text" name="name" placeholder="Name (optional)" />
+            <input type="email" name="email" required placeholder={t('subscribe.newsletter.email_label')} />
+            <input type="text" name="name" placeholder={t('subscribe.newsletter.name_label')} />
             <input id={inputId} type="checkbox" name="l" checked="checked" value={listuuid} hidden />
 
             <input type="submit" value="Subscribe" />

@@ -1,6 +1,11 @@
 ---
 import { Image } from 'astro:assets';
 import { getMetadata, getWaybackMetadata } from '../../plugins/get-metadata';
+import { getLangFromUrl, useTranslations, useTranslatedPath } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
 
 interface Props {
     url: string;
@@ -67,8 +72,8 @@ const archiveUrl = showArchive ? await getWaybackMetadata(url, timestamp) : null
 
     {showArchive && archiveUrl && (
             <div class="link-card__archive">
-                <a href={archiveUrl} target="_blank" rel="noopener noreferrer" title="View archived version">
-                    View archived version
+                <a href={archiveUrl} target="_blank" rel="noopener noreferrer" title={t('component.link_card.view_archived_version')}>
+                    {t('component.link_card.view_archived_version')}
                 </a>
             </div>
     )}

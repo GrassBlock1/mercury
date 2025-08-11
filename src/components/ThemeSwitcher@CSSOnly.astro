@@ -1,10 +1,14 @@
 ---
+import { getLangFromUrl, useTranslations, useTranslatedPath } from '../i18n/utils';
 
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
 ---
 <div class="theme-switcher">
     <input type="checkbox" id="theme-toggle" class="theme-toggle" />
     <label for="theme-toggle" class="theme-label">
-        <span>Theme</span>
+        <span>{t('widget.theme_mode')}</span>
     </label>
 </div>
 <style>

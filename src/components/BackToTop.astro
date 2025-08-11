@@ -1,8 +1,13 @@
 ---
 import {siteConfig} from "../config";
+import { getLangFromUrl, useTranslations, useTranslatedPath } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
 const noscript = siteConfig.noClientJavaScript
 ---
-{noscript ? <a href="#top"><button id="toTopBtn" style="display: block" title="Go to top">Top</button></a> : <button id="toTopBtn" title="Go to top">Top</button>
+{noscript ? <a href="#top"><button id="toTopBtn" style="display: block" title={t('widget.back_to_top.title')}>{t('widget.back_to_top')}</button></a> : <button id="toTopBtn" title={t('widget.back_to_top.title')}>{t('widget.back_to_top')}</button>
 <script>
     // Get the button
     let toTopButton = document.getElementById("toTopBtn");

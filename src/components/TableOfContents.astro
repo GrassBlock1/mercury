@@ -1,5 +1,11 @@
 ---
 import type { MarkdownHeading } from 'astro';
+import { getLangFromUrl, useTranslations, useTranslatedPath } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
+
 
 interface Props {
     headings: MarkdownHeading[];
@@ -34,7 +40,7 @@ function buildHierarchy(headings: MarkdownHeading[]) {
 const toc = buildHierarchy(filteredHeadings);
 ---
 <details>
-    <summary>Table of Contents</summary>
+    <summary>{t('article.toc')}</summary>
     <ul class="toc-list">
         {
             toc.map((heading) => (

@@ -1,5 +1,10 @@
 ---
 import {siteConfig} from "../config";
+import { getLangFromUrl, useTranslations, useTranslatedPath } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
 const noscript = siteConfig.noClientJavaScript
 const searchEngine = siteConfig.searchEngine || 'google'
 const domain = Astro.url.host
@@ -10,7 +15,7 @@ const domain = Astro.url.host
         "https://www.google.com/search"} method="GET" target="_blank">
   <div>
     <label for="search-input"><span class="command">search</span></label>
-    <input name="q" type="text" id="search-input" class="search-input"  autocomplete="off" placeholder="Type to search..." />
+    <input name="q" type="text" id="search-input" class="search-input"  autocomplete="off" placeholder={t('search.placeholder')} />
     {searchEngine === "duckduckgo" &&
         <input type="hidden" name="sites" value={domain} />
     }
@@ -32,7 +37,7 @@ const domain = Astro.url.host
       type="text" 
       id="search-input" 
       class="search-input" 
-      placeholder="Type to search..."
+      placeholder={t('search.placeholder')}
       autocomplete="off"
     />
   </div>
