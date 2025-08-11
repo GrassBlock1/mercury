@@ -64,13 +64,16 @@ All commands are run from the root of the project, from a terminal:
 - [x] A mode to make the site 0 javascript
 - [x] Multiple authors via YAML
 - [ ] i18n support
+  - [x] UI text
+  - [ ] Localized content (we need help!)
+  - [ ] Translations (we need help!)
 - [x] Better support for printing version
 - [ ] Add support for more comment engines
 - [x] Add support for umami statics
 - [ ] Improve documentation
 - [ ] Release v1.0
 - [ ] ~~Integrate with Fediverse w/ activityPub~~
-- [ ] ~~Plain text version when visiting the site via `curl`~~
+- [ ] ~~Plain text version when visiting the site via `curl`~~ (can't be done with SSG mode)
 
 ## 👀 Want to learn more?
 
