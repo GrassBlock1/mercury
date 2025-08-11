@@ -23,7 +23,7 @@ export async function GET(context) {
   // Load the content collection entries to add to our RSS feed.
   const posts = (await getCollection("posts")).sort((a, b) =>
       // Sort by publication date descending.
-      a.data.pubDate > b.data.pubDate ? -1 : 1
+      a.data.date > b.data.date ? -1 : 1
   );
 
   // Loop over blog posts to create feed items for each, including full content.
@@ -57,7 +57,7 @@ export async function GET(context) {
     feedItems.push({
       title: post.data.title,
       description: post.data.description || '',
-      pubDate: post.data.pubDate,
+      date: post.data.date,
       link: `${baseUrl}/blog/${post.slug}`,
       content,
     });

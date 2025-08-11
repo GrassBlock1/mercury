@@ -1,6 +1,6 @@
 ---
 title: "Markdown Syntax Example"
-pubDate: '2023-07-15T12:00:00Z'
+date: '2023-07-15T12:00:00Z'
 description: "Sample article showcasing basic Markdown syntax and formatting for HTML elements."
 tags: ["markdown", "css", "html", "sample"]
 ---
@@ -98,9 +98,9 @@ This most simple one can be used like this:
 <LinkCard url="https://astro.build"/>
 ```
 or with a archive link:
-<LinkCard url="https://astro.build" showArchive="true" pubDate={frontmatter.pubDate} updatedDate={frontmatter.updatedDate} />
+<LinkCard url="https://astro.build" showArchive="true" pubDate={frontmatter.date} updatedDate={frontmatter.updatedDate} />
 ```mdx
-<LinkCard url="https://astro.build" showArchive="true" pubDate={frontmatter.pubDate} updatedDate={frontmatter.updatedDate} />
+<LinkCard url="https://astro.build" showArchive="true" pubDate={frontmatter.date} updatedDate={frontmatter.updatedDate} />
 ```
 <Callout type="info">
     The `pubDate` or `updatedDate` props is optional, but in order to make the component to display the archived version around the date correctly, they should be passed.

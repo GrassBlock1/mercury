@@ -6,7 +6,7 @@ async function fetchPostsData() {
 
     for (const post of posts) {
         const { remarkPluginFrontmatter } = await post.render();
-        const dateKey = post.data.pubDate.toISOString().split('T')[0]; // "2025-07-25"
+        const dateKey = post.data.date.toISOString().split('T')[0]; // "2025-07-25"
         entriesData[dateKey] = {
             wordCount: remarkPluginFrontmatter.wordcount.words / 1000 || 0,
             link: `/blog/${post.slug}`,

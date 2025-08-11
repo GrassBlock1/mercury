@@ -75,7 +75,7 @@ const domain = Astro.url.host
       title: string;
       description?: string;
       slug?: string;
-      pubDate?: Date;
+      date?: Date;
       searchableTitle: string;
       searchableDesc: string;
       searchableContent: string;
@@ -199,7 +199,7 @@ const domain = Astro.url.host
       <div class="search-result">
         <a href="/blog/${item.slug}" tabindex="0">
           <span class="result-title">${item.title}</span><br /> 
-          <span class="result-date">${new Date(item.pubDate).toISOString().split('T')[0]|| '' } — 
+          <span class="result-date">${new Date(item.date).toISOString().split('T')[0]|| '' } — 
           <em>${item.description || ''}</em></span>
         </a>
       </div>

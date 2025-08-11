@@ -6,7 +6,7 @@ export async function GET() {
     title: post.data.title,
     description: post.data.description,
     content: post.body,
-    pubDate: post.data.pubDate,
+    date: post.data.date,
     slug: post.slug
   }));
 

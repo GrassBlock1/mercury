@@ -1,7 +1,7 @@
 ---
 title: 'First Post'
 description: 'Welcome to my terminal blog'
-pubDate: '2025-06-01'
+date: '2025-06-01'
 ---
 
 Hello world! This is the first post on my new terminal blog.

@@ -34,7 +34,7 @@ const author = Array.isArray(entry.data.author) ? entry.data.author : (entry.dat
 const wordcount = remarkPluginFrontmatter.wordcount;
 const lastUpdated = remarkPluginFrontmatter.lastModified;
 
-const pubDate = new Date(entry.data.pubDate).toISOString().split('T')[0]
+const pubDate = new Date(entry.data.date).toISOString().split('T')[0]
 const lastUpdatedDate = new Date(lastUpdated).toISOString().split('T')[0]
 
 // Get author data

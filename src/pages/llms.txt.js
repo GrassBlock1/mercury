@@ -19,10 +19,10 @@ ${await generateMarkdownSection("pages", "Page", baseUrl)}`;
 async function generateMarkdownSection(collectionName, sectionTitle, baseUrl) {
   const items = await getCollection(collectionName);
 
-  // Sort posts by pubDate if available
+  // Sort posts by date if available
   const sortedItems =
     collectionName === "posts"
-      ? items.sort((a, b) => (a.data.pubDate > b.data.pubDate ? -1 : 1))
+      ? items.sort((a, b) => (a.data.date > b.data.date ? -1 : 1))
       : items;
 
   let markdown = `## ${sectionTitle}\n`;

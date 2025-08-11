@@ -1,7 +1,7 @@
 ---
 title: 'My Terminal Setup'
 description: 'A walkthrough of my current terminal configuration'
-pubDate: '2025-06-08'
+date: '2025-06-08'
 author: 
   - 'Glados'
   - 'Wheatley'
