@@ -1,0 +1,25 @@
+---
+import {siteConfig} from "../../../config";
+
+const twikooServer = siteConfig.comments.twikoo.envId;
+const twikooRegion = siteConfig.comments.twikoo.region || ''; // 默认为空
+---
+<div id="tcomment" data-region={twikooRegion} data-env={twikooServer}></div>
+<script>
+    import 'twikoo/dist/twikoo.min.js';
+    function initTwikoo() {
+        const twikooElement = document.querySelector('#tcomment');
+        if (!twikooElement) return;
+        twikoo.init({
+            envId: twikooElement.getAttribute('data-env'), // 腾讯云环境填 envId；Vercel 环境填地址（https://xxx.vercel.app）
+            el: '#tcomment', // 容器元素
+            region: twikooElement.getAttribute('data-region'), // 环境地域，默认为 ap-shanghai，腾讯云环境填 ap-shanghai 或 ap-guangzhou；Vercel 环境不填
+            lang: 'zh-CN', // 用于手动设定评论区语言，支持的语言列表 https://github.com/twikoojs/twikoo/blob/main/src/client/utils/i18n/index.js
+        })
+    }
+    initTwikoo();
+    // Re-initialize on view transitions, fix issues with Astro's ClientRouter
+    document.addEventListener('astro:page-load', () => {
+        initTwikoo();
+    });
+</script>

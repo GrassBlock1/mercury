@@ -1,0 +1,25 @@
+---
+import '@waline/client/style';
+import {siteConfig} from "../../../config";
+
+const walineServer = siteConfig.comments.waline.serverURL;
+---
+<div id="waline" data-server={walineServer}></div>
+<script>
+    import { init } from '@waline/client';
+    function initWaline() {
+        const walineElement = document.querySelector('#waline');
+
+        if (!walineElement) return;
+        init({
+            el: '#waline',
+            serverURL: `https://${walineElement.getAttribute('data-server')}` || '', // Replace with your Waline server URL
+            dark: 'auto', // Automatically switch between light and dark mode
+        });
+    }
+    initWaline();
+    // Re-initialize on view transitions, fix issues with Astro's ClientRouter
+    document.addEventListener('astro:page-load', () => {
+        initWaline();
+    });
+</script>

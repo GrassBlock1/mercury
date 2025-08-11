@@ -44,7 +44,7 @@ export const siteConfig = {
     contentPassword: 'p1easeChangeMe!',
     // comments
     comments: {
-        type: 'artalk', // 'artalk','giscus','fediverse','email','hatsu','oom'
+        type: 'artalk', // 'artalk','giscus','fediverse','email','hatsu','oom','twikoo','waline'
         artalk: {
             instanceDomain: '', // the domain of your artalk instance
         },
@@ -88,6 +88,14 @@ export const siteConfig = {
         hatsu: {
             // use hatsu.cli.rs to get replies from the fediverse
             instanceDomain: '',
+        },
+        twikoo: {
+            // use twikoo to get comments
+            envId: 'your-env-id', // the env id/domain of your twikoo instance, see https://twikoo.js.org/backend.html
+            region: '' // the deployment region of your twikoo instance, can be 'ap-shanghai', 'ap-guangzhou', if you are not deploying twikoo on Tencent Cloud, leave it empty
+        },
+        waline: {
+            serverURL: '' // the domain of your waline instance, usually your-waline-instance.com
         }
     },
     // footer
