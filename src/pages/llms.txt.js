@@ -29,7 +29,7 @@ async function generateMarkdownSection(collectionName, sectionTitle, baseUrl) {
 
   for (const item of sortedItems) {
     const { title, description, slug } = getMetaData(item);
-    markdown += `\n- [${title}](${baseUrl}/blog/${slug}): ${description}`;
+    markdown += `\n- [${title}](${baseUrl}/blog/${slug}): ${description || ''}`;
   }
 
   return markdown;
