@@ -57,7 +57,7 @@ const cover = customFeaturedImage || matchedImage_src?.src || firstImageURL || `
 
 <Layout
   title={entry.data.title}
-  description={entry.data.description}
+  description={entry.data.description || ''}
   ogImage={cover}
   author={authorInfo.map((a: any) => a.name).join(', ')}
 >
