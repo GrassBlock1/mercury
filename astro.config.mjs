@@ -13,6 +13,8 @@ import rehypeKatex from "rehype-katex";
 import partytown from '@astrojs/partytown';
 import {remarkModifiedTime} from "./src/plugins/remark/modified-time.mjs";
 
+import node from '@astrojs/node';
+
 export default defineConfig({
     site: 'https://terminal-blog.example.com',
     base: '/',
@@ -42,5 +44,7 @@ export default defineConfig({
 
     integrations: [sitemap(), mdx(), partytown()],
 
-    adapter: cloudflare()
+    adapter: node({
+      mode: 'standalone'
+    })
 });
