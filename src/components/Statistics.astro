@@ -14,7 +14,7 @@ const goatCounterConfig = siteConfig.siteAnalytics.goatcounter
     ></script>
 )}
 
-{statisticsEnabled && statisticsType === 'goatcounter' && (
+{ statisticsType === 'goatcounter' && (
     <>
         {noscript ? (
             <img src={`https://${goatCounterConfig.instanceDomain}/count?p=/${Astro.url.pathname}`} alt="Analytics" />
