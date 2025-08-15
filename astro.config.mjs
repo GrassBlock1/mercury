@@ -37,6 +37,11 @@ export default defineConfig({
         rehypePlugins: [rehypeKatex]
     },
 
+    image: {
+        responsiveStyles: true,
+        layouts: 'constrained',
+    },
+
     i18n: {
         locales: ["en", "zh_hans"],
         defaultLocale: "en",
