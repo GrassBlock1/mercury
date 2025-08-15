@@ -5,7 +5,7 @@ import {siteConfig} from "../../../config";
 const { data } = Astro.props;
 
 // Get author data
-const authorAvatar = data.mcplayerid ? `/images/avatars/${data.mcplayerid}.png` : null;
+const authorAvatar = data.mcplayerid ? `/images/avatars/${data.mcplayerid}.png` : (data.avatar ? data.avatar : null);
 const authorName = data.name ? data.name : null;
 ---
 {(siteConfig.displayAvatar && data) &&
