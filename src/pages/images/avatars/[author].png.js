@@ -66,7 +66,7 @@ async function cacheAvatar(cacheKey, data) {
 }
 
 function addToMemoryCache(key, data) {
-  // If cache is full, remove oldest entry
+  // If cache is full, remove the oldest entry
   if (AVATAR_CACHE.size >= CACHE_MAX_SIZE) {
     const oldestKey = AVATAR_CACHE.keys().next().value;
     AVATAR_CACHE.delete(oldestKey);
@@ -80,10 +80,12 @@ function addToMemoryCache(key, data) {
 
 export async function getStaticPaths() {
     const authorsData = await getCollection('authors');
-    return authorsData.map(author => ({
-        params: { author: author.id },
-        props: { author }
-    }));
+    return authorsData
+        .filter(author => author.data.mcplayerid) // Only include authors with mcplayerid
+        .map(author => ({
+            params: { author: author.data.mcplayerid },
+            props: { author }
+        }));
 }
 
 export async function GET({ props }) {
