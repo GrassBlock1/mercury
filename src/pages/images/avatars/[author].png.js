@@ -92,8 +92,8 @@ export async function GET({ props }) {
     const { author } = props;
     const authorId = author.id;
 
-    // Try to retrieve from cache first
     if (author.data.avatar) {
+        // Try to retrieve from cache first
         const cacheKey = `avatar-${authorId}`;
         const cachedAvatar = await getCachedAvatar(cacheKey);
 
