@@ -13,7 +13,7 @@
   "dependencies": {
     "@astrojs/cloudflare": "^12.5.4",
     "@astrojs/mdx": "^4.2.6",
-    "@astrojs/node": "^9.4.0",
+    "@astrojs/node": "^9.4.1",
     "@astrojs/partytown": "^2.1.4",
     "@astrojs/rss": "^4.0.1",
     "@astrojs/sitemap": "^3.3.1",
