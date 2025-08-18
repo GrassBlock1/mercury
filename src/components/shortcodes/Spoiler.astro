@@ -1,9 +1,17 @@
 ---
 const { tip = '' } = Astro.props
+let divNeeded = false
+const content = await Astro.slots.render('default')
+if (content.includes('<p>')) {
+    divNeeded = true
+}
+
 ---
-<span class="spoiler" title={tip}>
-    <slot/>
-</span>
+{divNeeded ?
+    <div class="spoiler" title={tip} set:html={content}></div>
+        :
+    <span class="spoiler" title={tip} set:html={content}></span>
+}
 <style>
     :global(.spoiler p) {
         background-color: #252525;
