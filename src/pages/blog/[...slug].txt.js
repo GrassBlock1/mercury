@@ -2,7 +2,9 @@ import { getCollection } from 'astro:content';
 
 export const prerender = true;
 export async function getStaticPaths() {
-    const blogEntries = await getCollection('posts');
+    const blogEntries = await getCollection('posts', ({ data }) => {
+    return import.meta.env.PROD ? data.draft !== true : true;
+});
     return blogEntries.map(entry => ({
         params: { slug: entry.slug }, props: { entry },
     }));

@@ -9,7 +9,9 @@ import { getLangFromUrl, useTranslations, useTranslatedPath } from '../i18n/util
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const translatePath = useTranslatedPath(lang);
-const posts = await getCollection('posts');
+const posts = await getCollection('posts', ({ data }) => {
+    return import.meta.env.PROD ? data.draft !== true : true;
+});
 posts.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
 ---
 

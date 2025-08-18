@@ -4,7 +4,9 @@ import {getCollection} from "astro:content";
 import ArticleList from "../../components/ArticleList.astro";
 
 export async function getStaticPaths() {
-    const allPosts = await getCollection('posts');
+    const allPosts = await getCollection('posts', ({ data }) => {
+    return import.meta.env.PROD ? data.draft !== true : true;
+});
     // Get all categories, ensuring the default 'uncategorized' is used when categories is undefined
     const uniqueCategories = [...new Set(allPosts.map((post: any) =>
         post.data.categories || ['uncategorized']).flat())];

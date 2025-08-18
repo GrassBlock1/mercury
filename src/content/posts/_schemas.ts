@@ -4,6 +4,7 @@ import { z, reference } from 'astro:content';
 export const posts = ({ image }) => z.object({
   title: z.string(),
   description: z.string().optional(),
+  draft: z.boolean().optional().default(false),
   summary: z.string().optional(),
   date: z.coerce.date(),
   categories: z.union([z.array(z.string()), z.string()]).transform(val => Array.isArray(val) ? val : [val]).default(['uncategorized']),

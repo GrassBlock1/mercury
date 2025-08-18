@@ -62,7 +62,9 @@ const fileCache = {
 };
 
 export async function getStaticPaths() {
-  const blogEntries = await getCollection('posts');
+  const blogEntries = await getCollection('posts', ({ data }) => {
+    return import.meta.env.PROD ? data.draft !== true : true;
+});
   return blogEntries.map(post => ({
     params: { slug: post.slug }, props: { post },
   }));

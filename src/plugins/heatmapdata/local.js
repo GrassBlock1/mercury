@@ -1,7 +1,9 @@
 import { getCollection, render } from 'astro:content';
 
 async function fetchPostsData() {
-    const posts = await getCollection('posts');
+    const posts = await getCollection('posts', ({ data }) => {
+    return import.meta.env.PROD ? data.draft !== true : true;
+});
     const entriesData = {};
 
     for (const post of posts) {
