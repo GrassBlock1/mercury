@@ -9,11 +9,18 @@ const uniqueTags = [...new Set(allPosts.map((post: any) => post.data.tags ? post
 <Layout title="Tags" description="List all tags used in the blog posts.">
     <h1 class="title">~/blog/tags</h1>
     <div style="margin-top: 2rem;">
-        <span class="command">ls -l tags/</span>
-        <div style="margin-top: 1rem; margin-left: 1rem;">
+        <span class="command">ls tags/</span>
+        <div style="margin-top: 1rem; margin-left: 1rem;" class="tags-list">
             {uniqueTags.map((tag) => (
                     <p><a href={`/tags/${tag}`}>{tag}</a></p>
             ))}
         </div>
     </div>
 </Layout>
+<style>
+    div.tags-list {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+</style>

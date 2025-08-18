@@ -9,11 +9,18 @@ const uniqueCategories = [...new Set(allPosts.map((post: any) => post.data.categ
 <Layout title="Categoies" description="List all categories used in the blog posts.">
     <h1 class="title">~/blog/categories</h1>
     <div style="margin-top: 2rem;">
-        <span class="command">ls -l categories/</span>
-        <div style="margin-top: 1rem; margin-left: 1rem;">
-            {uniqueCategories.map((tag) => (
-                    <p><a href={`/categories/${tag}`}>{tag}</a></p>
+        <span class="command">ls categories/</span>
+        <div style="margin-top: 1rem; margin-left: 1rem;" class="category-list">
+            {uniqueCategories.map((category) => (
+                    <p><a href={`/categories/${category}`}>{category}</a></p>
             ))}
         </div>
     </div>
 </Layout>
+<style>
+    div.category-list {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+</style>
