@@ -46,7 +46,7 @@ const authorInfo =  authorData.includes(undefined) ? [{data: siteConfig.defaultA
 // get featured image and use it as og:image
 // use the custom cover image if it exists, otherwise use the featured image file in the same directory
 const featuredImages = import.meta.glob(`/src/content/posts/*/featured.{avif,png,jpg,jpeg,webp}`,{import:'default',eager:true});
-const customFeaturedImage = entry.data.cover?.src
+const customFeaturedImage = entry.data.cover
 const matchedImage = Object.keys(featuredImages).find(path => path.includes(slug));
 let matchedImage_src;
 if (matchedImage && !customFeaturedImage) {
