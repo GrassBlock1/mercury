@@ -112,6 +112,26 @@ To automatically output the text version when visiting the site via `curl`, you 
     /blog/${1}.txt
    ```
 3. If you are using other web servers, you can use functions like `rewrite` or `redirect` by user agent (HTTP header) to achieve the same effect.
+### Alternative Syntax Highlighting
+Apart from the default shiki for highlighting, You can use [Prism](https://prismjs.com/) as code highlighting engine, see [Syntax Highlighting in Astro Docs](https://docs.astro.build/en/guides/syntax-highlighting/#add-a-prism-stylesheet) for details.
+
+To simply add features like code copying over the default Shiki formatter, you can simply import the `src/components/CodeScript.astro` to the Layout.
+
+You can also use [Expressive Code](https://expressive-code.com/) to get features like code copying over the syntax highlighting:
+> Warning: Expressive Code will load JavaScript by default. This will not follow your `noClientJavaScript` settings.
+
+1. Install Expressive Code:
+   ```shell
+   pnpm astro add astro-expressive-code
+   ```
+   You can answer all Yes to prompts as we will modify the config later.
+2. Edit `astro.config.mjs`:
+    ```diff
+    - integrations: [sitemap(), mdx(), partytown(), expressiveCode()],
+    + integrations: [sitemap(), expressiveCode(), mdx(), partytown()],
+    ```
+3. Create `ec.config.mjs` in the project root and adjust the config to your liking. To make things easier you can use [this config file used by the author](https://raw.githubusercontent.com/BlockG-ws/gb-lab/refs/heads/master/ec.config.mjs)
+
 ## 👀 Want to learn more?
 
 See the post [🕊](). I hope you like it. 💜
