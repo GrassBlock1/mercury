@@ -275,6 +275,14 @@ div.content {
         text-decoration: underline 1px;
     }
 
+
+    div.callout-info div.callout-content a {
+        color: dodgerblue;
+    }
+    div.callout-warning div.callout-content a {
+        color: steelblue;
+    }
+
     blockquote {
         border-left: 1px solid var(--accent-color);
         color: var(--text-color);
