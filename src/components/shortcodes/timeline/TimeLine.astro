@@ -15,8 +15,14 @@ import TimeLineItem from "./TimeLineItem.astro";
 import { parse } from "ultrahtml";
 import {querySelectorAll} from 'ultrahtml/selector'
 
+interface TimelineItem {
+    date: string;
+    title: string;
+    descriptionHTML: string;
+}
+
 /* These code has a lot of children LoL */
-function parseTimeLineContent(content: string) {
+function parseTimeLineContent(content: string): TimelineItem[] {
     if (!content) return [];
     const html = parse(content);
 
@@ -47,18 +53,24 @@ function parseTimeLineContent(content: string) {
     return items;
 }
 
-const renderedHTML = await Astro.slots.render('default');
-const timelineItems = parseTimeLineContent(renderedHTML);
+let timelineItems: TimelineItem[] = []
 
+const { parseFromText = true } = Astro.props;
+
+if (parseFromText) {
+    const renderedHTML = await Astro.slots.render('default');
+    timelineItems = parseTimeLineContent(renderedHTML);
+}
 ---
 <ol class="timeline">
-    {timelineItems.map(item => (
+    {parseFromText && timelineItems.map(item => (
             <li>
                 <TimeLineItem date={item.date} title={item.title}>
                     <Fragment set:html={item.descriptionHTML} />
                 </TimeLineItem>
             </li>
     ))}
+    {!parseFromText && <slot/>}
 </ol>
 <style>
     ol.timeline {
