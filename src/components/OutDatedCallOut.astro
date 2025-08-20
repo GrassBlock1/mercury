@@ -1,14 +1,23 @@
 ---
 import Callout from "./shortcodes/Callout.astro"
-const { lastUpdatedAt } = Astro.props
+
+import { siteConfig} from "../config";
+const daysBeforeOutdated = siteConfig.outdatedCallout.daysBeforeOutdated || 90;
+
+const { lastUpdatedAt = '' } = Astro.props
 const lastUpdated = new Date(lastUpdatedAt).getTime()
 const dateNow = new Date().getTime()
 const dateDelta = dateNow - lastUpdated
 const Day = 1000 * 60 * 60 * 24
 const daysDelta = Math.round(dateDelta / Day)
 ---
-{ ( lastUpdatedAt && daysDelta >= 30 ) &&
+{ ( lastUpdatedAt && daysDelta >= daysBeforeOutdated ) &&
     <Callout type="warning" icon="📅">
         This article was updated {daysDelta} days ago. The content may be outdated.
+    </Callout>
+}
+{ (!lastUpdatedAt && daysDelta >= daysBeforeOutdated) &&
+    <Callout type="warning" icon="📅">
+        This article was updated a long time ago. The content may be outdated.
     </Callout>
 }

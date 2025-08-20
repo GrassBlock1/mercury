@@ -41,7 +41,7 @@ export const siteConfig = {
     // enable the callout to notify users that the content maybe outdated, this will add a callout to the top of the article page,
     // initialized by the server islands
     outdatedCallout: {
-        enabled: true,
+        enabled: true, // enable the outdated callout
         daysBeforeOutdated: 90, // the number of days before the content is considered outdated, defaults to 90 days
     },
     // encryption
