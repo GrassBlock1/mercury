@@ -74,7 +74,7 @@ const cover = customFeaturedImage || matchedImage_src?.src || firstImageURL || `
         { (cover && cover !== firstImageURL && cover !== `/blog/${slug}/featured.png`) && <Image class="cover" width=720 height=480 src={cover} alt={`cover of ${entry.data.title}`}  /> }
         {headings.length !== 0 && <TableOfContents headings={headings} />}
         {entry.data.summary && <p class="summary">{entry.data.summary}</p> }
-        <OutDatedCallOut server:defer lastUpdatedAt={lastUpdated} />
+        { siteConfig.outdatedCallout.enabled && (siteConfig.noClientJavaScript ? <OutDatedCallOut noscript=true lastUpdatedAt={lastUpdated} /> : <OutDatedCallOut server:defer lastUpdatedAt={lastUpdated} ><OutDatedCallOut noscript lastUpdatedAt={lastUpdated} slot="fallback" ></OutDatedCallOut></OutDatedCallOut>)}
         <div class="content">
             <Content />
         </div>
