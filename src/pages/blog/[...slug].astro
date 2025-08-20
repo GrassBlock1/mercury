@@ -11,6 +11,7 @@ import AuthorInfo from "../../components/helper/authors/Info.astro";
 import TableOfContents from "../../components/TableOfContents.astro";
 import "katex/dist/katex.css"
 import { getLangFromUrl, useTranslations, useTranslatedPath } from '../../i18n/utils';
+import OutDatedCallOut from "../../components/OutDatedCallOut.astro";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -34,10 +35,10 @@ const author = Array.isArray(entry.data.author) ? entry.data.author : (entry.dat
 
 // Get Wordcount and Last Updated Date
 const wordcount = remarkPluginFrontmatter.wordcount;
-const lastUpdated = remarkPluginFrontmatter.lastModified;
+const lastUpdated = entry.data.updated ? entry.data.updated : remarkPluginFrontmatter.lastModified;
 
 const pubDate = new Date(entry.data.date).toISOString().split('T')[0]
-const lastUpdatedDate = entry.data.updated ? new Date(entry.data.updated).toISOString().split('T')[0] : new Date(lastUpdated).toISOString().split('T')[0];
+const lastUpdatedDate = new Date(lastUpdated).toISOString().split('T')[0]
 
 // Get author data
 const authorData = await Promise.all((author).map((singleAuthor) => getEntry(singleAuthor).then(authorEntry => authorEntry?.data)))
@@ -73,6 +74,7 @@ const cover = customFeaturedImage || matchedImage_src?.src || firstImageURL || `
         { (cover && cover !== firstImageURL && cover !== `/blog/${slug}/featured.png`) && <Image class="cover" width=720 height=480 src={cover} alt={`cover of ${entry.data.title}`}  /> }
         {headings.length !== 0 && <TableOfContents headings={headings} />}
         {entry.data.summary && <p class="summary">{entry.data.summary}</p> }
+        <OutDatedCallOut server:defer lastUpdatedAt={lastUpdated} />
         <div class="content">
             <Content />
         </div>

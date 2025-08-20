@@ -37,6 +37,13 @@ export const siteConfig = {
             listuuid: '3546fc35-fd75-4163-936a-114514191981', // the id of the list to subscribe to, can be found in the listmonk admin panel
         }
     },
+    // outdated callout
+    // enable the callout to notify users that the content maybe outdated, this will add a callout to the top of the article page,
+    // initialized by the server islands
+    outdatedCallout: {
+        enabled: true,
+        daysBeforeOutdated: 90, // the number of days before the content is considered outdated, defaults to 90 days
+    },
     // encryption
     // the global password to encrypt/decrypt the content, if set, all <ProtectedContent/> without specifying a password will be encrypted with this password
     // To use an environment variable to set the password, replace the value with `import.meta.env.CONTENT_PASSWORD`
