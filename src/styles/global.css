@@ -1,4 +1,4 @@
-@import url(@fontsource-variable/jetbrains-mono);
+@import url(@fontsource-variable/jetbrains-mono/index.css);
 /* Global Styles for Terminal Blog */
 :root {
     /* Dark theme (default) */
@@ -94,6 +94,25 @@ body {
     font-weight: 500;
     margin-bottom: 1rem;
     display: inline-block;
+}
+
+.search-container {
+    .search-result {
+        margin: 0.5rem 0;
+    }
+
+    .search-result a {
+        color: var(--accent-color);
+    }
+
+    .search-result a:hover {
+        text-decoration: underline;
+    }
+
+    .result-date {
+        color: var(--secondary-text-color);
+        font-size: 0.75rem;
+    }
 }
 
 .content-box {
