@@ -2,10 +2,13 @@
 import {siteConfig} from "../../../config";
 import 'artalk/Artalk.css';
 const ArtalkInstanceDomain = siteConfig.comments.artalk.instanceDomain
+const ArtalkInstanceSite = siteConfig.comments.artalk.site
+
+const { title = '' } = Astro.props;
 ---
 <div>
     <!-- Artalk -->
-    <div id="comments" data-path={Astro.url.pathname} data-server={ArtalkInstanceDomain}></div>
+    <div id="comments" data-path={Astro.url.pathname} data-title={title} data-server={ArtalkInstanceDomain} data-site={ArtalkInstanceSite}></div>
     <script>
         import Artalk from "artalk";
 
@@ -16,7 +19,9 @@ const ArtalkInstanceDomain = siteConfig.comments.artalk.instanceDomain
             Artalk.init({
                 el: '#comments',
                 pageKey: atkElement?.getAttribute('data-path') || window.location.pathname,
+                pageTitle: atkElement?.getAttribute('data-title') || document.title,
                 server: `https://${atkElement?.getAttribute('data-server')}`,
+                site: atkElement?.getAttribute('data-site') || 'default',
                 darkMode: "auto",
                 versionCheck: false
             });

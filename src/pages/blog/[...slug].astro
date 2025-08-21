@@ -83,7 +83,7 @@ const cover = customFeaturedImage || matchedImage_src?.src || firstImageURL || `
         <ReplyViaEmail title={entry.data.title} email={authorInfo[0].email} />
             <br>
         <a href="/blog">&larr; {t('article.back_to_posts')}</a>
-        {!noscript && <h2>{t('article.comments')}</h2> <Comments />}
+        {!noscript && <h2>{t('article.comments')}</h2> <Comments pageTitle={entry.data.title} />}
         {!noscript &&
             <script>
                 import "katex/dist/contrib/copy-tex.js"

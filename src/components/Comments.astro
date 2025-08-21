@@ -13,11 +13,12 @@ const FediverseConfig = siteConfig.comments.fediverse
 interface Props {
     mastodonLink?: string;
     bskyLink?: string;
+    pageTitle?: string;
 }
 
-const { mastodonLink, bskyLink } = Astro.props;
+const { mastodonLink, bskyLink, pageTitle } = Astro.props;
 ---
-{method === 'artalk' && <Artalk />}
+{method === 'artalk' && <Artalk title={pageTitle} />}
 {method === 'giscus' && <Giscus />}
 <!-- if prerender === true is set then render from client -->
 {(method === 'fediverse' && !FediverseConfig.renderOnServer ) && <FediverseComments /> }
