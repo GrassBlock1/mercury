@@ -1,0 +1,98 @@
+---
+import "@milkdown/crepe/theme/common/style.css";
+import "/src/styles/editor.css";
+import Layout from "../layouts/Layout.astro";
+import {getCollection} from "astro:content";
+const allPosts = await getCollection('posts', ({ data }) => {
+    return import.meta.env.PROD ? data.draft !== true : true;
+});
+const uniqueCategories = [...new Set(allPosts.map((post: any) => post.data.categories ? post.data.categories : []).flat())];
+---
+<Layout title="Create a new post">
+    {/* in memory of https://github.com/KeJunMao/jekyll-theme-mdui */}
+    <h1 class="title">Create a new post</h1>
+    <div class="content">
+        <form class="form">
+            <label for="title-input">Title</label>
+            <input type="text" placeholder="What is your post title?" id="title-input" required />
+
+            <label for="slug-input">Slug</label>
+            <input type="text" placeholder="The parmallink will be /blog/:slug" id="slug-input" required />
+
+            <label for="description-input">Description</label>
+            <textarea placeholder="What is your description?" id="description-input" />
+
+            <label for="category-input">Category</label>
+            <input list="categories" id="category-input" name="category-input" placeholder="Select or type a category" />
+            <datalist id="categories">
+                {uniqueCategories.map((category) => (
+                    <option value={category} />
+                ))}
+            </datalist>
+
+            <label for="tags-input">Tags (comma separated)</label>
+            <input type="text" placeholder="e.g. tag1, tag2, tag3" id="tags-input" />
+
+            <div class="content-field">
+                <div id="editor"></div>
+                <p><small>powered by <a href="https://milkdown.dev">milkdown</a></small></p>
+            </div>
+            <button type="button" id="download-btn">Download Markdown</button>
+        </form>
+    </div>
+
+    <script>
+        import { Crepe } from "@milkdown/crepe";
+
+        const crepe = new Crepe({
+            root: "#editor",
+            defaultValue: "",
+            features: {
+                [Crepe.Feature.Toolbar]: true,
+                [Crepe.Feature.Latex]: true,
+            },
+            featureConfigs: {
+                [Crepe.Feature.Placeholder]: {
+                    text: 'Start writing...',
+                    mode: 'block',
+                },
+            },
+        });
+        // Get markdown content
+        let markdown = ""
+
+        crepe.create();
+
+        crepe.on((listener) => {
+            listener.markdownUpdated((ctx, md) => {
+                console.log("Content updated:", markdown);
+            });
+        })
+
+        // Download functionality
+        document.getElementById('download-btn').addEventListener('click',() => {
+            const title = document.getElementById('title-input').value || 'untitled';
+            const description = document.getElementById('description-input').value
+            const slug = document.getElementById('slug-input').value
+            const content = crepe.getMarkdown();
+            const category = document.getElementById('category-input').value || 'uncategorized';
+            const tags = [document.getElementById('tags-input').value.split(',').map((tag: string)=> tag.trim()).filter((tag: string) => tag)];
+            const date = new Date();
+
+            // Create markdown content with title
+            const markdownContent = `---\ntitle: ${title}\ndescription: ${description}\ncategories: ${category}\ntags: ${tags}\nslug: ${slug}\ndate: ${date}\ndraft: true\n---\n\n${content}`;
+
+            // Create blob and download
+            const blob = new Blob([markdownContent], { type: 'text/markdown' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${slug.toLowerCase()}.md`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+    </script>
+
+</Layout>

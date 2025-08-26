@@ -1,0 +1,83 @@
+form label {
+    display: block;
+    margin: 1rem auto;
+}
+
+form input {
+    flex: 1;
+    padding: 0.5rem;
+    width: 100%;
+    border: unset;
+    border-bottom: 1px solid var(--border-color);
+    font-size: .8rem;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+form textarea {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    font-size: .8rem;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    width: 100%;
+    min-height: 100px;
+    resize: vertical;
+}
+
+form input:focus,textarea:focus {
+    border-radius: 0;
+    outline: unset;
+    border: 2px solid var(--accent-color);
+}
+
+form div.content-field {
+    margin: 1rem auto;
+}
+
+.milkdown {
+    --crepe-color-background: var(--bg-color);
+    --crepe-color-on-background: var(--text-color);
+    --crepe-color-surface: var(--text-color);
+    --crepe-color-surface-low: var(--secondary-color);
+    --crepe-color-on-surface: var(--secondary-text-color);
+    --crepe-color-on-surface-variant: var(--secondary-text-color);
+    --crepe-color-outline: var(--border-color);
+    --crepe-color-primary: var(--accent-color);
+    --crepe-color-secondary: var(--secondary-color);
+    --crepe-color-on-secondary: var(--secondary-text-color);
+    --crepe-color-inverse: var(--secondary-text-color);
+    --crepe-color-on-inverse: var(--bg-color);
+    --crepe-color-inline-code: var(--terminal-green);
+    --crepe-color-error: var(--terminal-red);
+    --crepe-color-hover: var(--secondary-color);
+    --crepe-color-selected: var(--secondary-color);
+    --crepe-color-inline-area: var(--text-color);
+
+
+    --crepe-font-title: Rubik, Cambria, 'Times New Roman', Times, serif;
+    --crepe-font-default: Inter, Arial, Helvetica, sans-serif;
+    --crepe-font-code:
+            'JetBrains Mono', Menlo, Monaco, 'Courier New', Courier, monospace;
+
+    --crepe-shadow-1:
+            0px 1px 2px 0px rgba(255, 255, 255, 0.3),
+            0px 1px 3px 1px rgba(255, 255, 255, 0.15);
+    --crepe-shadow-2:
+            0px 1px 2px 0px rgba(255, 255, 255, 0.3),
+            0px 2px 6px 2px rgba(255, 255, 255, 0.15);
+
+    border: .1rem solid var(--border-color);
+}
+
+form button#download-btn {
+    background-color: var(--accent-color);
+    color: var(--bg-color);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 1rem;
+}
