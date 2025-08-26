@@ -9,7 +9,7 @@ export const posts = ({image}) => z.object({
     date: z.coerce.date(),
     updated: z.coerce.date().optional(),
     categories: z.union([z.array(z.string()), z.string()]).transform(val => Array.isArray(val) ? val : [val]).default(['uncategorized']),
-    tags: z.array(z.string()).optional(),
+    tags: z.union([z.array(z.string()), z.string()]).transform(val => Array.isArray(val) ? val : [val]).optional(),
     cover: image().optional(),
     author: z.union([z.array(reference('authors')), reference('authors')]).optional(),
 });
