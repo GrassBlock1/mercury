@@ -27,7 +27,7 @@ const { icon, type = 'info'} = Astro.props;
     }
 
     .callout-info {
-        --callout-bg: var(--terminal-green);
+        --callout-bg: #c8c8c8;
         --callout-text: #2e3440;
     }
 
@@ -44,11 +44,5 @@ const { icon, type = 'info'} = Astro.props;
     .callout-danger {
         --callout-bg: var(--terminal-red);
         --callout-text: #111;
-    }
-
-    @media (prefers-color-scheme: light) {
-        :root:not([data-theme="dark"]) .callout-info {
-             --callout-text: #eee;
-        }
     }
 </style>
