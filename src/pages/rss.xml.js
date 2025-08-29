@@ -21,10 +21,12 @@ export async function GET(context) {
   const container = await AstroContainer.create({ renderers });
 
   // Load the content collection entries to add to our RSS feed.
-  const posts = (await getCollection("posts")).sort((a, b) =>
-      // Sort by publication date descending.
-      a.data.date > b.data.date ? -1 : 1
-  );
+    const posts =  (await getCollection('posts', ({ data }) => {
+        return import.meta.env.PROD ? data.draft !== true : true;
+    })).sort((a, b) =>
+        // Sort by publication date descending.
+        a.data.date > b.data.date ? -1 : 1
+    );
 
   // Loop over blog posts to create feed items for each, including full content.
   const feedItems = [];
