@@ -1,0 +1,41 @@
+---
+
+---
+<div id="spinner-container">
+    <div class="spinner"></div>
+    <span>Loading...</span>
+</div>
+
+<style>
+    #spinner-container {
+        display: none;
+        gap: 1rem;
+        margin: 1rem 0;
+    }
+    .spinner:after {
+        animation: changeContent .8s linear infinite;
+        display: block;
+        content: "⠋";
+    }
+
+    @keyframes changeContent {
+        10% { content: "⠙"; }
+        20% { content: "⠹"; }
+        30% { content: "⠸"; }
+        40% { content: "⠼"; }
+        50% { content: "⠴"; }
+        60% { content: "⠦"; }
+        70% { content: "⠧"; }
+        80% { content: "⠇"; }
+        90% { content: "⠏"; }
+    }
+</style>
+<script is:inline>
+    const spinner = document.getElementById("spinner-container");
+    document.addEventListener("astro:before-preparation", () => {
+            spinner.style.display = 'flex';
+    });
+    document.addEventListener("astro:after-preparation", () => {
+            spinner.style.display = 'none';
+    });
+</script>

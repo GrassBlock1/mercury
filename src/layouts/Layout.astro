@@ -18,8 +18,9 @@ interface Props {
   ogImage?: string;
 }
 
-import { ClientRouter } from "astro:transitions";
 import PoweredBy from "../components/PoweredBy.astro";
+import SPARouter from "../components/helper/spa/SPARouter.astro";
+import Spinner from "../components/helper/spa/Spinner.astro";
 const spaEnabled = siteConfig.spa
 
 const noscript = siteConfig.noClientJavaScript
@@ -47,7 +48,7 @@ const { title = pageTitle, author = siteConfig.defaultAuthor.name,description = 
     <meta name="generator" content={Astro.generator} />
     <Meta title={pageTitle} author={author} description={description} ogImage={ogImage} />
     <title>{pageTitle}</title>
-    {spaEnabled && <ClientRouter fallback="animate" />}
+    {spaEnabled && <SPARouter />}
     <!--transitional animation is broken in firefox though-->
   </head>
   <body class="container">
@@ -58,6 +59,7 @@ const { title = pageTitle, author = siteConfig.defaultAuthor.name,description = 
               </div>
               <Navbar />
               <Search />
+              {spaEnabled && <Spinner />}
         </header>
         <main class="content-box">
               <slot />
