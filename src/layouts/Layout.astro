@@ -33,6 +33,7 @@ const relativePath = Astro.url.pathname
 const path = formattedRootPath + (relativePath === '/' ? '' : relativePath)
 
 const pageTitle = (relativePath === '/' ? defaultTitle : `${Astro.props.title} - ${defaultTitle}`)
+const ogTitle = Astro.props.title || defaultTitle
 
 const customFooter = siteConfig.customFooter
 const nekoType = siteConfig.neko?.type
@@ -46,7 +47,7 @@ const { title = pageTitle, author = siteConfig.defaultAuthor.name,description = 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
-    <Meta title={pageTitle} author={author} description={description} ogImage={ogImage} />
+    <Meta title={ogTitle} author={author} description={description} ogImage={ogImage} />
     <title>{pageTitle}</title>
     {spaEnabled && <SPARouter />}
     <!--transitional animation is broken in firefox though-->
