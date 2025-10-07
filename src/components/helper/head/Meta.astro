@@ -42,8 +42,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 <meta name="og:description" content={description} />
 {ogImage && <meta name="og:image" content={ogImage} />}
 <meta property="og:locale" content="en_US"/>
-<meta property="og:type" content="website" />
+{Astro.url.pathname.includes("/blog/") ? <meta property="og:type" content="article" /> : <meta property="og:type" content="website" />}
 <meta property="og:url" content={canonicalURL} />
+{/* TODO: Astro.url.pathname.includes("/blog/") &&  article:published_time */}
 {/* Twitter */}
 <meta name="twitter:card" content="summary"></meta>
 <meta name="twitter:title" content={title} />
