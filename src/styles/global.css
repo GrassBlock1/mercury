@@ -12,7 +12,7 @@
     --terminal-green: #a3be8c;
     --terminal-yellow: #ebcb8b;
     --terminal-red: #bf616a;
-    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    --font-mono: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", monospace;
 }
 
 /* Light theme */
