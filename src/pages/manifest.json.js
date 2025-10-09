@@ -5,6 +5,9 @@ import { siteConfig } from "../config.js";
 const faviconPngSizes = [192, 512]
 
 export const GET = async () => {
+    if (!siteConfig.pwa) {
+        return new Response(null, { status: 404 })
+    }
     const icons = await Promise.all(
         faviconPngSizes.map(async (size) => {
             const image = await getImage({

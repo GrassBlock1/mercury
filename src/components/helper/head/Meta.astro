@@ -36,7 +36,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 <link rel="icon" href="/favicon.ico" sizes="32x32" />
 <link rel="icon" href={FaviconSvg.src} type="image/svg+xml" />
 <link rel="apple-touch-icon" href={appleTouchIcon.src} />
-<link rel="manifest" href="/manifest.json" />
+{ siteConfig.pwa && <link rel="manifest" href="/manifest.json" /> }
 {/* Open Graph / Facebook */}
 <meta name="og:title" content={title} />
 <meta name="og:description" content={description} />
