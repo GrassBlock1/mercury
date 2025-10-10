@@ -37,6 +37,7 @@
     "@azure/static-web-apps-cli": "^2.0.6",
     "@milkdown/crepe": "^7.15.5",
     "@types/node": "^22.15.3",
-    "@waline/client": "^3.6.0"
+    "@waline/client": "^3.6.0",
+    "cssnano": "^7.1.1"
   }
 }
