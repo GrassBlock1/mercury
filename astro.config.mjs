@@ -39,7 +39,7 @@ export default defineConfig({
 
     image: {
         responsiveStyles: true,
-        layouts: 'constrained',
+        layout: 'constrained',
     },
 
     i18n: {
