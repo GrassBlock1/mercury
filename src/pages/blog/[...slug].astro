@@ -12,6 +12,7 @@ import TableOfContents from "../../components/TableOfContents.astro";
 import "katex/dist/katex.css"
 import { getLangFromUrl, useTranslations, useTranslatedPath } from '../../i18n/utils';
 import OutDatedCallOut from "../../components/OutDatedCallOut.astro";
+import CopyRight from "../../components/CopyRight.astro";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -80,9 +81,9 @@ const cover = customFeaturedImage || matchedImage_src?.src || firstImageURL || `
         </div>
     </article>
     <div class="extra-post" style="margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+        <CopyRight/>
         <ReplyViaEmail title={entry.data.title} email={authorInfo[0].email} />
-            <br>
-        <a href="/blog">&larr; {t('article.back_to_posts')}</a>
+        <p><a href="/blog">&larr; {t('article.back_to_posts')}</a></p>
         {!noscript && <h2>{t('article.comments')}</h2> <Comments pageTitle={entry.data.title} />}
         {!noscript &&
             <script>
