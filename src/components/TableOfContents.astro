@@ -45,20 +45,20 @@ const toc = buildHierarchy(filteredHeadings);
         {
             toc.map((heading) => (
                 <li class={`depth-${heading.depth}`} style={`margin-left: ${(heading.depth - 1)}rem;`}>
-                    <a href={`#${heading.slug}`}>{heading.text}</a>
+                    <a href={`#${heading.slug}`} aria-label={heading.text || heading.slug}>{heading.text}</a>
                     {
                         heading.subheadings.length > 0 && (
                             <ul>
                                 {
                                     heading.subheadings.map((subheading) => (
                                         <li class={`depth-${subheading.depth}`} style={`margin-left: ${(subheading.depth - 1)}rem;`}>
-                                            <a href={`#${subheading.slug}`}>{subheading.text}</a>
+                                            <a href={`#${subheading.slug}`} aria-label={subheading.text || subheading.slug}>{subheading.text}</a>
                                             {subheading.subheadings.length > 0 && (
                                                 <ul>
                                                     {
                                                         subheading.subheadings.map((subSubheading) => (
                                                             <li class={`depth-${subSubheading.depth}`} style={`margin-left: ${(subSubheading.depth - 1)}rem;`}>
-                                                                <a href={`#${subSubheading.slug}`}>{subSubheading.text}</a>
+                                                                <a href={`#${subSubheading.slug}`} aria-label={subSubheading.text || subSubheading.slug}>{subSubheading.text}</a>
                                                             </li>
                                                         ))
                                                     }
