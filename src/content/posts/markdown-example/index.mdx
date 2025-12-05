@@ -10,6 +10,7 @@ import Spoiler from '/src/components/shortcodes/Spoiler.astro';
 import Ruby from '/src/components/shortcodes/Ruby.astro';
 import ProtectedContent from '/src/components/shortcodes/ProtectedContent.astro';
 import TimeLine from '/src/components/shortcodes/timeline/TimeLine.astro';
+import Note from '/src/components/helper/authors/Note.astro';
 
 This article offers a sample of basic and extended Markdown formatting that can be used, also it shows how some basic HTML elements are decorated.
 ## Markdown in Astro
@@ -89,6 +90,38 @@ You can use callouts to highlight important information or warnings in your cont
   This is an error callout. It should be used to indicate critical issues that need immediate attention.
 </Callout>
 ```
+#### Author's Notes
+A special type of Callout can be used as author's Notes. This can be useful if a post is collaborated with multiple authors.
+
+<Note authorId='Glados'>
+    This is a additional note from another author.
+</Note>
+
+```mdx
+<Note authorId='Glados'>
+    This is a additional note from another author.
+</Note>
+```
+
+<Note authorId='Wheatley'>
+    And with avatars!
+</Note>
+
+```mdx
+<Note authorId='Wheatley'>
+    And with avatars!
+</Note>
+```
+
+<Callout type="warning">
+    To make this work correctly, you should always use the **'id' of the author** :
+    ```yaml
+    Glados: # you should use this
+        name: "Glados"
+        email: "contact@example.org"
+    ```
+</Callout>
+
 ### LinkCard
 You can use the `LinkCard` component to create cards that link to external resources or pages. This is useful for showcasing projects, documentation, or any other relevant links.
 
@@ -192,7 +225,7 @@ Avicii's second studio album, Stories, continued to showcase his musical evoluti
 ### June 6, 2019
 **"Tim" released**
 
-Following Avicii's tragic passing in April 2018, his family, along with a team of his close collaborators, decided to complete the album he had been working on. The result was Tim, a posthumous album that serves as a poignant and powerful final chapter in his musical legacy. The album features vocals from artists like Aloe Blacc and Chris Martin and touches on themes of love, loss, and self-reflection. The lead single, "SOS," featuring Aloe Blacc, is a raw and honest portrayal of struggling with inner demons. The release of *Tim* was a bittersweet moment for fans, offering a final glimpse into the creative genius of an artist who left the world too soon. All proceeds from the album went to the Tim Bergling Foundation, a charity set up by his family to support mental health awareness.
+Following Avicii's tragic passing in April 2018, his family, along with a team of his close collaborators, decided to complete the album he had been working on. The result was Tim, a posthumous album that serves as a poignant and powerful final chapter in his musical legacy. The album features vocals from artists like Aloe Blacc and Chris Martin and touches on themes of love, loss, and self-reflection. The lead single, "SOS," featuring Aloe Blacc, is a raw and honest portrayal of struggling with inner demons. The release of Tim was a bittersweet moment for fans, offering a final glimpse into the creative genius of an artist who left the world too soon. All proceeds from the album went to the Tim Bergling Foundation, a charity set up by his family to support mental health awareness.
 </TimeLine>
 
 ## Headings

@@ -1,0 +1,46 @@
+---
+import {getEntry} from "astro:content";
+import {Image} from "astro:assets";
+
+interface Props {
+    authorId: string,
+}
+
+const { authorId } = Astro.props;
+
+const entry = await getEntry({ collection: 'authors', id: authorId });
+const data = (entry?.data ?? {}) as Record<string, any>;
+const authorName = data.name
+const authorAvatar = data.avatar ? data.avatar : (data.mcplayerid ? `/images/avatars/${data.mcplayerid}.png` : null);
+---
+<div class="callout callout-tip">
+    {authorAvatar && <Image class="callout-icon" alt={`avatar of ${authorName}`} width=24 height=24 src={authorAvatar} >{authorAvatar}</Image>}
+    <div class="callout-content">
+        <b>{authorName}</b>:
+        <slot />
+    </div>
+</div>
+<style>
+    .callout {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        margin: 1rem auto;
+        background-color: var(--callout-bg, #f0f0f0);
+        color: var(--callout-text);
+    }
+
+    img.callout-icon {
+        margin-right: 1rem;
+        font-size: 1.5rem;
+    }
+
+    .callout-content {
+        flex-grow: 1;
+    }
+
+    .callout-tip {
+        --callout-bg: var(--secondary-color);
+        --callout-text: #2e3440;
+    }
+</style>
