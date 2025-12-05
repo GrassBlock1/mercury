@@ -1,0 +1,6 @@
+---
+import {siteConfig} from "../config.ts";
+const copyrightType = siteConfig.copyright.type || "All rights reserved";
+const copyrightLink = siteConfig.copyright.url || "";
+---
+{copyrightType === "All rights reserved" ? <p><i>All rights reserved</i></p> : <p><i>The post is published under {copyrightLink ? <a href={copyrightLink} target="_blank">{copyrightType}</a> : copyrightType}</i></p>}

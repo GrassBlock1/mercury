@@ -50,6 +50,11 @@ export const siteConfig = {
     // To use an environment variable to set the password, replace the value with `import.meta.env.CONTENT_PASSWORD`
     // (or process.env.CONTENT_PASSWORD, CONTENT_PASSWORD can be any string) and set the environment variable in your deployment service.
     contentPassword: 'p1easeChangeMe!',
+    // copyright notice
+    copyright: {
+        type: '', // The type of copyright license, defaults to 'All rights reserved'
+        url: '', // The link to the full text of the license
+    },
     // comments
     comments: {
         type: 'artalk', // 'artalk','giscus','fediverse','email','hatsu','oom','twikoo','waline'
