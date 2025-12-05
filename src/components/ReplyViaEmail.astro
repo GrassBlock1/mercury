@@ -7,4 +7,4 @@ const t = useTranslations(lang);
 const translatePath = useTranslatedPath(lang);
 const { title, email = siteConfig.defaultAuthor.email } = Astro.props;
 ---
-<a href={`mailto:${email}?subject=RE:${title}&body=${t('article.reply_via_email.body')} "${title}".`}>&#x21A9; {t('article.reply_via_email')}</a>
+<p><a href={`mailto:${email}?subject=RE:${title}&body=${t('article.reply_via_email.body')} "${title}".`}>&#x21A9; {t('article.reply_via_email')}</a></p>
