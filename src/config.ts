@@ -127,6 +127,10 @@ export const siteConfig = {
         umami: {
             instanceDomain: 'cloud.umami.is', // the domain of the umami instance, usually your-umami-instance.com (default: official cloud.umami.is)
             websiteId: 'your-website-id', // the id of your website in umami, get it from your umami dashboard
+            // umami pixels: https://docs.umami.is/docs/pixels
+            // will be used as a fallback when javascript is disabled.
+            // Note: the pixels record less information than the javascript code due to limitations.
+            pixelURL: 'https://cloud.umami.is/pixel-url', // the url of your pixel
         },
         goatcounter: {
             // provide solutions for tracking visitors without Javascript

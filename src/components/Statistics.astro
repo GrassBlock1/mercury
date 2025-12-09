@@ -6,12 +6,25 @@ const umamiConfig = siteConfig.siteAnalytics.umami
 const goatCounterConfig = siteConfig.siteAnalytics.goatcounter
 ---
 {statisticsType === 'umami' && (
-    <script
-            is:inline
-            defer
-            src={`https://${umamiConfig.instanceDomain}/script.js`}
-            data-website-id={umamiConfig.websiteId}
-    ></script>
+    <div>
+        {noscript && umamiConfig.pixelURL ? (
+            <img class="analytics" src={umamiConfig.pixelURL} alt="Analytics" />
+        ) : !noscript ? (
+            <div>
+                <script
+                    is:inline
+                    defer
+                    src={`https://${umamiConfig.instanceDomain}/script.js`}
+                    data-website-id={umamiConfig.websiteId}
+                ></script>
+                {umamiConfig.pixelURL && (
+                    <noscript>
+                        <img class="analytics" src={umamiConfig.pixelURL} alt="Analytics" />
+                    </noscript>
+                )}
+            </div>
+        ) : null}
+    </div>
 )}
 
 { statisticsType === 'goatcounter' && (
@@ -27,9 +40,23 @@ const goatCounterConfig = siteConfig.siteAnalytics.goatcounter
                 src={`https://${goatCounterConfig.instanceDomain}/count.js`}
             ></script>
             <noscript>
-                <img src={`https://${goatCounterConfig.instanceDomain}/count?p=/${Astro.url.pathname}`} alt="Analytics" />
+                <img class="analytics" src={`https://${goatCounterConfig.instanceDomain}/count?p=/${Astro.url.pathname}`} alt="Analytics" />
             </noscript>
         </>
         )}
     </>
 )}
+
+<style>
+img.analytics {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+</style>
