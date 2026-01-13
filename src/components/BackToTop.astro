@@ -7,7 +7,7 @@ const t = useTranslations(lang);
 const translatePath = useTranslatedPath(lang);
 const noscript = siteConfig.noClientJavaScript
 ---
-{noscript ? <a href="#top"><button id="toTopBtn" style="display: block" title={t('widget.back_to_top.title')}>{t('widget.back_to_top')}</button></a> : <button id="toTopBtn" title={t('widget.back_to_top.title')}>{t('widget.back_to_top')}</button>
+{noscript ? <a href="#top"><button id="toTopBtn" style="display: block" title={t('widget.back_to_top.title')}>{t('widget.back_to_top')}</button></a> : <button id="toTopBtn" class="fade-out" title={t('widget.back_to_top.title')}>{t('widget.back_to_top')}</button>
 <script>
     // Get the button
     let toTopButton = document.getElementById("toTopBtn");
@@ -36,20 +36,16 @@ const noscript = siteConfig.noClientJavaScript
         const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
         const percent = docHeight > 0 ? Math.min(100, Math.max(0, (scrollTop / docHeight) * 100)) : 0;
         progressEl.style.width = percent + "%";
-
         // When the user scrolls down from the top of the document, show the button
-        if (scrollTop < document.documentElement.clientHeight) {
-            toTopButton.classList.remove("fade-in");
-            toTopButton.classList.add("fade-out");
+        if (scrollTop > document.documentElement.clientHeight) {
+            toTopButton.classList.remove("fade-out");
+            toTopButton.classList.add("fade-in");
             toTopButton.style.display = "block";
         } else {
-            toTopButton.classList.remove("fade-out");
             toTopButton.classList.remove("fade-in");
+            toTopButton.classList.add("fade-out");
         }
     }
-
-    // initial state
-    updateProgressAndVisibility();
 
     // update on scroll (passive for performance)
     document.addEventListener("scroll", updateProgressAndVisibility, { passive: true });
@@ -62,7 +58,7 @@ const noscript = siteConfig.noClientJavaScript
             // scrollback gracefully
             window.scrollTo({top: 0, behavior: 'smooth'});
         } catch (e) {
-            // if there is a error,return to top directly
+            // if there is an error,return to top directly
             console.error(e);
             document.body.scrollTop = 0;
             document.documentElement.scrollTop = 0;
