@@ -1,0 +1,31 @@
+---
+import type { MarkdownHeading } from 'astro';
+import { getLangFromUrl, useTranslations, useTranslatedPath } from '../../i18n/utils.ts';
+import TOCBase from './base.astro';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
+
+
+interface Props {
+    headings: MarkdownHeading[];
+}
+
+const { headings } = Astro.props;
+---
+<details>
+    <summary>{t('article.toc')}</summary>
+    <TOCBase headings={headings} />
+</details>
+
+<style>
+    details {
+        margin: 0.5rem auto;
+        cursor: pointer;
+        padding: 0.5rem;
+        border: var(--accent-color) 0.1rem solid;
+    }
+
+</style>
+

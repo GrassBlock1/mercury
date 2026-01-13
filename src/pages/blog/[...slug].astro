@@ -8,7 +8,8 @@ import {siteConfig} from "../../config";
 import ReplyViaEmail from "../../components/ReplyViaEmail.astro";
 import { ExtractFirstImage } from '../../plugins/extract-images';
 import AuthorInfo from "../../components/helper/authors/Info.astro";
-import TableOfContents from "../../components/TableOfContents.astro";
+import TableOfContents from "../../components/toc/TableOfContents.astro";
+import TableOfContentsButton from "../../components/toc/Button.astro";
 import "katex/dist/katex.css"
 import { getLangFromUrl, useTranslations, useTranslatedPath } from '../../i18n/utils';
 import OutDatedCallOut from "../../components/OutDatedCallOut.astro";
@@ -73,7 +74,7 @@ const cover = customFeaturedImage || matchedImage_src?.src || firstImageURL || `
         <span>|</span>
         <span class="wordcount">{wordcount.words} {t('article.word_count')}</span>
         { (cover && cover !== firstImageURL && cover !== `/blog/${slug}/featured.png`) && <Image class="cover" width=720 height=480 src={cover} alt={`cover of ${entry.data.title}`}  /> }
-        {headings.length !== 0 && <TableOfContents headings={headings} />}
+        {headings.length !== 0 && <TableOfContents headings={headings} /> <TableOfContentsButton headings={headings}/>}
         {entry.data.summary && <p class="summary">{entry.data.summary}</p> }
         { siteConfig.outdatedCallout.enabled && (siteConfig.noClientJavaScript ? <OutDatedCallOut noscript=true lastUpdatedAt={lastUpdated} /> : <OutDatedCallOut server:defer lastUpdatedAt={lastUpdated} ><OutDatedCallOut noscript lastUpdatedAt={lastUpdated} slot="fallback" ></OutDatedCallOut></OutDatedCallOut>)}
         <div class="content">
