@@ -11,6 +11,10 @@ import { siteConfig } from "../config";
 import Statistics from "../components/Statistics.astro";
 import Navbar from "../components/Navbar.astro";
 
+import {
+    i18n,
+} from "astro:config/client";
+
 interface Props {
   title?: string;
   description?: string;
@@ -43,7 +47,7 @@ const { title = pageTitle, author = siteConfig.defaultAuthor.name,description = 
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={i18n?.defaultLocale || 'en'}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
