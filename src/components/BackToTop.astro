@@ -12,17 +12,48 @@ const noscript = siteConfig.noClientJavaScript
     // Get the button
     let toTopButton = document.getElementById("toTopBtn");
 
-    // When the user scrolls down from the top of the document, show the button
-    window.addEventListener("scroll", ()=> {
-        if (window.scrollY < document.documentElement.clientHeight) {
-            toTopButton.classList.remove('fade-in');
-            toTopButton.classList.add('fade-out');
-            toTopButton.style.display = 'block';
+    // create or reuse a progress element that mimics the ::before progress bar
+    let progressEl = toTopButton.querySelector(".read-progress");
+    if (!progressEl) {
+        progressEl = document.createElement("span");
+        progressEl.className = "read-progress";
+        Object.assign(progressEl.style, {
+            position: "absolute",
+            top: "0",
+            left: "0",
+            height: "4px",
+            width: "0%",
+            backgroundColor: "var(--secondary-color, #4a90e2)",
+            pointerEvents: "none",
+            transition: "width 120ms linear",
+            zIndex: "2",
+        });
+        toTopButton.insertBefore(progressEl, toTopButton.firstChild);
+    }
+
+    function updateProgressAndVisibility() {
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+        const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const percent = docHeight > 0 ? Math.min(100, Math.max(0, (scrollTop / docHeight) * 100)) : 0;
+        progressEl.style.width = percent + "%";
+
+        // When the user scrolls down from the top of the document, show the button
+        if (scrollTop < document.documentElement.clientHeight) {
+            toTopButton.classList.remove("fade-in");
+            toTopButton.classList.add("fade-out");
+            toTopButton.style.display = "block";
         } else {
-            toTopButton.classList.remove('fade-out');
-            toTopButton.classList.remove('fade-in');
+            toTopButton.classList.remove("fade-out");
+            toTopButton.classList.remove("fade-in");
         }
-    })
+    }
+
+    // initial state
+    updateProgressAndVisibility();
+
+    // update on scroll (passive for performance)
+    document.addEventListener("scroll", updateProgressAndVisibility, { passive: true });
+
 
     // When the user clicks on the button, scroll to the top of the document
     toTopButton.addEventListener("click", toTop);
@@ -38,3 +69,33 @@ const noscript = siteConfig.noClientJavaScript
         }
     }
 </script>}
+<style>
+    /* Add a conic gradient mask or border to simulate progress */
+    #toTopBtn {
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Linear progress bar positioned at the top, growing from left to right */
+    #toTopBtn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 4px; /* Thickness of the progress bar */
+        width: 0;   /* Start width */
+        background-color: var(--secondary-color, #4a90e2);
+        pointer-events: none;
+
+        /* The animation binding scroll position to width */
+        animation: progress-horizontal auto linear;
+        /* only work on chrome 115+: https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/animation-timeline#browser_compatibility */
+        animation-timeline: scroll(root);
+    }
+
+    /* Animate width from 0% to 100% */
+
+    @keyframes progress-horizontal {
+        to { width: 100%; }
+    }
+</style>
