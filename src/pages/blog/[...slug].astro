@@ -50,6 +50,12 @@ const authorInfo =  authorData.includes(undefined) ? [{data: siteConfig.defaultA
 // use the custom cover image if it exists, otherwise use the featured image file in the same directory
 const featuredImages = import.meta.glob(`/src/content/posts/*/featured.{avif,png,jpg,jpeg,webp}`,{import:'default',eager:true});
 const customFeaturedImage = entry.data.cover;
+
+/* optimize the og:image */
+const optimizedCustomFeaturedImage = customFeaturedImage
+    ? await getImage({src: customFeaturedImage, format: 'webp'})
+    : null;
+
 const matchedImage = Object.keys(featuredImages).find(path => path.includes(slug));
 let matchedImage_src;
 if (matchedImage && !customFeaturedImage) {
@@ -57,7 +63,8 @@ if (matchedImage && !customFeaturedImage) {
 }
 const firstImageURL = await ExtractFirstImage(Content)
 
-const cover = customFeaturedImage || matchedImage_src?.src || firstImageURL || `/blog/${slug}/featured.png` || '';
+const headerImage = customFeaturedImage || matchedImage_src?.src || '';
+const cover = optimizedCustomFeaturedImage || matchedImage_src?.src || firstImageURL || `/blog/${slug}/featured.png` || '';
 ---
 
 <Layout
@@ -73,7 +80,7 @@ const cover = customFeaturedImage || matchedImage_src?.src || firstImageURL || `
         {new Date(lastUpdated) > new Date(entry.data.date) && <span class="date">({t('article.last_update')} {lastUpdatedDate})</span>}
         <span>|</span>
         <span class="wordcount">{wordcount.words} {t('article.word_count')}</span>
-        { (cover && cover !== firstImageURL && cover !== `/blog/${slug}/featured.png`) && <Image class="cover" width=720 height=480 src={cover} alt={`cover of ${entry.data.title}`}  /> }
+        { headerImage && <Image class="cover" width=720 height=480 src={headerImage} alt={`cover of ${entry.data.title}`}  /> }
         {/* only display ToCs when there are <h2>s */}
         { headings.some(h => h.depth === 2) && <TableOfContents headings={headings} /> <TableOfContentsButton headings={headings}/>}
         {entry.data.summary && <p class="summary">{entry.data.summary}</p> }
