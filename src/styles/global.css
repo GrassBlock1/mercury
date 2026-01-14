@@ -305,7 +305,6 @@ div.content {
         border-left: 1px solid var(--accent-color);
         color: var(--text-color);
         padding: 20px;
-        font-style: italic;
         margin-left: 0;
         margin-right: 0;
     }
