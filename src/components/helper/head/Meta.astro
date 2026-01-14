@@ -20,6 +20,9 @@ interface Props {
 
 const { title, author,description, ogImage = "" } = Astro.props
 
+// quick fix for those which only recognize full urls
+const featuredImage = ogImage.startsWith('http') ? ogImage : `${Astro.url.origin}${ogImage}`
+
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 <meta name="title" content={title} />
@@ -40,7 +43,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 {/* Open Graph / Facebook */}
 <meta name="og:title" content={title} />
 <meta name="og:description" content={description} />
-{ogImage && <meta name="og:image" content={ogImage} />}
+{ogImage && <meta name="og:image" content={featuredImage} />}
 <meta property="og:locale" content="en_US"/>
 {Astro.url.pathname.includes("/blog/") ? <meta property="og:type" content="article" /> : <meta property="og:type" content="website" />}
 <meta property="og:url" content={canonicalURL} />
@@ -49,6 +52,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 <meta name="twitter:card" content="summary"></meta>
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
-{ogImage && <meta name="twitter:image" content={ogImage} />}
+{ogImage && <meta name="twitter:image" content={featuredImage} />}
 
 
