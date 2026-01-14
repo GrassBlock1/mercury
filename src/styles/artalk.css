@@ -431,7 +431,7 @@
     top: 100%;
     right: 0;
     width: 100%;
-    background-color: var(--at-color-bg);
+    background-color: var(--at-color-bg-grey);
     padding: .6rem 0;
     border: 1px solid var(--at-color-border);
     text-align: center;
