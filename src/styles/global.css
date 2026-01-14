@@ -51,7 +51,7 @@
 }
 
 html, body {
-    font-family: var(--font-mono);
+    font-family: var(--font-mono), monospace;
     background-color: var(--bg-color);
     color: var(--text-color);
     line-height: 1.5;
@@ -61,6 +61,10 @@ html, body {
     text-align: left;
     word-wrap: break-word;
     overflow-wrap: break-word;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    min-height: calc(100vh - 120px);
 }
 
 a {
@@ -73,11 +77,8 @@ a:hover {
     opacity: 0.8;
 }
 
-body {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem 1rem;
-    min-height: calc(100vh - 120px);
+button, input {
+    font-family: var(--font-mono), monospace;
 }
 
 .container {
@@ -189,7 +190,6 @@ body {
     border: none;
     color: var(--text-color);
     padding: 0.5rem 1rem;
-    font-family: var(--font-mono);
     cursor: pointer;
 }
 
@@ -204,7 +204,6 @@ body {
     border: none;
     color: var(--text-color);
     padding: 0.5rem 1rem;
-    font-family: var(--font-mono);
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -310,7 +309,6 @@ div.content {
     }
 
     /* Responsive Images */
-
     img {
         max-width: 100%;
         height: 100%;
