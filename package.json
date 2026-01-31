@@ -13,13 +13,13 @@
   "dependencies": {
     "@astrojs/cloudflare": "^12.6.12",
     "@astrojs/mdx": "^4.3.13",
-    "@astrojs/node": "^9.5.1",
+    "@astrojs/node": "^9.5.2",
     "@astrojs/partytown": "^2.1.4",
-    "@astrojs/rss": "^4.0.14",
-    "@astrojs/sitemap": "^3.6.1",
+    "@astrojs/rss": "^4.0.15",
+    "@astrojs/sitemap": "^3.7.0",
     "@fontsource-variable/jetbrains-mono": "^5.2.5",
     "artalk": "^2.9.1",
-    "astro": "^5.16.9",
+    "astro": "^5.17.1",
     "echarts": "^6.0.0",
     "giscus": "^1.6.0",
     "ico-endec": "^0.1.6",
@@ -38,6 +38,7 @@
     "@milkdown/crepe": "^7.15.5",
     "@types/node": "^22.15.3",
     "@waline/client": "^3.6.0",
+    "baseline-browser-mapping": "^2.9.19",
     "cssnano": "^7.1.1"
   }
 }
