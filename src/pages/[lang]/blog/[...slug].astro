@@ -1,0 +1,114 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { getCollection, getEntry } from 'astro:content';
+import Comments from "@/components/Comments.astro";
+import {getImage, Image} from "astro:assets";
+import {siteConfig} from "@/config";
+import ReplyViaEmail from "@/components/ReplyViaEmail.astro";
+import { ExtractFirstImage } from '@/plugins/extract-images';
+import AuthorInfo from "@/components/helper/authors/Info.astro";
+import TableOfContents from "@/components/toc/TableOfContents.astro";
+import TableOfContentsButton from "@/components/toc/Button.astro";
+import "katex/dist/katex.css"
+import { useTranslations, useTranslatedPath } from '@/i18n/utils';
+import OutDatedCallOut from "@/components/OutDatedCallOut.astro";
+import CopyRight from "@/components/CopyRight.astro";
+
+const { lang, slug } = Astro.params
+const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
+export async function getStaticPaths() {
+  const blogEntries = await getCollection('posts', ({ data }) => {
+    return import.meta.env.PROD ? data.draft !== true : true;
+});
+  return blogEntries.map(entry => {
+      const [lang, ...slug] = entry.slug.split('/');
+      console.log(entry)
+      return { params: { lang, slug: slug.join("/") || undefined }, props: { entry } };
+  });
+}
+
+const { entry }  = Astro.props;
+
+console.log(lang)
+const { Content, headings, remarkPluginFrontmatter } = await entry.render();
+
+const noscript = siteConfig.noClientJavaScript
+const author = Array.isArray(entry.data.author) ? entry.data.author : (entry.data.author !== undefined ? [entry.data.author] : [{collection: 'authors', id: siteConfig.defaultAuthor.id}]);
+
+// Get Wordcount and Last Updated Date
+const wordcount = remarkPluginFrontmatter.wordcount;
+const lastUpdated = entry.data.updated ? entry.data.updated : remarkPluginFrontmatter.lastModified;
+
+const pubDate = new Date(entry.data.date).toISOString().split('T')[0]
+const lastUpdatedDate = new Date(lastUpdated).toISOString().split('T')[0]
+
+// Get author data
+const authorData = await Promise.all((author).map((singleAuthor) => getEntry(singleAuthor).then(authorEntry => authorEntry?.data)))
+const authorInfo =  authorData.includes(undefined) ? [{data: siteConfig.defaultAuthor}] : authorData;
+
+// get featured image and use it as og:image
+// use the custom cover image if it exists, otherwise use the featured image file in the same directory
+const featuredImages = import.meta.glob(`/src/content/posts/*/featured.{avif,png,jpg,jpeg,webp}`,{import:'default',eager:true});
+const customFeaturedImage = entry.data.cover;
+
+/* optimize the og:image */
+const optimizedCustomFeaturedImage = customFeaturedImage && typeof customFeaturedImage === 'object' && 'src' in customFeaturedImage && customFeaturedImage.src.startsWith('http') ? customFeaturedImage : customFeaturedImage && typeof customFeaturedImage === 'string' ? customFeaturedImage : customFeaturedImage ? await getImage({src: customFeaturedImage, width: 1080, format: 'webp'}) : null;
+
+const matchedImage = Object.keys(featuredImages).find(path => path.includes(slug));
+let matchedImage_src;
+if (matchedImage && !customFeaturedImage) {
+    matchedImage_src = await getImage({src: featuredImages[matchedImage] as ImageMetadata, format: 'webp'}) || null;
+}
+const firstImageURL = await ExtractFirstImage(Content)
+
+const headerImage = customFeaturedImage || matchedImage_src?.src || '';
+const cover = optimizedCustomFeaturedImage || matchedImage_src?.src || firstImageURL || `/blog/${slug}/featured.png` || '';
+---
+
+<Layout
+  title={entry.data.title}
+  description={entry.data.description || ''}
+  ogImage={typeof cover === 'string' ? cover : cover?.src}
+  author={authorInfo.map((a: any) => a.name).join(', ')}
+>
+    <article>
+        <h1 class="title">{entry.data.title}</h1>
+            {authorInfo.map((a: any) => <AuthorInfo data={a} />)}
+        <span class="date">{pubDate}</span>
+        {new Date(lastUpdated) > new Date(entry.data.date) && <span class="date">({t('article.last_update')} {lastUpdatedDate})</span>}
+        <span>|</span>
+        <span class="wordcount">{wordcount.words} {t('article.word_count')}</span>
+        { headerImage && <Image class="cover" width=720 height=480 src={headerImage} alt={`cover of ${entry.data.title}`}  /> }
+        {/* only display ToCs when there are <h2>s */}
+        { headings.some(h => h.depth === 2) && <TableOfContents headings={headings} /> <TableOfContentsButton headings={headings}/>}
+        {entry.data.summary && <p class="summary">{entry.data.summary}</p> }
+        { siteConfig.outdatedCallout.enabled && (siteConfig.noClientJavaScript ? <OutDatedCallOut noscript=true lastUpdatedAt={lastUpdated} /> : <OutDatedCallOut server:defer lastUpdatedAt={lastUpdated} ><OutDatedCallOut noscript lastUpdatedAt={lastUpdated} slot="fallback" ></OutDatedCallOut></OutDatedCallOut>)}
+        <div class="content">
+            <Content />
+        </div>
+    </article>
+    <div class="extra-post" style="margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+        <CopyRight/>
+        <ReplyViaEmail title={entry.data.title} email={authorInfo[0].email} />
+        <p><a href="/blog">&larr; {t('article.back_to_posts')}</a></p>
+        {!noscript && <h2>{t('article.comments')}</h2> <Comments pageTitle={entry.data.title} />}
+        {!noscript &&
+            <script>
+                import "katex/dist/contrib/copy-tex.js"
+            </script>
+        }
+    </div>
+</Layout>
+<style>
+    p.summary {
+        font-style: italic;
+        color: var(--secondary-text-color);
+        margin: 1rem;
+    }
+    img.cover {
+        width: 100%;
+        height: auto;
+        margin: 1rem auto;
+    }
+</style>

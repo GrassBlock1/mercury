@@ -1,0 +1,45 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import NewsLetter from "@/components/NewsLetter.astro";
+import {siteConfig} from "@/config";
+import ArticleList from "@/components/ArticleList.astro";
+import { getLangFromUrl, useTranslations, useTranslatedPath } from '@/i18n/utils';
+import {languages} from "@/i18n/ui.ts";
+
+export async function getStaticPaths() {
+  return Object.keys(languages).map((lang) => ({
+    params: { lang },}));
+}
+
+const { lang } = Astro.params;
+const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
+const posts = await getCollection('posts', ({ data }) => {
+    return import.meta.env.PROD ? data.draft !== true : true;
+});
+console.log(posts)
+posts.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+---
+
+<Layout title="Blog Posts" description="List all posts on the website.">
+  <h1 class="title">~/blog</h1>
+  
+  <div class="content">
+    <p class="typewriter">{t('posts.description')}</p>
+    
+    <div style="margin-top: 2rem;">
+      <span class="command">ls -la posts/</span>
+      <ArticleList posts={posts} displayDate={true} placeholder={true} />
+    </div>
+    
+    <div style="margin-top: 2rem;">
+      <p>
+        <span class="command">cat subscribe.txt</span>
+        <br />
+        <a href="/rss.xml" style="margin-left: 1rem;">{t('subscribe.rss')}</a>
+      </p>
+      {siteConfig.newsletter.enabled && <NewsLetter listmonkInstance={siteConfig.newsletter.listmonk.instanceDomain} listuuid={siteConfig.newsletter.listmonk.listuuid} />}
+    </div>
+  </div>
+</Layout>
