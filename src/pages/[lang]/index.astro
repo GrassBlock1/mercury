@@ -1,11 +1,10 @@
 ---
 import Layout from '@/layouts/Layout.astro';
 import {siteConfig} from "@/config"
-import {useTranslatedPath, useTranslations} from "@/i18n/utils.ts";
-import {languages} from "@/i18n/ui.ts";
+import {getLocalePathMap, useTranslatedPath, useTranslations} from "@/i18n/utils.ts";
 
 export async function getStaticPaths() {
-  return Object.keys(languages).map((lang) => ({
+  return Object.values(getLocalePathMap()).map((lang) => ({
     params: { lang },}));
 }
 
