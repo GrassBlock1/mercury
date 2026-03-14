@@ -1,10 +1,5 @@
 import { i18n } from "astro:config/client"
 
-export const languages = {
-    en: 'English',
-    'zh-CN': '中文（简体）',
-};
-
 export const defaultLang: string = i18n?.defaultLocale || 'en';
 export const showDefaultLang = false;
 
