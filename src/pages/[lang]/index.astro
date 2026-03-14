@@ -4,8 +4,10 @@ import {siteConfig} from "@/config"
 import {getLocalePathMap, useTranslatedPath, useTranslations} from "@/i18n/utils.ts";
 
 export async function getStaticPaths() {
-  return Object.values(getLocalePathMap()).map((lang) => ({
-    params: { lang },}));
+  const uniqueLangPaths = [...new Set(Object.values(getLocalePathMap()))];
+  return uniqueLangPaths.map((lang) => ({
+    params: { lang },
+  }));
 }
 
 const { lang } = Astro.params;

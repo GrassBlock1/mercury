@@ -7,8 +7,10 @@ import ArticleList from "@/components/ArticleList.astro";
 import { getLocalePathMap, useTranslations, useTranslatedPath } from '@/i18n/utils';
 
 export async function getStaticPaths() {
-  return Object.values(getLocalePathMap()).map((lang) => ({
-    params: { lang },}));
+  const uniqueLangPaths = [...new Set(Object.values(getLocalePathMap()))];
+  return uniqueLangPaths.map((lang) => ({
+    params: { lang },
+  }));
 }
 
 const { lang } = Astro.params;
