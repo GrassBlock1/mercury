@@ -102,9 +102,13 @@ function checkForImages(markdownContent) {
 }
 
 // This function dynamically generates og:images for posts that don't have a featured image
-export async function GET({ props }) {
+export async function GET({ props, params }) {
   const {post} = props;
-
+  const { lang } = params;
+  if (!post.id.startsWith(lang)) {
+    // skip rendering non-local posts
+    return new Response(null);
+  }
   // Generate consistent cache key
   const cacheKey = `${post.slug}-${post.id}`;
 
