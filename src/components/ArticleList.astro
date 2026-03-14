@@ -1,11 +1,15 @@
 ---
-const { posts, displayDate = false, placeholder = false } = Astro.props;
+import {defaultLocale, isDefaultLocale} from "@/i18n/utils.ts";
+const { posts, displayDate = false, placeholder = false, lang = defaultLocale } = Astro.props;
+function getSlug(id: string,slug: string, lang = defaultLocale) {
+    return isDefaultLocale(lang) ? `blog/${slug}` : (lang === id.split("/")[0] ? `/${lang}/blog/${slug.split("/").pop()}` : `/${lang}/blog/${slug}`)
+}
 ---
 <div style="margin-top: 1rem; margin-left: 1rem;">
     {posts.map((post) => (
             <p>
                 {displayDate && <span class="list-date">{new Date(post.data.date).toISOString().split('T')[0]}</span>}
-                {post.data.draft && <span class="draft-badge">[draft] </span>}<a href={`/blog/${post.slug}`}>{post.data.title}</a>
+                {post.data.draft && <span class="draft-badge">[draft] </span>}<a href={`${getSlug(post.id, post.slug, lang)}`}>{post.data.title}</a>
             </p>
     ))}
 
