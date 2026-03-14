@@ -22,15 +22,13 @@ export async function getStaticPaths() {
     return import.meta.env.PROD ? data.draft !== true : true;
 });
   return blogEntries.map(entry => {
-      const [lang, ...slug] = entry.slug.split('/');
-      console.log(entry)
-      return { params: { lang, slug: slug.join("/") || undefined }, props: { entry } };
+      const lang = entry.id.split('/')[0];
+      return { params: { lang, slug: entry.slug || undefined }, props: { entry } };
   });
 }
 
 const { entry }  = Astro.props;
 
-console.log(lang)
 const { Content, headings, remarkPluginFrontmatter } = await entry.render();
 
 const noscript = siteConfig.noClientJavaScript
