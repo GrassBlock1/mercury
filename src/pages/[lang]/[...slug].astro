@@ -8,8 +8,9 @@ interface Props {
 export async function getStaticPaths() {
     const pageEntries = await getCollection('pages');
     return pageEntries.map(entry => {
-        const [lang, ...slug] = entry.id.split('/');
-        return { params: { lang, slug: slug.join('/') || undefined }, props: { entry } };
+        const lang = entry.id.split('/')[0];
+        const slug = entry.slug.split('/').pop() || entry.slug;
+        return { params: { lang, slug }, props: { entry } };
     });
 }
 
