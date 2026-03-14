@@ -4,21 +4,19 @@ import { getCollection } from 'astro:content';
 import NewsLetter from "@/components/NewsLetter.astro";
 import {siteConfig} from "@/config";
 import ArticleList from "@/components/ArticleList.astro";
-import { getLangFromUrl, useTranslations, useTranslatedPath } from '@/i18n/utils';
-import {languages} from "@/i18n/ui.ts";
+import { getLocalePathMap, useTranslations, useTranslatedPath } from '@/i18n/utils';
 
 export async function getStaticPaths() {
-  return Object.keys(languages).map((lang) => ({
+  return Object.keys(getLocalePathMap()).map((lang) => ({
     params: { lang },}));
 }
 
 const { lang } = Astro.params;
 const t = useTranslations(lang);
 const translatePath = useTranslatedPath(lang);
-const posts = await getCollection('posts', ({ data }) => {
-    return import.meta.env.PROD ? data.draft !== true : true;
+const posts = await getCollection('posts', (post) => {
+    return (import.meta.env.PROD ? post.data.draft !== true : true) && post.id.startsWith(lang);
 });
-console.log(posts)
 posts.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
 ---
 
