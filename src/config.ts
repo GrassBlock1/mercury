@@ -4,28 +4,32 @@ export const siteConfig = {
     description: 'A blog about software development, technology, and life.',
     homepageOgImage: '',
     defaultAuthor: {
-        id: 'd6e4661d', // (optional) an id in the authors.yaml, will override the setting below (if id exists)
+        // (optional) an id in the authors.yaml, will override the setting below (if id exists)
+        id: 'd6e4661d',
         name: 'GrassBlock1',
         email: 'hi@mercury.info',
     },
     // features
-    spa: false, // enable single page application mode, this will enable navigation (with fade transitions) without reloading the page, and enable client-side routing
-    pwa: false, // enable PWA, which will allow users install the site as a web app on their device
-    noClientJavaScript: false, // disable client-side javascript, this will:
-    // 1. disable most built-in client-side javascript from rendering (protected content component and umami still needs javascript to function, sorry)
+    // enable single page application mode, this will enable navigation (with fade transitions) without reloading the page, and enable client-side routing
+    spa: false,
+    // enable PWA, which will allow users install the site as a web app on their device
+    pwa: false,
+    // disable client-side JavaScript, this will:
+    // 1. disable most built-in client-side JavaScript from rendering (protected content component and umami still needs javascript to function, sorry)
     // 2. the full text search will be redirected to a search engine
     // 3. the comments will be globally disabled
-    // 4. the night mode & back to top will not use Javascript to function
+    // 4. the night mode & back to top will not use JavaScript to function
     // 5. the neko will be force-disabled
+    noClientJavaScript: false,
     // site components
     i18n: {
         // TODO
         // Only 'content/posts/<language codes>/' is supported for now.
-        // experimental. Make i18n posts and pages works for /content/posts/something.[lang].md
+        // experimental. Make i18n posts and pages works for /content/posts/something.[lang].md,
         // will be true for default in future.
         useLanguageSuffixInFiles: false,
         // TODO: let users localize the navbar items.
-        // will overwrite the .navBarItems when configured.
+        // This will overwrite the .navBarItems when configured.
         navBarItems: {
             en: [],
             "zh-CN": [],
@@ -39,41 +43,55 @@ export const siteConfig = {
         {text: "GitHub", link: "https://github.com/GrassBlock1/mercury", openInNewTab: false},
     ],
     // search
-    // This only works when noClientJavaScript is enabled
-    searchEngine: 'duckduckgo', // 'google', 'duckduckgo', 'bing' (broken until M1cr0$0ft get support for it), defaults to 'google'
+    // The search engine used to search posts when noClientJavaScript is enabled
+    // can be `google`, `duckduckgo`, `bing` (broken until M1cr0$0ft get support for it), defaults to `google`
+    searchEngine: 'duckduckgo',
     // content
-    displayAvatar: true, // display author avatar in the article list and info line of article page
+    // display author avatar in the info line of article page
+    displayAvatar: true,
+    // newsletter settings
+    // enable newsletter subscription in post list page
     newsletter: {
-        enabled: false, // enable newsletter subscription in post list page
-        type: 'listmonk', //  only 'listmonk' is supported for now, more will be added later
+        enabled: false,
+        // The service to use. Only listmonk is supported for now, more will be added later
+        type: 'listmonk',
         listmonk: {
-            instanceDomain: 'listmonk.yourdomain.com', // the domain of your listmonk instance
-            listuuid: '3546fc35-fd75-4163-936a-114514191981', // the id of the list to subscribe to, can be found in the listmonk admin panel
+            // the domain of your listmonk instance
+            instanceDomain: 'listmonk.yourdomain.com',
+            // the id of the list to subscribe to, can be found in the listmonk admin panel
+            listuuid: '3546fc35-fd75-4163-936a-114514191981',
         }
     },
     // outdated callout
     // enable the callout to notify users that the content maybe outdated, this will add a callout to the top of the article page,
-    // initialized by the server islands
     outdatedCallout: {
-        enabled: true, // enable the outdated callout
-        daysBeforeOutdated: 90, // the number of days before the content is considered outdated, defaults to 90 days
+        // enable the outdated callout
+        enabled: true,
+        // the number of days before the content is considered outdated, defaults to 90 days
+        daysBeforeOutdated: 90,
     },
     // encryption
     // the global password to encrypt/decrypt the content, if set, all <ProtectedContent/> without specifying a password will be encrypted with this password
     // To use an environment variable to set the password, replace the value with `import.meta.env.CONTENT_PASSWORD`
-    // (or process.env.CONTENT_PASSWORD, CONTENT_PASSWORD can be any string) and set the environment variable in your deployment service.
+    // (or `process.env.CONTENT_PASSWORD`, `CONTENT_PASSWORD` can be any string) and set the environment variable in your deployment service.
     contentPassword: 'p1easeChangeMe!',
     // copyright notice
     copyright: {
-        type: '', // The type of copyright license, defaults to 'All rights reserved'
-        url: '', // The link to the full text of the license
+        // The type of copyright license, defaults to 'All rights reserved'
+        type: '',
+        // The link to the full text of the license
+        url: '',
     },
     // comments
     comments: {
-        type: 'artalk', // 'artalk','giscus','fediverse','email','hatsu','oom','twikoo','waline'
+        // can be `artalk`,`giscus`,`fediverse`, `hatsu`,`oom`,`twikoo`,`waline`
+        type: 'artalk',
+        // artalk config
         artalk: {
-            instanceDomain: '', // the domain of your artalk instance
-            site: '', // the site name of the current site in artalk dashboard, default is "default"
+            // the domain of your artalk instance
+            instanceDomain: '',
+            // the site name of the current site in artalk dashboard, default is `default`
+            site: '',
         },
         giscus: {
             // get these params from giscus.app
@@ -90,71 +108,93 @@ export const siteConfig = {
             theme: "preferred_color_scheme",
             lang: "en"
         },
+        // use Mastodon (compatible) api to search posts and parse replies.
+        // It will search for the post's link by default
         // WIP
         fediverse: {
-            // use Mastodon (compatible) api to search posts and parse replies
-            // it will search for the post's link by default
-            renderOnServer: false, // render comments on server-side or client-side, may different from the astro config
-            // the comments are rendered at the client side by default
-            // but if you want to deploy site on Cloudflare pages or other services that supported by astro adapters you can set it to true.
+            // render comments on server-side or client-side, may different from the astro config.
+            // the comments are rendered at build by default, but can be fetched realtime on server/client.
             // you may get warning from the console about the project not containing any server rendered page, but it is ok.
             // to fix this add a `export const prerender = false` to Comments.astro
-            // a reverse proxy is recommended in pure client-side rendering mode to get the posts from the fediverse instance
-            // that requires to be authorized to use search api the instance
+            renderOnServer: false,
+            // set a reverse proxy to fetch the results.
+            // It is recommended to set one in pure client-side rendering mode to get the posts from the fediverse instance
+            // that requires to be authorized to use search api.
             useReverseProxy: false,
-            reverseProxyUrl: '', // the url of the reverse proxy, usually a cloudflare worker proxying the search api
+            // the url of the reverse proxy, usually a cloudflare worker proxying the search api
             // the reverse proxy should be able to handle the following request:
-            // GET /api/v1/search?q={query}&type=statuses&account_id=12345678
-            // GET /api/v1/statuses/12345678/context
+            // `GET /api/v1/search?q={query}&type=statuses&account_id=12345678` (TODO: search all posts)
+            // `GET /api/v1/statuses/12345678/context`
             // response body should be returned from the origin (fediverse instance) as-is.
-            accountId: '', // the account id to search posts from, can be got from api like: https://{instance}/api/v1/accounts/{username without domain part}
-            instanceDomain: '', // the domain of the fediverse instance to search posts from
-            useV2api: true, // use /api/v2/search instead of /api/v1/search to search on instance using newer version of mastodon/pleroma/akkoma
-            token: process.env.MASTODON_API_TOKEN, // the token to use to authenticate with the fediverse instance, usually a read:search-only token
+            reverseProxyUrl: '',
+            // the account id to search posts from, can be got from api like: https://{instance}/api/v1/accounts/{username without domain part}
+            // It will be deprecated in the future.
+            accountId: '',
+            // the domain of the fediverse instance to search posts from
+            instanceDomain: '',
+            // use `/api/v2/search` instead of `/api/v1/search` to search on instance using newer version of mastodon/pleroma/akkoma
+            useV2api: true,
+            // the token to use to authenticate with the fediverse instance, usually a read:search-only token
+            token: process.env.MASTODON_API_TOKEN,
         },
+        // hatsu.cli.rs
+        // Get replies from the fediverse using hatsu.
+        // To make this fully work you should also make changes to the Layout.astro according to the docs.
         hatsu: {
-            // use hatsu.cli.rs to get replies from the fediverse
             instanceDomain: '',
         },
+        // use twikoo to get comments
         twikoo: {
-            // use twikoo to get comments
-            envId: 'your-env-id', // the env id/domain of your twikoo instance, see https://twikoo.js.org/backend.html
-            region: '' // the deployment region of your twikoo instance, can be 'ap-shanghai', 'ap-guangzhou', if you are not deploying twikoo on Tencent Cloud, leave it empty
+            // the env id/domain of your twikoo instance, see https://twikoo.js.org/backend.html
+            envId: 'your-env-id',
+            // the deployment region of your twikoo instance, can be `ap-shanghai`, `ap-guangzhou`,
+            // leave it empty if you are not serving twikoo on Tencent Cloud.
+            region: ''
         },
         waline: {
             serverURL: '' // the domain of your waline instance, usually your-waline-instance.com
         }
     },
     // footer
-    // yes you can write html safely here
+    // you can write HTML safely here
     customFooter: '<i>I have no mouth, and I must SCREAM</i>',
-    // the preset of the powered by text
+    // the preset of the "powered by" text
     // defaults to 'Powered by Mercury', see PoweredBy.astro for more details
-    // choose from 'default', 'withastro', 'plain', 'plainwithastro', 'formula', 'iconsonly' and 'none', any other value will be treated as 'default'
+    // can be any values in `default`, `withastro`, `plain`, `plainwithastro`, `formula`, `iconsonly` and `none`, any other value will be treated as `default`.
     poweredByPreset: '',
-    // umami analytics
+    // site analytics
     // by enabling this, you can track the visitors of your site
     siteAnalytics: {
-        enabled: false, // enable analytics
-        type: 'umami', // 'umami', 'goatcounter'
+        // enable analytics
+        enabled: false,
+        // can be one of `umami`, `goatcounter`
+        type: 'umami',
+        // umami config
         umami: {
-            instanceDomain: 'cloud.umami.is', // the domain of the umami instance, usually your-umami-instance.com (default: official cloud.umami.is)
-            websiteId: 'your-website-id', // the id of your website in umami, get it from your umami dashboard
+            // the domain of the umami instance, usually your-umami-instance.com (default: official cloud.umami.is)
+            instanceDomain: 'cloud.umami.is',
+            // the id of your website in umami, get it from your umami dashboard
+            websiteId: 'your-website-id',
+            // also use pixels.
             // umami pixels: https://docs.umami.is/docs/pixels
-            // will be used as a fallback when javascript is disabled.
-            // Note: the pixels record less information than the javascript code due to limitations.
+            // will be used as a fallback when JavaScript is disabled.
+            // Note: the pixels record less information than the JavaScript code due to limitations.
             pixelURL: 'https://cloud.umami.is/pixel-url', // the url of your pixel
         },
+        // goatcounter config.
+        // It provides solutions for tracking visitors without JavaScript.
         goatcounter: {
-            // provide solutions for tracking visitors without Javascript
-            instanceDomain: 'yourcodehere.goatcounter.com', // the domain of the goatcounter instance, usually your-goatcounter-instance.com
+
+            // the domain of the goatcounter instance, usually your-goatcounter-instance.com
+            instanceDomain: 'yourcodehere.goatcounter.com',
         },
     },
     // neko
-    // by enabling this, you can add a neko that follows cursor to your site
-    // this will load script from webneko.net
+    // add a neko that follows cursor to your site.
+    // Attention: this will load script from webneko.net.
     neko: {
         enabled: false,
-        type: 'mike' // more available, for a full list, check https://webneko.net/
+        // Choose a neko. For a full list, check https://webneko.net/
+        type: 'mike'
     }
 }
