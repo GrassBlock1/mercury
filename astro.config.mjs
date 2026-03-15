@@ -45,7 +45,9 @@ export default defineConfig({
     i18n: {
         locales: ["en", "zh-CN"],
         defaultLocale: "en",
-        prefixDefaultLocale: false
+        routing: {
+            prefixDefaultLocale: false
+        }
     },
 
     integrations: [sitemap(), mdx(), partytown()],
