@@ -18,6 +18,19 @@ export const siteConfig = {
     // 4. the night mode & back to top will not use Javascript to function
     // 5. the neko will be force-disabled
     // site components
+    i18n: {
+        // TODO
+        // Only 'content/posts/<language codes>/' is supported for now.
+        // experimental. Make i18n posts and pages works for /content/posts/something.[lang].md
+        // will be true for default in future.
+        useLanguageSuffixInFiles: false,
+        // TODO: let users localize the navbar items.
+        // will overwrite the .navBarItems when configured.
+        navBarItems: {
+            en: [],
+            "zh-CN": [],
+        }
+    },
     navBarItems: [
         // additional items in the navbar
         // the order of the items will be the same as the order in the array
