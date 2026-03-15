@@ -10,7 +10,7 @@ import AuthorInfo from "@/components/helper/authors/Info.astro";
 import TableOfContents from "@/components/toc/TableOfContents.astro";
 import TableOfContentsButton from "@/components/toc/Button.astro";
 import "katex/dist/katex.css"
-import {useTranslations, useTranslatedPath, getLocalePathMap, defaultLocale} from '@/i18n/utils';
+import {useTranslations, useTranslatedPath, getLocalePathMap, defaultLocale, isDefaultLocale} from '@/i18n/utils';
 import OutDatedCallOut from "@/components/OutDatedCallOut.astro";
 import CopyRight from "@/components/CopyRight.astro";
 
@@ -23,7 +23,7 @@ export async function getStaticPaths() {
       return (import.meta.env.PROD ? post.data.draft !== true : true) && (languages.includes(post.id.split("/")[0]));
 });
   return blogEntries.map(entry => {
-      const lang = entry.id.split('/')[0];
+      const lang = (getLocalePathMap())[entry.id.split('/')[0]];
       const slug = entry.slug.split('/').pop() || entry.slug;
       return { params: { lang, slug }, props: { entry } };
   });
