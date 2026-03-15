@@ -4,7 +4,7 @@ import {siteConfig} from "@/config"
 import {getLocalePathMap, useTranslatedPath, useTranslations} from "@/i18n/utils.ts";
 
 export async function getStaticPaths() {
-  const uniqueLangPaths = [...new Set(Object.values(getLocalePathMap()))];
+  const uniqueLangPaths = [...new Set(Object.values(getLocalePathMap()).filter(item => item !== '/'))];
   return uniqueLangPaths.map((lang) => ({
     params: { lang },
   }));
