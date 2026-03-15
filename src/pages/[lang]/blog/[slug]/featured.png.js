@@ -64,6 +64,7 @@ const fileCache = {
 
 export async function getStaticPaths() {
   const blogEntries = await getCollection('posts', (post) => {
+    const languages = Object.keys(getLocalePathMap()).filter(item => item !== defaultLocale);
     return (import.meta.env.PROD ? post.data.draft !== true : true) && (languages.includes(post.id.split("/")[0]));
   });
 
