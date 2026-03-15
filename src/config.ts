@@ -4,9 +4,9 @@ export const siteConfig = {
     description: 'A blog about software development, technology, and life.',
     homepageOgImage: '',
     defaultAuthor: {
-      id: 'd6e4661d', // (optional) an id in the authors.yaml, will override the setting below (if id exists)
-      name: 'GrassBlock1',
-      email: 'hi@mercury.info',
+        id: 'd6e4661d', // (optional) an id in the authors.yaml, will override the setting below (if id exists)
+        name: 'GrassBlock1',
+        email: 'hi@mercury.info',
     },
     // features
     spa: false, // enable single page application mode, this will enable navigation (with fade transitions) without reloading the page, and enable client-side routing
@@ -35,8 +35,8 @@ export const siteConfig = {
         // additional items in the navbar
         // the order of the items will be the same as the order in the array
         // format is { text: string, link: string, openInNewTab?: boolean (default: true) }
-        { text: "RSS", link: "/rss.xml", openInNewTab: true },
-        { text: "GitHub", link: "https://github.com/GrassBlock1/mercury", openInNewTab: false },
+        {text: "RSS", link: "/rss.xml", openInNewTab: true},
+        {text: "GitHub", link: "https://github.com/GrassBlock1/mercury", openInNewTab: false},
     ],
     // search
     // This only works when noClientJavaScript is enabled
@@ -77,18 +77,18 @@ export const siteConfig = {
         },
         giscus: {
             // get these params from giscus.app
-            repo:"[ENTER REPO HERE]",
+            repo: "[ENTER REPO HERE]",
             repoId: "[ENTER REPO ID HERE]",
-            category:"[ENTER CATEGORY NAME HERE]",
-            categoryId:"[ENTER CATEGORY ID HERE]",
-            mapping:"pathname",
+            category: "[ENTER CATEGORY NAME HERE]",
+            categoryId: "[ENTER CATEGORY ID HERE]",
+            mapping: "pathname",
             term: "Welcome to comment powered by @giscus",
-            strict:"0",
-            reactionsEnabled:"1",
-            emitMetadata:"0",
-            inputPosition:"bottom",
-            theme:"preferred_color_scheme",
-            lang:"en"
+            strict: "0",
+            reactionsEnabled: "1",
+            emitMetadata: "0",
+            inputPosition: "bottom",
+            theme: "preferred_color_scheme",
+            lang: "en"
         },
         // WIP
         fediverse: {
