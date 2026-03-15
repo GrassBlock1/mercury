@@ -12,6 +12,9 @@ export function getLocalePathMap(locales: Locales = i18n?.locales ?? []): Record
         if (typeof locale === 'string') {
             // simple
             result[locale] = locale;
+            if (locale === defaultLocale && i18n?.routing !== 'manual' && !i18n?.routing?.prefixDefaultLocale) {
+                result[locale] = '/';
+            }
         } else {
             // reflect the same path to multiple languages
             for (const code of locale.codes) {
