@@ -65,11 +65,12 @@ const fileCache = {
 export async function getStaticPaths() {
   const blogEntries = await getCollection('posts', (post) => {
     const languages = Object.keys(localePathMap).filter(item => item !== defaultLocale)
-    return (import.meta.env.PROD ? post.data.draft !== true : true) && !(languages.includes(post.id.split("/")[0]));
-});
-  return blogEntries.map(post => ({
-    params: { slug: post.slug }, props: { post },
-  }));
+    return (import.meta.env.PROD ? post.data.draft !== true : true) && (post.id.split("/")[0] === defaultLocale);
+  });
+  return blogEntries.map(post => {
+    const slug = post.slug.split("/")[0] === defaultLocale ? post.slug.split("/").slice(1).join("/") : post.slug;
+    return {params: { slug }, props: { post }}
+  });
 }
 
 // get the post has a external featured.* image files
