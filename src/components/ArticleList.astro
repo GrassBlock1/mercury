@@ -2,7 +2,7 @@
 import {defaultLocale, isDefaultLocale} from "@/i18n/utils.ts";
 const { posts, displayDate = false, placeholder = false, lang = defaultLocale } = Astro.props;
 function getSlug(id: string,slug: string, lang = defaultLocale) {
-    return isDefaultLocale(lang) ? `blog/${slug}` : (lang === id.split("/")[0] ? `/${lang}/blog/${slug.split("/").pop()}` : `/${lang}/blog/${slug}`)
+    return isDefaultLocale(lang) ? `blog/${slug.split("/").slice(1).join("/")}` : (lang === id.split("/")[0] ? `/${lang}/blog/${slug.split("/").pop()}` : `/${lang}/blog/${slug}`)
 }
 ---
 <div style="margin-top: 1rem; margin-left: 1rem;">
