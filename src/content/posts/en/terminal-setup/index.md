@@ -6,7 +6,7 @@ author:
   - 'Glados'
   - 'Wheatley'
 ---
-![cover from mohammad-rahmani-oXlXu2qukGE-unsplash](./demo.png)
+![cover from mohammad-rahmani-oXlXu2qukGE-unsplash](demo.png)
 Here's my current terminal setup:
 
 - Shell: ZSH with Oh My Zsh
