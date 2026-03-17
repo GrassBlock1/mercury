@@ -4,14 +4,20 @@ import { getCollection } from 'astro:content';
 import NewsLetter from "../components/NewsLetter.astro";
 import {siteConfig} from "../config";
 import ArticleList from "../components/ArticleList.astro";
-import {getLangFromUrl, useTranslations, useTranslatedPath, getLocalePathMap, defaultLocale} from '../i18n/utils';
+import {
+  getLangFromUrl,
+  useTranslations,
+  useTranslatedPath,
+  defaultLocale,
+  localePathMap
+} from '../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const translatePath = useTranslatedPath(lang);
 
 const posts = await getCollection('posts', ( post ) => {
-    const languages = Object.keys(getLocalePathMap()).filter(item => item != defaultLocale)
+    const languages = Object.keys(localePathMap).filter(item => item != defaultLocale)
     return (import.meta.env.PROD ? post.data.draft !== true : true) && !(languages.includes(post.id.split("/")[0]));
 });
 posts.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());

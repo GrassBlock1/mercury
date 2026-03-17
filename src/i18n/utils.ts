@@ -5,7 +5,7 @@ import {i18n} from "astro:config/client";
 type LocaleConfig = string | { path: string; codes: string[] };
 type Locales = LocaleConfig[];
 
-export function getLocalePathMap(locales: Locales = i18n?.locales ?? []): Record<string, string> {
+function getLocalePathMap(locales: Locales = i18n?.locales ?? []): Record<string, string> {
     const result: Record<string, string> = {};
     
     for (const locale of locales) {
@@ -25,6 +25,8 @@ export function getLocalePathMap(locales: Locales = i18n?.locales ?? []): Record
     
     return result;
 }
+
+export const localePathMap = getLocalePathMap();
 
 export function getLangFromUrl(url: URL) {
     const [, lang] = url.pathname.split('/');

@@ -11,7 +11,13 @@ import AuthorInfo from "../../components/helper/authors/Info.astro";
 import TableOfContents from "../../components/toc/TableOfContents.astro";
 import TableOfContentsButton from "../../components/toc/Button.astro";
 import "katex/dist/katex.css"
-import {getLangFromUrl, useTranslations, useTranslatedPath, getLocalePathMap, defaultLocale} from '../../i18n/utils';
+import {
+    getLangFromUrl,
+    useTranslations,
+    useTranslatedPath,
+    defaultLocale,
+    localePathMap
+} from '../../i18n/utils';
 import OutDatedCallOut from "../../components/OutDatedCallOut.astro";
 import CopyRight from "../../components/CopyRight.astro";
 
@@ -20,7 +26,7 @@ const t = useTranslations(lang);
 const translatePath = useTranslatedPath(lang);
 export async function getStaticPaths() {
   const blogEntries = await getCollection('posts', (post) => {
-      const languages = Object.keys(getLocalePathMap()).filter(item => item != defaultLocale)
+      const languages = Object.keys(localePathMap).filter(item => item != defaultLocale)
       return (import.meta.env.PROD ? post.data.draft !== true : true) && !(languages.includes(post.id.split("/")[0]));
 });
   return blogEntries.map(entry => ({

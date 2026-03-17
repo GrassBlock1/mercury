@@ -4,10 +4,10 @@ import { getCollection } from 'astro:content';
 import NewsLetter from "@/components/NewsLetter.astro";
 import {siteConfig} from "@/config";
 import ArticleList from "@/components/ArticleList.astro";
-import { getLocalePathMap, useTranslations, useTranslatedPath } from '@/i18n/utils';
+import { useTranslations, useTranslatedPath, localePathMap} from '@/i18n/utils';
 
 export async function getStaticPaths() {
-  const uniqueLangPaths = [...new Set(Object.values(getLocalePathMap()).filter(item => item !== '/'))];
+  const uniqueLangPaths = [...new Set(Object.values(localePathMap).filter(item => item !== '/'))];
   return uniqueLangPaths.map((lang) => ({
     params: { lang },
   }));
