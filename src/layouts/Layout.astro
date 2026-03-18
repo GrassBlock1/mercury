@@ -26,6 +26,7 @@ interface Props {
 import PoweredBy from "../components/PoweredBy.astro";
 import SPARouter from "../components/helper/spa/SPARouter.astro";
 import Spinner from "../components/helper/spa/Spinner.astro";
+import LanguagePicker from "@/components/helper/i18n/LanguagePicker.astro";
 const spaEnabled = siteConfig.spa
 
 const noscript = siteConfig.noClientJavaScript
@@ -47,7 +48,7 @@ const { title = pageTitle, author = siteConfig.defaultAuthor.name,description = 
 ---
 
 <!doctype html>
-<html lang={i18n?.defaultLocale || 'en'}>
+<html lang={Astro.currentLocale || 'en'}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
