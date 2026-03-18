@@ -26,7 +26,7 @@ export const siteConfig = {
         // TODO
         // Only 'content/posts/<language codes>/' is supported for now.
         // experimental. Make i18n posts and pages works for /content/posts/something.[lang].md,
-        // will be true for default in future.
+        // if you are used to the structure with the default hugo config, or to make it simple, set this to true.
         useLanguageSuffixInFiles: false,
         // TODO: let users localize the navbar items.
         // This will overwrite the .navBarItems when configured.
