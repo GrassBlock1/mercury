@@ -8,7 +8,7 @@ export async function getStaticPaths() {
     const languages = Object.keys(localePathMap).filter(item => item != defaultLocale)
     return pageEntries.map(entry => {
         let slug;
-        const [locale]= entry.id.split("/")[0]
+        const locale= entry.id.split("/")[0]
         const [sLocale, ...slugParts] = entry.slug.split("/")
         if (locale === defaultLocale) {
             if (sLocale == defaultLocale) {
