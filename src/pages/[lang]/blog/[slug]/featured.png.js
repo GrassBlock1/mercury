@@ -4,7 +4,8 @@ import {getImage} from "astro:assets";
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import crypto from 'node:crypto';
-import {defaultLocale, localePathMap} from "@/i18n/utils.ts";
+import {defaultLocale, locales} from "@/i18n/utils.ts";
+import {getPathByLocale} from "astro:i18n";
 
 // Ensure cache directory exists
 const CACHE_DIR = 'node_modules/.astro/og-cache';
@@ -64,12 +65,12 @@ const fileCache = {
 
 export async function getStaticPaths() {
   const blogEntries = await getCollection('posts', (post) => {
-    const languages = Object.keys(localePathMap).filter(item => item !== defaultLocale);
+    const languages = locales.filter(item => item !== defaultLocale);
     return (import.meta.env.PROD ? post.data.draft !== true : true) && (languages.includes(post.id.split("/")[0]));
   });
 
   return blogEntries.map(post => {
-    const lang = post.id.split('/')[0];
+    const lang = getPathByLocale(post.id.split('/')[0]);
     const slug = post.slug.split('/').pop() || post.slug;
     return { params: { lang, slug }, props: { post } };
   });

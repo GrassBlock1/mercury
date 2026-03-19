@@ -14,22 +14,21 @@ import {
     useTranslations,
     useTranslatedPath,
     defaultLocale,
-    isDefaultLocale,
-    localePathMap
+    locales
 } from '@/i18n/utils';
 import OutDatedCallOut from "@/components/OutDatedCallOut.astro";
 import CopyRight from "@/components/CopyRight.astro";
+import {getPathByLocale} from "astro:i18n";
 
 const { lang, slug } = Astro.params
 const t = useTranslations(lang);
-const translatePath = useTranslatedPath(lang);
 export async function getStaticPaths() {
   const blogEntries = await getCollection('posts', (post) => {
-      const languages = Object.keys(localePathMap).filter(item => item != defaultLocale)
+      const languages = locales.filter(item => item != defaultLocale)
       return (import.meta.env.PROD ? post.data.draft !== true : true) && (languages.includes(post.id.split("/")[0]));
 });
   return blogEntries.map(entry => {
-      const lang = (localePathMap)[entry.id.split('/')[0]];
+      const lang = getPathByLocale(entry.id.split('/')[0]);
       const slug = entry.slug.split('/').pop() || entry.slug;
       return { params: { lang, slug }, props: { entry } };
   });

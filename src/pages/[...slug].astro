@@ -1,11 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from "astro:content";
-import {defaultLocale, localePathMap} from "@/i18n/utils.ts";
+import {defaultLocale, locales} from "@/i18n/utils.ts";
+import {getPathByLocale} from "astro:i18n";
 
 export async function getStaticPaths() {
     const pageEntries = await getCollection('pages');
-    const languages = Object.keys(localePathMap).filter(item => item != defaultLocale)
+    const languages = locales.filter(item => item != defaultLocale)
     return pageEntries.map(entry => {
         let slug;
         const locale= entry.id.split("/")[0]
@@ -18,9 +19,9 @@ export async function getStaticPaths() {
             }
         } else if (languages.includes(locale)) {
             if (locale.toLowerCase() === sLocale) {
-                slug = localePathMap[locale] + "/" + slugParts
+                slug = getPathByLocale(locale) + "/" + slugParts
             } else {
-                slug = localePathMap[locale] + "/" + entry.slug
+                slug = getPathByLocale(locale) + "/" + entry.slug
             }
         } else {
             slug = entry.slug

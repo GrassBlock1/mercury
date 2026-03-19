@@ -9,7 +9,7 @@ import {
   useTranslations,
   useTranslatedPath,
   defaultLocale,
-  localePathMap
+  locales
 } from '../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
@@ -17,7 +17,7 @@ const t = useTranslations(lang);
 const translatePath = useTranslatedPath(lang);
 
 const posts = await getCollection('posts', ( post ) => {
-    const languages = Object.keys(localePathMap).filter(item => item != defaultLocale)
+    const languages = locales.filter(item => item != defaultLocale)
     return (import.meta.env.PROD ? post.data.draft !== true : true) && !(languages.includes(post.id.split("/")[0]));
 });
 posts.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());

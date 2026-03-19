@@ -1,5 +1,6 @@
 import {ui, defaultLang, showDefaultLang} from './ui';
 import {i18n} from "astro:config/client";
+import {getLocaleByPath} from "astro:i18n";
 
 // types from Astro config
 type LocaleConfig = string | { path: string; codes: string[] };
@@ -8,28 +9,14 @@ export const defaultLocale = i18n?.defaultLocale || 'en'
 export function isDefaultLocale(locale: string)  {
     return defaultLocale == locale
 }
-function getLocalePathMap(locales: Locales = i18n?.locales ?? []): Record<string, string> {
-    const result: Record<string, string> = {};
-    
-    for (const locale of locales) {
-        if (typeof locale === 'string') {
-            // simple
-            result[locale] = locale;
-            if (locale === defaultLocale && i18n?.routing !== 'manual' && !i18n?.routing?.prefixDefaultLocale) {
-                result[locale] = '/';
-            }
-        } else {
-            // reflect the same path to multiple languages
-            for (const code of locale.codes) {
-                result[code] = locale.path;
-            }
-        }
-    }
-    
-    return result;
+function getLocales(locales: Locales = i18n?.locales ?? []) {
+    const codes = locales.flatMap((locale) =>
+        typeof locale === 'string' ? locale : locale.codes
+    );
+    return [...new Set(codes)];
 }
 
-export const localePathMap = getLocalePathMap();
+export const locales = getLocales();
 
 export function getLangFromUrl(url: URL) {
     const [, lang] = url.pathname.split('/');
