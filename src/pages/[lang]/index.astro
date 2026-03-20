@@ -2,11 +2,12 @@
 import Layout from '@/layouts/Layout.astro';
 import {siteConfig} from "@/config"
 import {defaultLocale, locales, useTranslatedPath, useTranslations} from "@/i18n/utils.ts";
+import {getPathByLocale} from "astro:i18n";
 
 export async function getStaticPaths() {
   const uniqueLangPaths = locales.filter(item => item !== defaultLocale);
   return uniqueLangPaths.map((lang) => ({
-    params: { lang },
+    params: { lang: getPathByLocale(lang) },
   }));
 }
 

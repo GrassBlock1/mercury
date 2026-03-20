@@ -1,6 +1,7 @@
 ---
 import Layout from '@/layouts/Layout.astro';
 import { getCollection } from 'astro:content';
+import { getPathByLocale } from "astro:i18n";
 import NewsLetter from "@/components/NewsLetter.astro";
 import {siteConfig} from "@/config";
 import ArticleList from "@/components/ArticleList.astro";
@@ -8,16 +9,16 @@ import {useTranslations, useTranslatedPath, locales, defaultLocale} from '@/i18n
 
 export async function getStaticPaths() {
   const langs = locales.filter(item => item !== defaultLocale);
-  return langs.map((lang) => ({
-    params: { lang },
+  return langs.map((lang: string) => ({
+    params: { lang: getPathByLocale(lang) },
   }));
 }
 
+
 const { lang } = Astro.params;
 const t = useTranslations(lang);
-const translatePath = useTranslatedPath(lang);
 const posts = await getCollection('posts', (post) => {
-    return (import.meta.env.PROD ? post.data.draft !== true : true) && post.id.startsWith(lang);
+    return (import.meta.env.PROD ? post.data.draft !== true : true) && getPathByLocale(post.id.split("/")[0]) === lang;
 });
 posts.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
 ---
