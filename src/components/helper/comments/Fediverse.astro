@@ -8,7 +8,6 @@ const {
   token,
   useReverseProxy,
   reverseProxyUrl,
-  accountId
 } = fediverseConfig;
 
 
@@ -33,9 +32,6 @@ let replies: any[] = [];
 const params = new URLSearchParams();
 params.append('q', postUrl);
 params.append('type', 'statuses');
-if (accountId) {
-  params.append('account_id', accountId);
-}
 const url = `${searchEndpoint}?${params.toString()}`;
 
 // Prepare fetch options

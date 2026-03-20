@@ -124,9 +124,6 @@ export const siteConfig = {
             // `GET /api/v1/statuses/12345678/context`
             // response body should be returned from the origin (fediverse instance) as-is.
             reverseProxyUrl: '',
-            // the account id to search posts from, can be got from api like: https://{instance}/api/v1/accounts/{username without domain part}
-            // It will be deprecated in the future.
-            accountId: '',
             // the domain of the fediverse instance to search posts from
             instanceDomain: '',
             // use `/api/v2/search` instead of `/api/v1/search` to search on instance using newer version of mastodon/pleroma/akkoma
