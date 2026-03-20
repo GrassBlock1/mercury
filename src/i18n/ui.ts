@@ -1,3 +1,8 @@
+export const labels: Record<string, string> = {
+    'en': 'English',
+    'zh-cn': '简体中文'
+};
+
 export const ui = {
     en: {
         'nav.home': 'Home',
