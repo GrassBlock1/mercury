@@ -110,13 +110,10 @@ export const siteConfig = {
         },
         // use Mastodon (compatible) api to search posts and parse replies.
         // It will search for the post's link by default
+        // The comments will render on server-side,
+        // at build by default, but can be fetched realtime on server using server:defer
         // WIP
         fediverse: {
-            // render comments on server-side or client-side, may different from the astro config.
-            // the comments are rendered at build by default, but can be fetched realtime on server/client.
-            // you may get warning from the console about the project not containing any server rendered page, but it is ok.
-            // to fix this add a `export const prerender = false` to Comments.astro
-            renderOnServer: false,
             // set a reverse proxy to fetch the results.
             // It is recommended to set one in pure client-side rendering mode to get the posts from the fediverse instance
             // that requires to be authorized to use search api.
