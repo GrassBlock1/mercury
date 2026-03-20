@@ -51,20 +51,19 @@ if (token) {
 commentData = await fetch(url, options).then(r => r.json());
 
 // Extract original post and get replies if available
-const statuses = commentData.statuses || [];
-if (statuses.length > 0) {
-  const originalPost = statuses[0];
-
+const comments = commentData.statuses || [];
+if (comments.length > 0) {
+  comments.map(async (comment) =>
   // Fetch replies
-  if (originalPost) {
-    const statusId = originalPost.id;
+  {
+    const statusId = comment.id;
     const contextUrl = `https://${instanceDomain}/api/v1/statuses/${statusId}/context`;
     const contextResponse = await fetch(contextUrl, options);
     if (contextResponse.ok) {
       const contextData = await contextResponse.json();
       replies = contextData.descendants || [];
     }
-  }
+  })
 }
 ---
 

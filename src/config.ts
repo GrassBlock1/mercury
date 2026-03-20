@@ -120,7 +120,7 @@ export const siteConfig = {
             useReverseProxy: false,
             // the url of the reverse proxy, usually a cloudflare worker proxying the search api
             // the reverse proxy should be able to handle the following request:
-            // `GET /api/v1/search?q={query}&type=statuses&account_id=12345678` (TODO: search all posts)
+            // `GET /api/v1/search?q={query}&type=statuses`
             // `GET /api/v1/statuses/12345678/context`
             // response body should be returned from the origin (fediverse instance) as-is.
             reverseProxyUrl: '',
