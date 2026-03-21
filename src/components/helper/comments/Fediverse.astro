@@ -12,8 +12,9 @@ const {
 
 
 // Create the full URL to search for
-const postUrl = Astro.url.href;
-
+const pageURL = new URL(Astro.request.headers.get('Referer') || Astro.url.href);
+// search for only the host/path in case the instance will try to resolve the post with activitypub
+const postUrl = new URL(pageURL).host + new URL(pageURL).pathname
 // Define the search API endpoint based on configuration
 let searchEndpoint: string;
 if (useReverseProxy && reverseProxyUrl) {
@@ -25,7 +26,7 @@ if (useReverseProxy && reverseProxyUrl) {
 
 // Prepare default variables
 let commentData: any = null;
-let replies: any[] = [];
+let replies = new Map<string, any[]>();
 
 // Server-side rendering - fetch data during build
 // Prepare URL
@@ -53,7 +54,9 @@ commentData = await fetch(url, options).then(r => r.json());
 // Extract original post and get replies if available
 const comments = commentData.statuses || [];
 if (comments.length > 0) {
-  comments.map(async (comment) =>
+  // Promise.all is required since Array.map is not async aware
+  // https://stackoverflow.com/a/40140562
+  await Promise.all(comments.map(async (comment) =>
   // Fetch replies
   {
     const statusId = comment.id;
@@ -61,9 +64,9 @@ if (comments.length > 0) {
     const contextResponse = await fetch(contextUrl, options);
     if (contextResponse.ok) {
       const contextData = await contextResponse.json();
-      replies = contextData.descendants || [];
+      replies.set(statusId,contextData.descendants || []);
     }
-  })
+  }))
 }
 ---
 
@@ -72,40 +75,61 @@ if (comments.length > 0) {
     {
         <>
           {!commentData || !commentData.statuses || commentData.statuses.length === 0 ? (
-              <div>No discussions found for this post on the Fediverse yet.</div>
-          ) : null}
-
-          {commentData && commentData.statuses && commentData.statuses.length > 0 ? (
-              <div class="original-post">
-                <div class="post-header">
-                  <img src={commentData.statuses[0].account.avatar} alt={commentData.statuses[0].account.display_name} class="avatar" />
-                  <div class="post-meta">
-                    <div class="post-author">{commentData.statuses[0].account.display_name}</div>
-                    <div class="post-username">@{commentData.statuses[0].account.acct}</div>
-                  </div>
-                </div>
-                <div class="post-content" set:html={commentData.statuses[0].content} />
-                <div class="post-stats">
-                  <span>🔁 {commentData.statuses[0].reblogs_count || 0}</span>
-                  <span>⭐ {commentData.statuses[0].favourites_count || 0}</span>
-                </div>
-                <div class="post-link">
-                  <a href={commentData.statuses[0].url} target="_blank" rel="noopener noreferrer">View post</a>
-                </div>
-              </div>
-          ) : null}
+              <p class="tip">No discussions found for this post on the Fediverse yet.</p>
+              <p class="tip">Try to search for <code>{postUrl}</code> with your fediverse account</p>
+          ) : (<>
+              <p class="tip">To make a comment, create a public post with the link to the post on fediverse.</p>
+              <p class="tip">To reply to a comment, copy the link of the 'view post' under the existing comments and search it on your instance and reply to it.</p>
+              {
+                commentData.statuses.map((status: any) => (
+                    <div class="original-post">
+                      <div class="post-header">
+                        <img src={status.account.avatar} alt={status.account.display_name} class="avatar"/>
+                        <div class="post-meta">
+                          <div class="post-author">{status.account.display_name}</div>
+                          <div class="post-username">@{status.account.acct}</div>
+                        </div>
+                      </div>
+                      <div class="post-content" set:html={status.content}/>
+                      <div class="post-stats">
+                        <span>🔁 {status.reblogs_count || 0}</span>
+                        <span>⭐ {status.favourites_count || 0}</span>
+                      </div>
+                      {(replies.get(status.id) || []).length > 0 && (
+                          <div class="replies-container">
+                            {(replies.get(status.id) || []).map((reply: any) => (
+                                <div class="post-replies">
+                                  <div class="reply-header">
+                                    <img src={reply.account.avatar} alt={reply.account.display_name} class="avatar"/>
+                                    <div class="post-meta">
+                                      <div class="post-author">{reply.account.display_name}</div>
+                                      <div class="post-username">@{reply.account.acct}</div>
+                                    </div>
+                                  </div>
+                                  <div class="post-content" set:html={reply.content}/>
+                                </div>
+                            ))}
+                          </div>
+                      )}
+                      <div class="post-link">
+                        <a href={status.url} target="_blank" rel="noopener noreferrer">View post</a>
+                      </div>
+                    </div>
+                ))
+              }
+            </>)}
         </>
     }
   </div>
 </div>
 
 <style>
-  .fediverse-comments {
-    margin-top: 2rem;
-  }
-
   .fediverse-status {
     margin-bottom: 1rem;
+  }
+
+  .fediverse-status p.tip {
+    margin: 1rem auto;
   }
 
   #error-message {
@@ -129,7 +153,6 @@ if (comments.length > 0) {
   .avatar {
     width: 48px;
     height: 48px;
-    border-radius: 50%;
     margin-right: 0.75rem;
   }
 
@@ -152,7 +175,7 @@ if (comments.length > 0) {
     gap: 1rem;
     margin-top: 0.5rem;
     font-size: 0.9rem;
-    color: var(--text-secondary, #666);
+    color: var(--secondary-text-color);
   }
 
   .post-link {
@@ -161,7 +184,7 @@ if (comments.length > 0) {
   }
 
   .post-link a {
-    color: var(--link-color, #0366d6);
+    color: var(--secondary-color);
     text-decoration: none;
   }
 
