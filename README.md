@@ -11,7 +11,7 @@ Demo: https://icy-beach-00f5be01e.6.azurestaticapps.net/
 - Ship only necessary JavaScript (even can be no JavaScript at all)
 - Full text search ~~based on `Fuse.js`~~
 - Full text RSS
-- Create Blogrolls via a yaml file
+- Create Blogrolls via a YAML file
 - Your status at Fediverse, now at your home
 - Comments powered by multiple engines
 - Umami/Goatcounter statics support
