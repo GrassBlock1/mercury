@@ -28,6 +28,8 @@ git clone https://git.gb0.dev/gb/mercury.git
 ```bash
 cd mercury && pnpm install
 ```
+> NOTE: if you had issues when installing dependencies, try to add `SHARP_IGNORE_GLOBAL_LIBVIPS=true` to avoid `sharp` from building from source.
+
 run the dev server:
 
 ```bash
