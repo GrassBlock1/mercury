@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { getCollection } from "astro:content";
+import {getCollection, render} from "astro:content";
 import {defaultLocale, locales} from "@/i18n/utils.ts";
 import {getPathByLocale} from "astro:i18n";
 
@@ -9,28 +9,28 @@ export async function getStaticPaths() {
     const languages = locales.filter(item => item != defaultLocale)
     return pageEntries.map(entry => {
         let slug;
-        const locale= entry.id.split("/")[0]
-        const [sLocale, ...slugParts] = entry.slug.split("/")
+        const locale= entry.filePath.split("/")[0]
+        const [sLocale, ...slugParts] = entry.id.split("/")
         if (locale === defaultLocale) {
             if (sLocale == defaultLocale) {
-                slug = entry.slug.split("/").slice(1).join("/")
+                slug = entry.id.split("/").slice(1).join("/")
             } else {
-                slug = entry.slug
+                slug = entry.id
             }
         } else if (languages.includes(locale)) {
             if (locale.toLowerCase() === sLocale) {
                 slug = getPathByLocale(locale) + "/" + slugParts
             } else {
-                slug = getPathByLocale(locale) + "/" + entry.slug
+                slug = getPathByLocale(locale) + "/" + entry.id
             }
         } else {
-            slug = entry.slug
+            slug = entry.id
         }
         return {params: { slug }, props: { entry }}
     });
 }
 const { entry } = Astro.props;
-const { Content } = await entry.render();
+const { Content } = await render(entry);
 ---
 
 <Layout title={entry.data.title} description={entry.data.description} >

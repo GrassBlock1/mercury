@@ -25,11 +25,11 @@ const t = useTranslations(lang);
 export async function getStaticPaths() {
   const blogEntries = await getCollection('posts', (post) => {
       const languages = locales.filter(item => item != defaultLocale)
-      return (import.meta.env.PROD ? post.data.draft !== true : true) && (languages.includes(post.id.split("/")[0]));
+      return (import.meta.env.PROD ? post.data.draft !== true : true) && (languages.includes(post.filePath.split("/")[0]));
 });
   return blogEntries.map(entry => {
-      const lang = getPathByLocale(entry.id.split('/')[0]);
-      const slug = entry.slug.split('/').pop() || entry.slug;
+      const lang = getPathByLocale(entry.filePath.split('/')[0]);
+      const slug = entry.id.split('/').pop() || entry.id;
       return { params: { lang, slug }, props: { entry } };
   });
 }

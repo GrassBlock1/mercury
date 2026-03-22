@@ -1,5 +1,5 @@
-import {z, reference} from 'astro:content';
-
+import {reference} from 'astro:content';
+import { z } from 'astro/zod';
 // @ts-ignore
 export const posts = ({image}) => z.object({
     title: z.string(),

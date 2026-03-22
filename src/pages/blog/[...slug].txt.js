@@ -5,10 +5,10 @@ export const prerender = true;
 export async function getStaticPaths() {
     const blogEntries = await getCollection('posts', (post) => {
         const languages = locales.filter(item => item !== defaultLocale)
-        return (import.meta.env.PROD ? post.data.draft !== true : true) && (post.id.split("/")[0] === defaultLocale || !languages.includes(post.id.split("/")[0]));
+        return (import.meta.env.PROD ? post.data.draft !== true : true) && (post.filePath.split("/")[0] === defaultLocale || !languages.includes(post.filePath.split("/")[0]));
     });
     return blogEntries.map(entry => {
-        const slug = entry.slug.split("/")[0] === defaultLocale ? entry.slug.split("/").slice(1).join("/") : entry.slug;
+        const slug = entry.id.split("/")[0] === defaultLocale ? entry.id.split("/").slice(1).join("/") : entry.id;
         return {params: { slug }, props: { entry }}
     });
 }

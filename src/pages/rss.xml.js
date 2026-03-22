@@ -2,7 +2,7 @@ import {getContainerRenderer as getMDXRenderer} from "@astrojs/mdx";
 import rss from "@astrojs/rss";
 import {experimental_AstroContainer as AstroContainer} from "astro/container";
 import {loadRenderers} from "astro:container";
-import {getCollection, getEntry} from "astro:content";
+import {getCollection, getEntry, render} from "astro:content";
 import {transform, walk} from "ultrahtml";
 import sanitize from "ultrahtml/transformers/sanitize";
 import {siteConfig} from "../config.js"
@@ -32,7 +32,7 @@ export async function GET(context) {
     const feedItems = [];
     for (const post of posts) {
         // Get the `<Content/>` component for the current post.
-        const {Content} = await post.render();
+        const {Content} = await render(post);
         // Use the Astro container to render the content to a string.
         const rawContent = await container.renderToString(Content);
         // Process and sanitize the raw content:

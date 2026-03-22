@@ -17,7 +17,7 @@ export async function getStaticPaths() {
 const { lang } = Astro.params;
 const t = useTranslations(lang);
 const posts = await getCollection('posts', (post) => {
-    return (import.meta.env.PROD ? post.data.draft !== true : true) && pathHasLocale(post.id.split("/")[0]) && getPathByLocale(post.id.split("/")[0]) === lang;
+    return (import.meta.env.PROD ? post.data.draft !== true : true) && pathHasLocale(post.filePath.split("/")[0]) && getPathByLocale(post.filePath.split("/")[0]) === lang;
 });
 posts.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
 ---

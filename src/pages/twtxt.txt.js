@@ -8,7 +8,7 @@ export async function GET(context) {
     posts.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
 
     const twtxt = posts.map(post => (
-        `${new Date(post.data.date).toISOString()}\t${post.data.title} ${context.site}blog/${post.slug}`
+        `${new Date(post.data.date).toISOString()}\t${post.data.title} ${context.site}blog/${post.id}`
     )).join('\n');
 
     return new Response(twtxt, {

@@ -1,17 +1,17 @@
 import {defineCollection} from 'astro:content';
-import {posts} from './posts/_schemas';
-import {pages} from "./pages/_schemas";
-import {file} from 'astro/loaders';
-import { z } from 'astro:content';
-import {authors} from '../data/authors._schema.ts';
+import {posts} from './content/posts/_schemas.ts';
+import {pages} from "./content/pages/_schemas.ts";
+import {file,glob} from 'astro/loaders';
+import { z } from 'astro/zod';
+import {authors} from './data/authors._schema.ts';
 
 const blogCollection = defineCollection({
-    type: 'content',
+    loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: "./src/content/posts" }),
     schema: posts,
 });
 const pageCollection = defineCollection({
-    type: 'content',
     schema: pages,
+    loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: "./src/content/pages" }),
 });
 const blogRollData = defineCollection({
     loader: file("src/data/links.yaml"),
