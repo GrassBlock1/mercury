@@ -1,19 +1,20 @@
 ---
 import {defaultLocale, isDefaultLocale} from "@/i18n/utils.ts";
-const { posts, displayDate = false, placeholder = false, lang = defaultLocale } = Astro.props;
+const { posts, displayDate = false, placeholder = false, lang = defaultLocale, limit = 0 } = Astro.props;
 function getSlug(id: string,slug: string, lang = defaultLocale) {
     return isDefaultLocale(lang) ? `blog/${slug.split("/").slice(1).join("/")}` : (lang === id.split("/")[0] ? `/${lang}/blog/${slug.split("/").pop()}` : `/${lang}/blog/${slug}`)
 }
+const displayedPosts = limit > 0 ? posts.slice(0, limit) : posts;
 ---
 <div style="margin-top: 1rem; margin-left: 1rem;">
-    {posts.map((post) => (
+    {displayedPosts.map((post: any) => (
             <p>
                 {displayDate && <span class="list-date">{new Date(post.data.date).toISOString().split('T')[0]}</span>}
                 {post.data.draft && <span class="draft-badge">[draft] </span>}<a href={`${getSlug(post.id, post.slug, lang)}`}>{post.data.title}</a>
             </p>
     ))}
 
-    {placeholder && posts.length === 0 && (
+    {placeholder && displayedPosts.length === 0 && (
             <>
                 <p>
                     <span style="color: var(--terminal-yellow);">No posts here yet</span>
