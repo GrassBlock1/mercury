@@ -44,7 +44,7 @@ export const siteConfig = {
     ],
     // search
     // The search engine used to search posts when noClientJavaScript is enabled
-    // can be `google`, `duckduckgo`, `bing` (broken until M1cr0$0ft get support for it), defaults to `google`
+    // can be `google`, `DuckDuckGo`, `bing` (broken until M1cr0$0ft get support for it), defaults to `google`
     searchEngine: 'duckduckgo',
     // content
     // display author avatar in the info line of article page

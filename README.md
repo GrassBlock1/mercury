@@ -38,9 +38,9 @@ All you need is editing the `astro.config.mjs`'s site & base.
 
 For further config, edit `src/config.ts` according to the comment.
 
-To start writing, put your markdown & mdx files to /src/content/posts folder.
+To start writing, put your Markdown & mdx files to /src/content/posts folder.
 
-To create a page, put markdown files into /src/content/pages folder.
+To create a page, put Markdown files into /src/content/pages folder.
 
 Shortcode-like components is also available at /src/components/shortcodes folder.
 
@@ -61,7 +61,7 @@ All commands are run from the root of the project, from a terminal:
 - [x] Initial project setup
 - [x] Basic theme implementation
 - [x] Better full-text search without `Fuse.js`
-- [x] A mode to make the site 0 javascript
+- [x] A mode to make the site 0 JavaScript
 - [x] Multiple authors via YAML
 - [ ] i18n support
   - [x] UI text
