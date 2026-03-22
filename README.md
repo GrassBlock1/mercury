@@ -72,13 +72,17 @@ All commands are run from the root of the project, from a terminal:
     - [ ] Better language switcher
 - [x] Better support for printing version
 - [ ] Add support for more comment engines
+- [ ] Multiple comment engines in the same page
 - [x] Add support for umami statics
 - [x] Improve documentation
+- [ ] Bump to Astro 6
 - [ ] Release v1.0
 - [ ] ~~Integrate with Fediverse w/ activityPub~~
 - [ ] ~~Plain text version when visiting the site via `curl`~~ (can't be done with SSG mode)
 
 ## ⚙️ Advanced Usage
+### activitypub support
+There is an ongoing work to implement it on [lab ran by the author](https://raw.githubusercontent.com/BlockG-ws/gb-lab/) based on [Astro DB](https://docs.astro.build/en/guides/astro-db/#query-your-database) and [fedify](https://fedify.dev). Once it's done, the instructions will be updated here.
 ### i18n
 i18n support for UI text and content translations is implemented, but the language switcher may be broken for some pages.
 
