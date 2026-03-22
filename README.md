@@ -94,20 +94,24 @@ To access it, you can visit `https://your-site.com/blog/your-post-slug.txt`.
 To automatically output the text version when visiting the site via `curl`, you can:
 1. If you are using caddy, add the following to your `Caddyfile`:
    ```caddyfile
-   @curl {
-        header_regexp User-Agent (?i)curl 
-   }
-   @text {
-        path_regexp text /blog/(.*)
-   }
-   handle @curl {
-        rewrite @text /blog/{http.regexp.text.1}.txt
-   }
+    @no_html {
+        # Match if Accept header does NOT contain text/html
+        not header_regexp Accept (?i)text/html
+        # Match the path and capture the blog slug
+        path_regexp text ^/blog/(.*)$
+    }
+    
+    # Handle the matched request
+    handle @no_html {
+        # Use the capture group from the 'text' path_regexp
+        rewrite /blog/{re.text.1}.txt
+    }
+
    ```
 2. If you are using cloudflare to proxy your site, you can add a page rule to redirect requests with the `curl` user agent to the `.txt` version of the blog post:
    If incoming requests match (Custom filter expression):
    ```
-   (http.request.full_uri wildcard r"https://yourblog/blog/*" and http.user_agent contains "curl")
+   (http.request.uri.path matches "^/blog/.*" and not any(http.request.headers["accept"][*] contains "text/html"))
    ```
    Then (Rewrite to,static):
    ```
