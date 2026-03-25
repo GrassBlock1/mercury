@@ -1,15 +1,12 @@
 import {ui} from './ui';
 import {i18n} from "astro:config/client";
-import {getLocaleByPath, pathHasLocale} from "astro:i18n";
+import {getLocaleByPath, getPathByLocale, pathHasLocale} from "astro:i18n";
 
 
 // types from Astro config
 type LocaleConfig = string | { path: string; codes: string[] };
 type Locales = LocaleConfig[];
 export const defaultLocale = i18n?.defaultLocale || 'en'
-export function isDefaultLocale(locale: string)  {
-    return defaultLocale == locale
-}
 function getLocales(locales: Locales = i18n?.locales ?? []) {
     const codes = locales.flatMap((locale) =>
         typeof locale === 'string' ? locale : locale.codes
@@ -18,6 +15,38 @@ function getLocales(locales: Locales = i18n?.locales ?? []) {
 }
 
 export const locales = getLocales();
+
+export function getPostSlug(id: string,slug: string, slugOnly: boolean = false) {
+    const lang = id.split("/")[0]
+    const [sLang, ...rSlug] = slug.split("/")
+    const realSlug = rSlug.join("/")
+    if (locales.includes(lang)) {
+        if (lang === defaultLocale) {
+            if (slugOnly) {
+                return realSlug;
+            }
+            return `/blog/${realSlug}` // for ${default}/slug slug
+        }
+        const langPath = getPathByLocale(lang)
+        if (sLang === lang) {
+            if (slugOnly) {
+                return realSlug
+            }
+            return `/${langPath}/blog/${realSlug}` // for ${nondefault}/${slug} slug
+        } else {
+            if (slugOnly) {
+                return slug;
+            }
+            return `/${langPath}/blog/${slug}` // for ${slug} slug
+        }
+    } else {
+        if (slugOnly) {
+            return slug
+        }
+        // treat it as the default locale
+        return `/blog/${slug}`
+    }
+}
 
 export function getLangFromUrl(url: URL) {
     // limit to the first one since Astro only supports path that only contains paths defined

@@ -14,7 +14,7 @@ import {
     useTranslations,
     useTranslatedPath,
     defaultLocale,
-    locales
+    locales, getPostSlug
 } from '@/i18n/utils';
 import OutDatedCallOut from "@/components/OutDatedCallOut.astro";
 import CopyRight from "@/components/CopyRight.astro";
@@ -29,7 +29,7 @@ export async function getStaticPaths() {
 });
   return blogEntries.map(entry => {
       const lang = getPathByLocale(entry.filePath.split('/')[0]);
-      const slug = entry.id.split('/').pop() || entry.id;
+      const slug = getPostSlug(entry.filePath, entry.id, true);
       return { params: { lang, slug }, props: { entry } };
   });
 }

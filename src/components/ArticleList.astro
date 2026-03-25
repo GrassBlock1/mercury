@@ -1,33 +1,14 @@
 ---
-import {defaultLocale, locales} from "@/i18n/utils.ts";
-import {getPathByLocale} from "astro:i18n";
+import {getPostSlug} from "@/i18n/utils.ts";
 const { posts, displayDate = false, placeholder = false, limit = 0} = Astro.props;
-function getSlug(id: string,slug: string) {
-    const lang = id.split("/")[0]
-    const [sLang, ...rSlug] = slug.split("/")
-    const realSlug = rSlug.join("/")
-    if (locales.includes(lang)) {
-        if (lang === defaultLocale) {
-            return `/blog/${realSlug}` // for ${default}/slug slug
-        }
-        const langPath = getPathByLocale(lang)
-        if (sLang === lang) {
-            return `/${langPath}/blog/${realSlug}` // for ${nondefault}/${slug} slug
-        } else {
-            return `/${langPath}/blog/${slug}` // for ${slug} slug
-        }
-    } else {
-        // treat it as the default locale
-        return `/blog/${slug}`
-    }
-}
+
 const displayedPosts = limit > 0 ? posts.slice(0, limit) : posts;
 ---
 <div style="margin-top: 1rem; margin-left: 1rem;">
     {displayedPosts.map((post: any) => (
             <p>
                 {displayDate && <span class="list-date">{new Date(post.data.date).toISOString().split('T')[0]}</span>}
-                {post.data.draft && <span class="draft-badge">[draft] </span>}<a href={`${getSlug(post.filePath, post.id)}`}>{post.data.title}</a>
+                {post.data.draft && <span class="draft-badge">[draft] </span>}<a href={`${getPostSlug(post.filePath, post.id)}`}>{post.data.title}</a>
             </p>
     ))}
 

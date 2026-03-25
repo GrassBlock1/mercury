@@ -4,7 +4,7 @@ import {getImage} from "astro:assets";
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import crypto from 'node:crypto';
-import {defaultLocale, locales} from "@/i18n/utils.ts";
+import {defaultLocale, getPostSlug, locales} from "@/i18n/utils.ts";
 
 // Ensure cache directory exists
 const CACHE_DIR = 'node_modules/.astro/og-cache';
@@ -68,7 +68,7 @@ export async function getStaticPaths() {
     return (import.meta.env.PROD ? post.data.draft !== true : true) && (post.filePath.split("/")[0] === defaultLocale || !languages.includes(post.filePath.split("/")[0]));
   });
   return blogEntries.map(post => {
-    const slug = post.id.split("/")[0] === defaultLocale ? post.id.split("/").slice(1).join("/") : post.id;
+    const slug = getPostSlug(post.filePath, post.id, true);
     return {params: { slug }, props: { post }}
   });
 }

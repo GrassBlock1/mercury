@@ -1,5 +1,5 @@
 import { getCollection } from 'astro:content';
-import {defaultLocale, locales} from "@/i18n/utils.ts";
+import {defaultLocale, getPostSlug, locales} from "@/i18n/utils.ts";
 
 export const prerender = true;
 export async function getStaticPaths() {
@@ -8,7 +8,7 @@ export async function getStaticPaths() {
         return (import.meta.env.PROD ? post.data.draft !== true : true) && (post.filePath.split("/")[0] === defaultLocale || !languages.includes(post.filePath.split("/")[0]));
     });
     return blogEntries.map(entry => {
-        const slug = entry.id.split("/")[0] === defaultLocale ? entry.id.split("/").slice(1).join("/") : entry.id;
+        const slug = getPostSlug(entry.filePath, entry.id, true);
         return {params: { slug }, props: { entry }}
     });
 }
