@@ -1,11 +1,8 @@
 ---
 import {siteConfig} from "../config";
-import {getLangFromUrl, useTranslations, useTranslatedPath, defaultLocale} from '../i18n/utils';
-import {getLocaleByPath} from "astro:i18n";
-
+import { useTranslations, defaultLocale} from '../i18n/utils';
 
 const { title, email = siteConfig.defaultAuthor.email, lang = defaultLocale } = Astro.props;
 const t = useTranslations(lang);
-const translatePath = useTranslatedPath(lang);
 ---
 <p><a href={`mailto:${email}?subject=RE:${title}&body=${t('article.reply_via_email.body')} "${title}".`}>&#x21A9; {t('article.reply_via_email')}</a></p>

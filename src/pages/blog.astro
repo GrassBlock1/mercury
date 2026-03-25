@@ -7,14 +7,12 @@ import ArticleList from "../components/ArticleList.astro";
 import {
   getLangFromUrl,
   useTranslations,
-  useTranslatedPath,
   defaultLocale,
   locales
 } from '../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-const translatePath = useTranslatedPath(lang);
 
 const posts = await getCollection('posts', ( post ) => {
     const languages = locales.filter(item => item != defaultLocale)

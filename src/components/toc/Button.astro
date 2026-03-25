@@ -1,6 +1,6 @@
 ---
 import type { MarkdownHeading } from 'astro';
-import { getLangFromUrl, useTranslations, useTranslatedPath } from '../../i18n/utils.ts';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils.ts';
 import TOCBase from './base.astro';
 
 const lang = getLangFromUrl(Astro.url);

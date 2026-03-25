@@ -67,9 +67,3 @@ export function useTranslations(lang: keyof typeof ui) {
         return langTranslations[key] || defaultTranslations[key];
     }
 }
-
-export function useTranslatedPath(lang: keyof typeof ui) {
-    return function translatePath(path: string, l: string = lang) {
-        return i18n?.routing !== "manual" && !i18n?.routing?.prefixDefaultLocale && l === defaultLocale ? path : `/${l}${path}`
-    }
-}

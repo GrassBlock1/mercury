@@ -5,7 +5,7 @@ import {getPathByLocale, pathHasLocale} from "astro:i18n";
 import NewsLetter from "@/components/NewsLetter.astro";
 import {siteConfig} from "@/config";
 import ArticleList from "@/components/ArticleList.astro";
-import {useTranslations, useTranslatedPath, locales, defaultLocale} from '@/i18n/utils';
+import {useTranslations, locales, defaultLocale} from '@/i18n/utils';
 
 export async function getStaticPaths() {
   const langs = locales.filter(item => item !== defaultLocale);

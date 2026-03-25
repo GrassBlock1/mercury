@@ -1,10 +1,10 @@
 ---
 import {siteConfig} from "../config";
-import { getLangFromUrl, useTranslations, useTranslatedPath } from '../i18n/utils';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-const translatePath = useTranslatedPath(lang);
+
 const noscript = siteConfig.noClientJavaScript
 ---
 {noscript ? <a href="#top"><button id="toTopBtn" style="display: block" title={t('widget.back_to_top.title')}>{t('widget.back_to_top')}</button></a> : <button id="toTopBtn" class="fade-out" title={t('widget.back_to_top.title')}>{t('widget.back_to_top')}</button>

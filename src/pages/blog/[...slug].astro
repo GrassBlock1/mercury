@@ -14,7 +14,6 @@ import "katex/dist/katex.css"
 import {
     getLangFromUrl,
     useTranslations,
-    useTranslatedPath,
     defaultLocale,
     locales, getPostSlug
 } from '../../i18n/utils';
@@ -23,7 +22,6 @@ import CopyRight from "../../components/CopyRight.astro";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-const translatePath = useTranslatedPath(lang);
 export async function getStaticPaths() {
   const blogEntries = await getCollection('posts', (post) => {
       const languages = locales.filter(item => item !== defaultLocale)

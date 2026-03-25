@@ -1,10 +1,9 @@
 ---
 import {siteConfig} from "../config";
-import { getLangFromUrl, useTranslations, useTranslatedPath } from '../i18n/utils';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-const translatePath = useTranslatedPath(lang);
 const noscript = siteConfig.noClientJavaScript
 const searchEngine = siteConfig.searchEngine || 'google'
 const domain = Astro.url.host
