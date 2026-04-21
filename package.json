@@ -19,7 +19,7 @@
     "@astrojs/sitemap": "^3.7.1",
     "@fontsource-variable/jetbrains-mono": "^5.2.8",
     "artalk": "^2.9.1",
-    "astro": "^6.0.8",
+    "astro": "^6.1.6",
     "echarts": "^6.0.0",
     "giscus": "^1.6.0",
     "ico-endec": "^0.1.6",
