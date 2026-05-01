@@ -33,7 +33,10 @@ export const siteConfig = {
         navBarItems: {
             en: [],
             "zh-CN": [],
-        }
+        },
+        // display i18n switcher when there are multiple languages for a page.
+        // set it to false will completely disable the switcher.
+        displaySwitcher: true,
     },
     navBarItems: [
         // additional items in the navbar
