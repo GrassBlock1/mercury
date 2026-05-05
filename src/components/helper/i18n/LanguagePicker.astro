@@ -13,7 +13,7 @@ const langURLs = getRelativeLocaleUrlList(path).filter((item: string) =>
     item !== getRelativeLocaleUrl(currentLocale, path)
 );
 ---
-{ displaySwitcher || locales.length >= 1 && <p>Also available in {langURLs.map((langUrl: string) => {
+{ displaySwitcher && locales.length >= 1 && <p>Also available in {langURLs.map((langUrl: string) => {
     // get from the path
     // TODO: filter out non-existent pages
     const localePath = pathHasLocale(langUrl) ? langUrl.split("/")[1] : defaultLocale;
