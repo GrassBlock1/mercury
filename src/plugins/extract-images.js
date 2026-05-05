@@ -20,8 +20,9 @@ export async function ExtractFirstImage(Content) {
     await transform(rawContent.replace(/^<!DOCTYPE html>/, ''), [
         async (node) => {
             await walk(node, (node) => {
-                if (node.name === "img" && node.attributes.src) {
-                    // Store the first image URL we find
+                if (node.name === "img" && node.attributes.src && !firstImageUrl) {
+                    // Store the image URL we find
+                    // when firstImageUrl is null, making sure it's the first one.
                     firstImageUrl = node.attributes.src;
                 }
             });
