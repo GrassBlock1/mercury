@@ -67,7 +67,7 @@ export async function GET(context) {
             pubDate: post.data.date,
             categories: post.data.categories,
             author: authorInfo.map((a) => a.name).join(', ') || siteConfig.defaultAuthor.name,
-            link: `${baseUrl}/blog/${post.slug}`,
+            link: `${baseUrl}/blog/${post.id}`,
             content,
         });
 
