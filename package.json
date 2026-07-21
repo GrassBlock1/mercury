@@ -15,7 +15,7 @@
     "@astrojs/mdx": "^5.0.4",
     "@astrojs/node": "^10.0.6",
     "@astrojs/partytown": "^2.1.7",
-    "@astrojs/rss": "^4.0.18",
+    "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.2",
     "@fontsource-variable/jetbrains-mono": "^5.2.8",
     "artalk": "^2.9.1",
