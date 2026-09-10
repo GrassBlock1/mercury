@@ -38,7 +38,7 @@
     "@milkdown/crepe": "^7.20.0",
     "@types/node": "^22.19.17",
     "@waline/client": "^3.13.0",
-    "baseline-browser-mapping": "^2.10.24",
+    "baseline-browser-mapping": "^2.11.0",
     "cssnano": "^7.1.7"
   }
 }
