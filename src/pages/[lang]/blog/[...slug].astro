@@ -9,6 +9,7 @@ import { ExtractFirstImage } from '@/plugins/extract-images';
 import AuthorInfo from "@/components/helper/authors/Info.astro";
 import TableOfContents from "@/components/toc/TableOfContents.astro";
 import TableOfContentsButton from "@/components/toc/Button.astro";
+import render from 'astro:content';
 import "katex/dist/katex.css"
 import {
     useTranslations,
@@ -35,7 +36,7 @@ export async function getStaticPaths() {
 
 const { entry }  = Astro.props;
 
-const { Content, headings, remarkPluginFrontmatter } = await entry.render();
+const { Content, headings, remarkPluginFrontmatter } = await render(entry);
 
 const noscript = siteConfig.noClientJavaScript
 const author = Array.isArray(entry.data.author) ? entry.data.author : (entry.data.author !== undefined ? [entry.data.author] : [{collection: 'authors', id: siteConfig.defaultAuthor.id}]);
