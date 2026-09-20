@@ -7,7 +7,7 @@ const { listmonkInstance, listuuid } = Astro.props;
 const inputId = Astro.props.listuuid.substring(0,5)
 ---
 <details>
-<summary>{t('subscribe.newsletter')}}</summary>
+<summary>{t('subscribe.newsletter')}</summary>
     <small>{t('subscribe.newsletter.description')}</small>
     <form method="post" action={`https://${listmonkInstance}/subscription/form`} class="listmonk-form">
         <div>
