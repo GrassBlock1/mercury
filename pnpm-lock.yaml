@@ -56,6 +56,9 @@ importers:
       satteri:
         specifier: ^0.10.5
         version: 0.10.5
+      satteri-katex:
+        specifier: ^0.1.1
+        version: 0.1.1(satteri@0.10.5)
       sharp:
         specifier: ^0.34.5
         version: 0.34.5
@@ -3621,6 +3624,12 @@ packages:
 
   safe-buffer@5.2.1:
     resolution: {integrity: sha512-rp3So07KcdmmKbGvgaNxQSJr7bGVSVk5S9Eq1F+ppbRo70+YeaDxkw5Dd8NPN+GD6bjnYm2VuPuCXmpuYvmCXQ==}
+
+  satteri-katex@0.1.1:
+    resolution: {integrity: sha512-65M00JZKW145vEhvCFWCe0Gd57hzL8KEDQHbJ9ZvuH4FGrgh90KUPxqS8GCnIEC5EIhOfWPP7NbEnBfFn+nf3w==}
+    engines: {node: '>=20'}
+    peerDependencies:
+      satteri: ^0.9.5
 
   satteri@0.10.5:
     resolution: {integrity: sha512-Ao1LKpAEa9Wdg0otgbVKViZHEq9ebdXe4DMrp3s9vQAU0HNIuHnFEuMuOcm0ZIXyV0Yzxj91NvhLpvXZJO/5ZQ==}
@@ -8377,6 +8386,11 @@ snapshots:
       tslib: 2.8.1
 
   safe-buffer@5.2.1: {}
+
+  satteri-katex@0.1.1(satteri@0.10.5):
+    dependencies:
+      katex: 0.16.45
+      satteri: 0.10.5
 
   satteri@0.10.5:
     dependencies:

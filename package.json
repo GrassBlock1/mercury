@@ -27,6 +27,7 @@
     "katex": "^0.16.45",
     "reading-time": "^1.5.0",
     "satteri": "^0.10.5",
+    "satteri-katex": "^0.1.1",
     "sharp": "^0.34.5",
     "twikoo": "^1.7.7",
     "ultrahtml": "^1.6.0"
