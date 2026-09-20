@@ -15,7 +15,9 @@ import {satteri} from "@astrojs/markdown-satteri";
 
 import {mdastReadingTimePlugin} from './src/plugins/remark/wordcount.js';
 import {mdastModifiedTimePlugin} from "@/plugins/remark/modified-time.mjs";
+import {mdastSpoilerPlugin} from "@/plugins/remark/spoiler.ts";
 import satteriKatex from "satteri-katex";
+
 
 export default defineConfig({
     site: 'https://terminal-blog.example.com',
@@ -37,7 +39,7 @@ export default defineConfig({
         },
         processor: satteri({
             features: { math: true, rawHtml: true },
-            mdastPlugins: [satteriKatex(),mdastReadingTimePlugin,mdastModifiedTimePlugin],
+            mdastPlugins: [satteriKatex(),mdastReadingTimePlugin,mdastModifiedTimePlugin,mdastSpoilerPlugin],
         }),
     },
 

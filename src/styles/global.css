@@ -316,6 +316,17 @@ div.content {
         max-width: 100%;
         height: 100%;
     }
+
+    span.spoiler {
+        background-color: #252525;
+        color: #252525;
+        transition: color 0.5s;
+        width: fit-content;
+    }
+
+    span.spoiler:hover {
+        color: #ffffff;
+    }
 }
 
 
