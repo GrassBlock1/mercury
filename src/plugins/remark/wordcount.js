@@ -1,9 +1,14 @@
-import {toString} from 'mdast-util-to-string';
-import countWords from 'reading-time'
+import countWords from "reading-time";
+import { defineMdastPlugin } from "satteri";
 
-export function remarkWordCount() {
-    return function (tree, { data }) {
-        const textOnPage = toString(tree);
-        data.astro.frontmatter.wordcount = countWords(textOnPage);
-    };
-}
+export const mdastReadingTimePlugin = defineMdastPlugin({
+    name: "mdast-reading-time",
+    after(root, context) {
+        const textOnPage = context.textContent(root);
+        const words = countWords(textOnPage);
+
+        if (context.data.astro !== undefined) {
+            context.data.astro.frontmatter.wordcount = words.text;
+        }
+    },
+});

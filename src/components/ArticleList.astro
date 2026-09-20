@@ -7,7 +7,7 @@ const displayedPosts = limit > 0 ? posts.slice(0, limit) : posts;
 <div style="margin-top: 1rem; margin-left: 1rem;">
     {displayedPosts.map((post: any) => (
             <p>
-                {displayDate && <span class="list-date">{new Date(post.data.date).toISOString().split('T')[0]}</span>}
+                {displayDate && <span class="list-date">{new Date(post.data.date).toISOString().split('T')[0]}</span>}{" "}
                 {post.data.draft && <span class="draft-badge">[draft] </span>}<a href={`${getPostSlug(post.filePath, post.id)}`}>{post.data.title}</a>
             </p>
     ))}

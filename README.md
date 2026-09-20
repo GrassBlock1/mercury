@@ -6,7 +6,7 @@ Demo: https://icy-beach-00f5be01e.6.azurestaticapps.net/
 
 > 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
 
-> NOTE: We are migrating to Astro 6! The older version, which will be live on `astro-5` branch, may not support all features listed below.  
+> NOTE: We are migrating to Astro 7! The older version, which will be live on `astro-6` branch, may not support all features listed below.  
 
 ## 🌌 Features
 - Minimal, terminal like
