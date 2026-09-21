@@ -32,10 +32,10 @@ const domain = Astro.url.host
 <div class="search-container">
   <div class="command-prompt">
     <span class="command">search</span>
-    <input 
-      type="text" 
-      id="search-input" 
-      class="search-input" 
+    <input
+      type="text"
+      id="search-input"
+      class="search-input"
       placeholder={t('search.placeholder')}
       autocomplete="off"
     />
@@ -259,15 +259,19 @@ const domain = Astro.url.host
         display: flex;
         align-items: center;
         gap: 0.5rem;
+        white-space: nowrap;
     }
 
     .search-input {
+        flex: 1 1 12ch;
         background: transparent;
         border: none;
         color: var(--text-color);
         font-size: 1rem;
         padding: 0.5rem;
         outline: none;
+        font-family: var(--font-mono), "monospace";
+        min-width: 10%;
     }
 
     .search-results {
