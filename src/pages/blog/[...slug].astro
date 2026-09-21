@@ -79,8 +79,10 @@ const cover = optimizedCustomFeaturedImage || matchedImage_src?.src || firstImag
         <h1 class="title">{entry.data.title}</h1>
             {authorInfo.map((a: any) => <AuthorInfo data={a} />)}
         <span class="date">{pubDate}</span>
+        {" "}
         {new Date(lastUpdated) > new Date(entry.data.date) && <span class="date">({t('article.last_update')} {lastUpdatedDate})</span>}
-        <span>|</span>
+        {" "}
+        <span>|</span>{" "}
         <span class="wordcount">{wordcount.words} {t('article.word_count')}</span>
         { headerImage && <Image class="cover" width=720 height=480 src={headerImage} alt={`cover of ${entry.data.title}`}  /> }
         {/* only display ToCs when there are <h2>s */}
