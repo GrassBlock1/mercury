@@ -1,4 +1,4 @@
-import {defineConfig} from 'astro/config';
+import {defineConfig, fontProviders} from 'astro/config';
 
 import sitemap from '@astrojs/sitemap';
 
@@ -31,6 +31,13 @@ export default defineConfig({
     build: {
         format: 'directory'
     },
+
+    fonts: [{
+        provider: fontProviders.fontsource(),
+        name: "JetBrains Mono",
+        cssVariable: "--font-mono",
+        weights: ["300 400 700"],
+    }],
 
     markdown: {
         shikiConfig: {

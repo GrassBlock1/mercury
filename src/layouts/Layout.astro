@@ -1,13 +1,13 @@
 ---
 import '../styles/global.css';
-import '@fontsource-variable/jetbrains-mono/index.css'
+import {Font} from "astro:assets";
 import Search from '../components/Search.astro';
 import ThemeSwitcher from '../components/ThemeSwitcher.astro';
 import ThemeSwitcher_CSSOnly from '../components/ThemeSwitcher@CSSOnly.astro';
 import BackToTop from "../components/BackToTop.astro";
 import Meta from "../components/helper/head/Meta.astro";
 
-import { siteConfig } from "../config";
+import {siteConfig} from "../config";
 import Statistics from "../components/Statistics.astro";
 import Navbar from "../components/Navbar.astro";
 
@@ -16,11 +16,11 @@ import {
 } from "astro:config/client";
 
 interface Props {
-  title?: string;
-  description?: string;
-  author?: string;
-  path?: string;
-  ogImage?: string;
+    title?: string;
+    description?: string;
+    author?: string;
+    path?: string;
+    ogImage?: string;
 }
 
 import PoweredBy from "../components/PoweredBy.astro";
@@ -44,53 +44,65 @@ const ogTitle = Astro.props.title || defaultTitle
 const customFooter = siteConfig.customFooter
 const nekoType = siteConfig.neko?.type
 
-const { title = pageTitle, author = siteConfig.defaultAuthor.name,description = siteConfig.description, ogImage = "" } = Astro.props;
+const {
+    title = pageTitle,
+    author = siteConfig.defaultAuthor.name,
+    description = siteConfig.description,
+    ogImage = ""
+} = Astro.props;
 ---
 
 <!doctype html>
 <html lang={Astro.currentLocale || 'en'}>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <Meta title={ogTitle} author={author} description={description} ogImage={ogImage} />
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width"/>
+    <meta name="generator" content={Astro.generator}/>
+    <Font cssVariable="--font-mono" preload/>
+    <Meta title={ogTitle} author={author} description={description} ogImage={ogImage}/>
     <title>{pageTitle}</title>
-    {spaEnabled && <SPARouter />}
+    {spaEnabled &&
+            <SPARouter/>}
     <!--transitional animation is broken in firefox though-->
-  </head>
-  <body class="container">
-        {noscript && <div id="top" style="visibility: hidden">Back To Top</div>}
-        <header>
-              <div class="terminal-path">
-                {path}
-              </div>
-              <Navbar />
-              <Search />
-              {spaEnabled && <Spinner />}
-        </header>
-        <main class="content-box">
-              <slot />
-        </main>
+</head>
+<body class="container">
+{noscript &&
+        <div id="top" style="visibility: hidden">Back To Top</div>}
+<header>
+    <div class="terminal-path">
+        {path}
+    </div>
+    <Navbar/>
+    <Search/>
+    {spaEnabled &&
+            <Spinner/>}
+</header>
+<main class="content-box">
+    <slot/>
+</main>
 
-      <footer class="footer">
-          <LanguagePicker/>
-        <div class="floating">
-          <BackToTop/>
-          {noscript ? <ThemeSwitcher_CSSOnly/> : <ThemeSwitcher/>}
-        </div>
-        <div class="container">
-          <Fragment set:html={customFooter} />
-          <PoweredBy />
-        </div>
-      </footer>
-    {statisticsEnabled && <Statistics/>}
-    { (siteConfig.neko.enabled && !noscript) &&
-      <>
-        <script is:inline define:vars={{ nekoType }}>
-          window.NekoType = nekoType;
-        </script>
-        <script is:inline src="https://webneko.net/n20171213.js"></script>
-      </>
-    }
-  </body>
+<footer class="footer">
+    <LanguagePicker/>
+    <div class="floating">
+        <BackToTop/>
+        {noscript ?
+                <ThemeSwitcher_CSSOnly/> :
+                <ThemeSwitcher/>}
+    </div>
+    <div class="container">
+        <Fragment set:html={customFooter}/>
+        <PoweredBy/>
+    </div>
+</footer>
+{statisticsEnabled &&
+        <Statistics/>}
+{(siteConfig.neko.enabled && !noscript) &&
+        <>
+            <script is:inline define:vars={{nekoType}}>
+                window.NekoType = nekoType;
+            </script>
+            <script is:inline src="https://webneko.net/n20171213.js"></script>
+        </>
+}
+</body>
 </html>
