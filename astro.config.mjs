@@ -13,9 +13,9 @@ import partytown from '@astrojs/partytown';
 import node from '@astrojs/node';
 import {satteri} from "@astrojs/markdown-satteri";
 
-import {mdastReadingTimePlugin} from './src/plugins/remark/wordcount.js';
-import {mdastModifiedTimePlugin} from "@/plugins/remark/modified-time.mjs";
-import {mdastSpoilerPlugin} from "@/plugins/remark/spoiler.ts";
+import {mdastReadingTimePlugin} from '@/plugins/satteri/wordcount.js';
+import {mdastModifiedTimePlugin} from "@/plugins/satteri/modified-time.mjs";
+import {mdastSpoilerPlugin} from "@/plugins/satteri/spoiler.ts";
 import satteriKatex from "satteri-katex";
 
 
