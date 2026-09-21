@@ -8,7 +8,7 @@ export const mdastReadingTimePlugin = defineMdastPlugin({
         const words = countWords(textOnPage);
 
         if (context.data.astro !== undefined) {
-            context.data.astro.frontmatter.wordcount = words.text;
+            context.data.astro.frontmatter.wordcount = words;
         }
     },
 });
