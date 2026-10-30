@@ -2,11 +2,9 @@
 import "@milkdown/crepe/theme/common/style.css";
 import "/src/styles/editor.css";
 import Layout from "../layouts/Layout.astro";
-import {getCollection} from "astro:content";
-const allPosts = await getCollection('posts', ({ data }) => {
-    return import.meta.env.PROD ? data.draft !== true : true;
-});
-const uniqueCategories = [...new Set(allPosts.map((post: any) => post.data.categories ? post.data.categories : []).flat())];
+import { getPublishedPosts } from "@/utils/posts";
+import { collectTaxonomies } from "@/utils/taxonomy";
+const uniqueCategories = collectTaxonomies(await getPublishedPosts(), 'categories');
 ---
 <Layout title="Create a new post">
     {/* in memory of https://github.com/KeJunMao/jekyll-theme-mdui */}

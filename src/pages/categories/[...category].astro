@@ -1,34 +1,13 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import {getCollection} from "astro:content";
-import ArticleList from "../../components/ArticleList.astro";
+import TaxonomyPostsPage from '@/components/TaxonomyPostsPage.astro';
+import { getPublishedPosts } from '@/utils/posts';
+import { buildTaxonomyPaths } from '@/utils/taxonomy';
 
 export async function getStaticPaths() {
-    const allPosts = await getCollection('posts', ({ data }) => {
-    return import.meta.env.PROD ? data.draft !== true : true;
-});
-    // Get all categories, ensuring the default 'uncategorized' is used when categories is undefined
-    const uniqueCategories = [...new Set(allPosts.map((post: any) =>
-        post.data.categories || ['uncategorized']).flat())];
-
-    return uniqueCategories.map((category) => {
-        const filteredPosts = allPosts.filter((post: any) =>
-            (post.data.categories || ['uncategorized']).includes(category));
-        return {
-            params: { category },
-            props: { posts: filteredPosts },
-        };
-    });
+    return buildTaxonomyPaths(await getPublishedPosts(), 'categories');
 }
-
-const { category } = Astro.params;
 
 const { posts } = Astro.props;
 ---
-<Layout title={`posts tagged with ${category}`} description={`Posts tagged with ${category}`}>
-    <h1 class="title">ls ~/blog | grep "{category}"</h1>
-    <ul>
-        <ArticleList posts={posts} displayDate={true} />
-    </ul>
-</Layout>
 
+<TaxonomyPostsPage term={Astro.params.category!} posts={posts} />

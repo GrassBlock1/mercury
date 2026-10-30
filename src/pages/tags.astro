@@ -1,26 +1,17 @@
 ---
-import {getCollection} from "astro:content";
-import Layout from "../layouts/Layout.astro";
-const allPosts = await getCollection('posts', ({ data }) => {
-    return import.meta.env.PROD ? data.draft !== true : true;
-});
-const uniqueTags = [...new Set(allPosts.map((post: any) => post.data.tags ? post.data.tags : []).flat())];
+import TaxonomyIndexPage from '@/components/TaxonomyIndexPage.astro';
+import { getPublishedPosts } from '@/utils/posts';
+import { collectTaxonomies } from '@/utils/taxonomy';
+
+const items = collectTaxonomies(await getPublishedPosts(), 'tags');
 ---
-<Layout title="Tags" description="List all tags used in the blog posts.">
-    <h1 class="title">~/blog/tags</h1>
-    <div style="margin-top: 2rem;">
-        <span class="command">ls tags/</span>
-        <div style="margin-top: 1rem; margin-left: 1rem;" class="tags-list">
-            {uniqueTags.map((tag) => (
-                    <p><a href={`/tags/${tag}`}>{tag}</a></p>
-            ))}
-        </div>
-    </div>
-</Layout>
-<style>
-    div.tags-list {
-        display: flex;
-        gap: 1rem;
-        flex-wrap: wrap;
-    }
-</style>
+
+<TaxonomyIndexPage
+    title="Tags"
+    description="List all tags used in the blog posts."
+    heading="~/blog/tags"
+    command="ls tags/"
+    basePath="/tags"
+    listClass="tags-list"
+    items={items}
+/>
