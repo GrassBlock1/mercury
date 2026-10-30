@@ -1,0 +1,39 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import NewsLetter from '@/components/NewsLetter.astro';
+import ArticleList from '@/components/ArticleList.astro';
+import { siteConfig } from '@/config';
+import { getLangFromUrl, useTranslations } from '@/i18n/utils';
+import type { PostEntry } from '@/utils/posts';
+
+interface Props {
+    posts: PostEntry[];
+}
+
+const { posts } = Astro.props;
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<Layout title="Blog Posts" description="List all posts on the website.">
+  <h1 class="title">~/blog</h1>
+
+  <div class="content">
+    <p class="typewriter">{t('posts.description')}</p>
+
+    <div style="margin-top: 2rem;">
+      <span class="command">ls -la posts/</span>
+      <ArticleList posts={posts} displayDate={true} placeholder={true} />
+    </div>
+
+    <div style="margin-top: 2rem;">
+      <p>
+        <span class="command">cat subscribe.txt</span>
+        <br />
+        <a href="/rss.xml" style="margin-left: 1rem;">{t('subscribe.rss')}</a>
+      </p>
+      {siteConfig.newsletter.enabled && <NewsLetter listmonkInstance={siteConfig.newsletter.listmonk.instanceDomain} listuuid={siteConfig.newsletter.listmonk.listuuid} />}
+    </div>
+  </div>
+</Layout>

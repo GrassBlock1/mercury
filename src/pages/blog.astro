@@ -1,44 +1,8 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import { getCollection } from 'astro:content';
-import NewsLetter from "../components/NewsLetter.astro";
-import {siteConfig} from "../config";
-import ArticleList from "../components/ArticleList.astro";
-import {
-  getLangFromUrl,
-  useTranslations,
-  defaultLocale,
-  locales
-} from '../i18n/utils';
+import BlogListPage from '@/components/BlogListPage.astro';
+import { getDefaultLocalePosts, sortByDateDesc } from '@/utils/posts';
 
-const lang = getLangFromUrl(Astro.url);
-const t = useTranslations(lang);
-
-const posts = await getCollection('posts', ( post ) => {
-    const languages = locales.filter(item => item != defaultLocale)
-    return (import.meta.env.PROD ? post.data.draft !== true : true) && !(languages.includes(post.filePath.split("/")[0]));
-});
-posts.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+const posts = sortByDateDesc(await getDefaultLocalePosts());
 ---
 
-<Layout title="Blog Posts" description="List all posts on the website.">
-  <h1 class="title">~/blog</h1>
-  
-  <div class="content">
-    <p class="typewriter">{t('posts.description')}</p>
-    
-    <div style="margin-top: 2rem;">
-      <span class="command">ls -la posts/</span>
-      <ArticleList posts={posts} displayDate={true} placeholder={true} />
-    </div>
-    
-    <div style="margin-top: 2rem;">
-      <p>
-        <span class="command">cat subscribe.txt</span>
-        <br />
-        <a href="/rss.xml" style="margin-left: 1rem;">{t('subscribe.rss')}</a>
-      </p>
-      {siteConfig.newsletter.enabled && <NewsLetter listmonkInstance={siteConfig.newsletter.listmonk.instanceDomain} listuuid={siteConfig.newsletter.listmonk.listuuid} />}
-    </div>
-  </div>
-</Layout>
+<BlogListPage posts={posts} />

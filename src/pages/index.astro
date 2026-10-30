@@ -1,6 +1,6 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import {siteConfig} from "../config";
+import HomePage from '@/components/HomePage.astro';
+
 // Conditionally import content if file exists
 let HomePageContent;
 try {
@@ -12,23 +12,4 @@ try {
 }
 ---
 
-<Layout ogImage={siteConfig.homepageOgImage || ""}>
-  <h1 class="title">~/</h1>
-  <div class="content">
-    {HomePageContent ? <HomePageContent/> :
-    <h3>Welcome!</h3>
-      <p>Not much here yet, but you can check out my blog posts <a href="/blog">here</a>.</p>
-      <p>If you are site owner, please create <code>src/content/index.md</code> to customize this page.</p>
-    }
-  </div>
-</Layout>
-
-{!siteConfig.noClientJavaScript &&
-<script>
-  console.log(`%c
-    _  ______________  ______   _ 
-    |\\/||___|__/|   |  ||__/ \\_/  
-    |  ||___|  \\|___|__||  \\  |`, 'font-family: monospace; font-size: 1.2rem;','\n');
-
-  console.log('Powered by %castro.build','color: #fff;background: #d358c5;');
-</script>}
+<HomePage content={HomePageContent} />
