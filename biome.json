@@ -6,7 +6,17 @@
 		"useIgnoreFile": true
 	},
 	"files": {
-		"includes": ["**", "!!**/dist"]
+		"includes": [
+			"**",
+			"!!**/dist",
+			"!!**/.astro",
+			"!!**/.wrangler",
+			"!!.idea",
+			"!!public",
+			"!!src/content/**/*.md",
+			"!!src/content/**/*.mdx",
+			"!!**/*.md"
+		]
 	},
 	"formatter": {
 		"enabled": true,
@@ -15,9 +25,41 @@
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"preset": "recommended"
+			"preset": "recommended",
+			"correctness": {
+				"useParseIntRadix": "error"
+			},
+			"style": {
+				"useNodejsImportProtocol": "error"
+			},
+			"suspicious": {
+				"noTsIgnore": "error"
+			}
 		}
 	},
+	"overrides": [
+		{
+			"includes": ["**/*.astro"],
+			"linter": {
+				"rules": {
+					"correctness": {
+						"noUnusedImports": "off",
+						"noUnusedVariables": "off"
+					}
+				}
+			}
+		},
+		{
+			"includes": ["src/styles/artalk.css", "src/styles/global.css"],
+			"linter": {
+				"rules": {
+					"style": {
+						"noDescendingSpecificity": "off"
+					}
+				}
+			}
+		}
+	],
 	"javascript": {
 		"formatter": {
 			"quoteStyle": "double"
