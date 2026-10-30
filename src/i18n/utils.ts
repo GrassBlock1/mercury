@@ -16,10 +16,11 @@ function getLocales(locales: Locales = i18n?.locales ?? []) {
 
 export const locales = getLocales();
 
-// content entries are stored as `<locale code>/<path>` under the collection base directory
+// content entries are stored as `<locale>/<path>` under the collection base directory; the glob
+// loader lowercases entry ids, so compare locale codes case-insensitively (`zh-cn` vs `zh-CN`)
 export function getEntryLocale(id: string): string | undefined {
-    const first = id.split("/")[0];
-    return locales.includes(first) ? first : undefined;
+    const first = id.split("/")[0].toLowerCase();
+    return locales.find((locale) => locale.toLowerCase() === first);
 }
 
 export function getEntryLangPath(id: string): string | undefined {
