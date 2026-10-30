@@ -13,6 +13,21 @@
     --terminal-red: #bf616a;
 }
 
+/* Light theme (explicit choice and the no-JS checkbox share this block) */
+:root[data-theme="light"],
+:root:has(.theme-toggle:checked) {
+    --bg-color: #eceff4;
+    --text-color: #2e3440;
+    --secondary-text-color: #4c566a;
+    --accent-color: #486090;
+    --secondary-color: #6078a8;
+    --border-color: #d1d5db;
+    --header-color: #2e3440;
+    --terminal-green: #4b644b;
+    --terminal-yellow: #ebcb8b;
+    --terminal-red: #bf616a;
+}
+
 /* Light theme */
 @media (prefers-color-scheme: light) {
     :root:not([data-theme="dark"]) {
@@ -27,19 +42,20 @@
         --terminal-yellow: #ebcb8b;
         --terminal-red: #bf616a;
     }
-}
 
-/* Light theme override (for switch) */
-:root[data-theme="light"] {
-    --bg-color: #eceff4;
-    --text-color: #2e3440;
-    --secondary-text-color: #4c566a;
-    --accent-color: #486090;
-    --border-color: #d1d5db;
-    --header-color: #2e3440;
-    --terminal-green: #4b644b;
-    --terminal-yellow: #ebcb8b;
-    --terminal-red: #bf616a;
+    /* the no-JS checkbox toggles away from the system preference */
+    :root:has(.theme-toggle:checked) {
+        --bg-color: #2e3440;
+        --text-color: #d8dee9;
+        --secondary-text-color: #c8c8c8;
+        --accent-color: #90a8c0;
+        --secondary-color: #7890a8;
+        --border-color: #3b4351;
+        --header-color: #eceff4;
+        --terminal-green: #a3be8c;
+        --terminal-yellow: #ebcb8b;
+        --terminal-red: #bf616a;
+    }
 }
 
 
