@@ -1,5 +1,5 @@
 ---
-import '../styles/global.css';
+import globalCss from '../styles/global.css?inline';
 import {Font} from "astro:assets";
 import Search from '../components/Search.astro';
 import ThemeSwitcher from '../components/ThemeSwitcher.astro';
@@ -58,7 +58,9 @@ const {
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width"/>
     <meta name="generator" content={Astro.generator}/>
+    <style is:inline set:html={globalCss}></style>
     <Font cssVariable="--font-mono" preload/>
+    <slot name="head" />
     <Meta title={ogTitle} author={author} description={description} ogImage={ogImage}/>
     <title>{pageTitle}</title>
     {spaEnabled &&
