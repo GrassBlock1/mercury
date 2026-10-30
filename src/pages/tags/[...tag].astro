@@ -1,5 +1,5 @@
 ---
-import TaxonomyPostsPage from '@/components/TaxonomyPostsPage.astro';
+import PostsLayout from '@/components/helpers/taxonomies/Posts.astro';
 import { getPublishedPosts } from '@/utils/posts';
 import { buildTaxonomyPaths } from '@/utils/taxonomy';
 
@@ -10,4 +10,4 @@ export async function getStaticPaths() {
 const { posts } = Astro.props;
 ---
 
-<TaxonomyPostsPage term={Astro.params.tag!} posts={posts} />
+<PostsLayout term={Astro.params.tag!} posts={posts} />

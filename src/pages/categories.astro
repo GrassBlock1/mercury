@@ -1,12 +1,12 @@
 ---
-import TaxonomyIndexPage from '@/components/TaxonomyIndexPage.astro';
+import IndexLayout from '@/components/helpers/taxonomies/Index.astro';
 import { getPublishedPosts } from '@/utils/posts';
 import { collectTaxonomies } from '@/utils/taxonomy';
 
 const items = collectTaxonomies(await getPublishedPosts(), 'categories');
 ---
 
-<TaxonomyIndexPage
+<IndexLayout
     title="Categoies"
     description="List all categories used in the blog posts."
     heading="~/blog/categories"

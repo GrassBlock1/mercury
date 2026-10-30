@@ -1,12 +1,12 @@
 ---
-import TaxonomyIndexPage from '@/components/TaxonomyIndexPage.astro';
+import IndexLayout from '@/components/helpers/taxonomies/Index.astro';
 import { getPublishedPosts } from '@/utils/posts';
 import { collectTaxonomies } from '@/utils/taxonomy';
 
 const items = collectTaxonomies(await getPublishedPosts(), 'tags');
 ---
 
-<TaxonomyIndexPage
+<IndexLayout
     title="Tags"
     description="List all tags used in the blog posts."
     heading="~/blog/tags"
