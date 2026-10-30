@@ -1,81 +1,25 @@
 import { getCollection } from 'astro:content';
 import { getImage } from "astro:assets";
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
-import { join } from 'node:path';
-import { existsSync } from 'node:fs';
+import { createFileCache } from '@/plugins/file-cache';
 
-// Simple in-memory cache for frequently accessed avatars
-const AVATAR_CACHE = new Map();
-const CACHE_MAX_SIZE = 50; // Maximum number of avatars to keep in memory
-const CACHE_DIR = 'node_modules/.astro/avatar-cache';
-const AVATAR_CACHE_TTL = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
 const MC_CACHE_TIME = 7 * 24 * 60 * 60; // 7 days in seconds for HTTP caching
+const AVATAR_CACHE_TTL = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
 
-// Cache helpers
-async function ensureCacheDir() {
-  try {
-    await mkdir(CACHE_DIR, { recursive: true });
-  } catch (err) {
-    console.warn('Failed to create cache directory:', err);
-  }
-}
+const avatarCache = createFileCache({
+    dir: 'node_modules/.astro/avatar-cache',
+    extension: '.png',
+    ttlMs: AVATAR_CACHE_TTL,
+    memoryLimit: 50,
+    memoryTtlMs: AVATAR_CACHE_TTL,
+});
 
-async function getCachedAvatar(cacheKey) {
-  // Check memory cache first
-  if (AVATAR_CACHE.has(cacheKey)) {
-    const { data, timestamp } = AVATAR_CACHE.get(cacheKey);
-    // Validate that cache entry isn't too old
-    if (Date.now() - timestamp < AVATAR_CACHE_TTL) {
-      return data;
-    }
-    // Remove stale cache entry
-    AVATAR_CACHE.delete(cacheKey);
-  }
-
-  // Check file cache
-  const filePath = join(CACHE_DIR, `${cacheKey}.png`);
-  try {
-    if (existsSync(filePath)) {
-      const stat = await import('node:fs/promises').then(f => f.stat(filePath));
-      // Check if file cache is still valid
-      if (Date.now() - stat.mtimeMs < AVATAR_CACHE_TTL) {
-        const data = await readFile(filePath);
-        // Update memory cache
-        addToMemoryCache(cacheKey, data);
-        return data;
-      }
-    }
-  } catch (err) {
-    console.warn(`Failed to read cached avatar ${cacheKey}:`, err);
-  }
-  
-  return null;
-}
-
-async function cacheAvatar(cacheKey, data) {
-  // Add to memory cache
-  addToMemoryCache(cacheKey, data);
-  
-  // Add to file cache
-  try {
-    await ensureCacheDir();
-    await writeFile(join(CACHE_DIR, `${cacheKey}.png`), data);
-  } catch (err) {
-    console.warn(`Failed to cache avatar ${cacheKey}:`, err);
-  }
-}
-
-function addToMemoryCache(key, data) {
-  // If cache is full, remove the oldest entry
-  if (AVATAR_CACHE.size >= CACHE_MAX_SIZE) {
-    const oldestKey = AVATAR_CACHE.keys().next().value;
-    AVATAR_CACHE.delete(oldestKey);
-  }
-  
-  AVATAR_CACHE.set(key, {
-    data,
-    timestamp: Date.now()
-  });
+function imageResponse(data) {
+    return new Response(data, {
+        headers: {
+            'Content-Type': 'image/png',
+            'Cache-Control': `public, max-age=${MC_CACHE_TIME}`
+        }
+    });
 }
 
 export async function getStaticPaths() {
@@ -95,15 +39,10 @@ export async function GET({ props }) {
     if (author.data.avatar) {
         // Try to retrieve from cache first
         const cacheKey = `avatar-${authorId}`;
-        const cachedAvatar = await getCachedAvatar(cacheKey);
+        const cachedAvatar = await avatarCache.get(cacheKey);
 
         if (cachedAvatar) {
-            return new Response(cachedAvatar, {
-                headers: {
-                    'Content-Type': 'image/png',
-                    'Cache-Control': `public, max-age=${MC_CACHE_TIME}`
-                }
-            });
+            return imageResponse(cachedAvatar.data);
         }
 
         try {
@@ -115,23 +54,18 @@ export async function GET({ props }) {
             });
 
             // Fetch the optimized image
-            const imageResponse = await fetch(optimizedImage.src);
-            if (!imageResponse.ok) {
+            const optimizedResponse = await fetch(optimizedImage.src);
+            if (!optimizedResponse.ok) {
                 throw new Error('Failed to fetch optimized image');
             }
 
-            const imageBuffer = await imageResponse.arrayBuffer();
+            const imageBuffer = await optimizedResponse.arrayBuffer();
             const bufferData = new Uint8Array(imageBuffer);
 
             // Cache the avatar for future requests
-            await cacheAvatar(cacheKey, bufferData);
+            await avatarCache.set(cacheKey, bufferData);
 
-            return new Response(bufferData, {
-                headers: {
-                    'Content-Type': 'image/png',
-                    'Cache-Control': `public, max-age=${MC_CACHE_TIME}`
-                }
-            });
+            return imageResponse(bufferData);
         } catch (error) {
             console.error('Error processing avatar image:', error);
             // Fall through to the mcplayerid check if avatar processing fails
@@ -146,14 +80,9 @@ export async function GET({ props }) {
     const cacheKey = `mc-${username}`;
 
     // Check cache for Minecraft avatar
-    const cachedMcAvatar = await getCachedAvatar(cacheKey);
+    const cachedMcAvatar = await avatarCache.get(cacheKey);
     if (cachedMcAvatar) {
-        return new Response(cachedMcAvatar, {
-            headers: {
-                'Content-Type': 'image/png',
-                'Cache-Control': `public, max-age=${MC_CACHE_TIME}`
-            }
-        });
+        return imageResponse(cachedMcAvatar.data);
     }
 
     try {
@@ -195,14 +124,9 @@ export async function GET({ props }) {
         const headImage = await renderMinecraftHead(new Uint8Array(skinBuffer));
 
         // Cache the rendered head
-        await cacheAvatar(cacheKey, headImage);
+        await avatarCache.set(cacheKey, headImage);
 
-        return new Response(headImage, {
-            headers: {
-                'Content-Type': 'image/png',
-                'Cache-Control': `public, max-age=${MC_CACHE_TIME}`
-            },
-        });
+        return imageResponse(headImage);
     } catch (error) {
         console.error('Error fetching Minecraft head:', error);
         return new Response('Internal server error', { status: 500 });
@@ -285,4 +209,3 @@ async function renderMinecraftHead(skinData) {
 
     return new Uint8Array(result);
 }
-

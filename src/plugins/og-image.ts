@@ -1,63 +1,15 @@
-import fs from 'node:fs/promises';
-import path from 'node:path';
-import crypto from 'node:crypto';
 import sharp from 'sharp';
+import { createFileCache } from '@/plugins/file-cache';
 import { getFeaturedImageSrc } from '@/plugins/post-images';
 import type { PostEntry } from '@/utils/posts';
 
-// Ensure cache directory exists
-const CACHE_DIR = 'node_modules/.astro/og-cache';
-
-// Cache for generated OG images (memory cache)
-const ogImageCache = new Map();
-
-// Initialize cache directory
-async function ensureCacheDir() {
-  try {
-    await fs.mkdir(CACHE_DIR, { recursive: true });
-  } catch (error) {
-    console.error('Error creating cache directory:', error);
-  }
-}
-
-// Create hash for consistent filenames
-function createHash(str) {
-  return crypto.createHash('md5').update(str).digest('hex');
-}
-
-// File-based cache operations
-const fileCache = {
-  async get(key) {
-    try {
-      const filePath = path.join(CACHE_DIR, `${createHash(key)}.webp`);
-      const stats = await fs.stat(filePath);
-
-      // Check if file exists and is not too old (30 days)
-      const now = new Date();
-      const fileAge = (now - stats.mtime) / (1000 * 60 * 60 * 24);
-
-      if (fileAge > 30) {
-        return null; // File is too old
-      }
-
-      return await fs.readFile(filePath);
-    } catch (error) {
-      return null; // File doesn't exist or can't be read
-    }
-  },
-
-  async set(key, data) {
-    try {
-      await ensureCacheDir();
-      const filePath = path.join(CACHE_DIR, `${createHash(key)}.webp`);
-      await fs.writeFile(filePath, data);
-      return true;
-    } catch (error) {
-      console.error('Error writing to file cache:', error);
-      return false;
-    }
-  }
-};
+// Generated OG images are cached in memory and on disk for 30 days
+const ogImageCache = createFileCache({
+  dir: 'node_modules/.astro/og-cache',
+  extension: '.webp',
+  ttlMs: 30 * 24 * 60 * 60 * 1000,
+  memoryLimit: Infinity,
+});
 
 // Function to check for images in markdown without rendering
 function checkForImages(markdownContent) {
@@ -82,29 +34,15 @@ export async function renderOgImage(post: PostEntry): Promise<Response> {
   // Generate consistent cache key
   const cacheKey = post.id;
 
-  // Check in-memory cache first (fastest)
-  if (ogImageCache.has(cacheKey)) {
-    return new Response(ogImageCache.get(cacheKey), {
-      headers: {
-        'Content-Type': 'image/webp',
-        'Cache-Control': 'public, max-age=31536000, immutable',
-        'ETag': `"${cacheKey}"`
-      }
-    });
-  }
-
-  // Then check file cache (persists between server restarts)
-  const cachedFile = await fileCache.get(cacheKey);
-  if (cachedFile) {
-    // Store in memory cache for faster subsequent access
-    ogImageCache.set(cacheKey, cachedFile);
-
-    return new Response(cachedFile, {
+  // Memory cache first, then the file cache that persists between builds/restarts
+  const cached = await ogImageCache.get(cacheKey);
+  if (cached) {
+    return new Response(cached.data, {
       headers: {
         'Content-Type': 'image/webp',
         'Cache-Control': 'public, max-age=31536000, immutable',
         'ETag': `"${cacheKey}"`,
-        'X-Cache': 'HIT-FILE'
+        ...(cached.source === 'file' ? { 'X-Cache': 'HIT-FILE' } : {}),
       }
     });
   }
@@ -131,8 +69,7 @@ export async function renderOgImage(post: PostEntry): Promise<Response> {
       .toBuffer();
 
     // Store in both memory and file caches
-    ogImageCache.set(cacheKey, buffer);
-    await fileCache.set(cacheKey, buffer);
+    await ogImageCache.set(cacheKey, buffer);
 
     // Return the image with proper caching headers
     return new Response(buffer, {
