@@ -302,9 +302,16 @@ div.content {
     }
 
     a {
-        text-decoration: underline 1px;
+        text-decoration-line: underline;
+        text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
+        text-decoration-thickness: 1px;
+        text-underline-offset: 0.18em;
+        text-decoration-skip-ink: auto;
     }
 
+    a:hover {
+        text-decoration-color: currentColor;
+    }
 
     div.callout-info div.callout-content a {
         color: dodgerblue;
