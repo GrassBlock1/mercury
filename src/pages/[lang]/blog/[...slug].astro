@@ -11,7 +11,7 @@ import TableOfContents from "@/components/toc/TableOfContents.astro";
 import TableOfContentsButton from "@/components/toc/Button.astro";
 import { render } from 'astro:content';
 import katexCssUrl from "katex/dist/katex.css?url";
-import artalkCssUrl from "../../styles/artalk.css?url";
+import artalkCssUrl from "@/styles/artalk.css?url";
 import {
     useTranslations,
     defaultLocale,
@@ -20,7 +20,6 @@ import {
 import OutDatedCallOut from "@/components/OutDatedCallOut.astro";
 import CopyRight from "@/components/CopyRight.astro";
 import {getPathByLocale} from "astro:i18n";
-import katexCssUrl from "katex/dist/katex.css";
 
 const { lang, slug } = Astro.params
 const t = useTranslations(lang);
@@ -31,7 +30,7 @@ export async function getStaticPaths() {
 });
   return blogEntries.map(entry => {
       const lang = getPathByLocale(entry.filePath.split('/')[0]);
-      const slug = getPostSlug(entry.filePath, entry.id, true);
+      const slug = getPostSlug(entry.id, true);
       return { params: { lang, slug }, props: { entry } };
   });
 }

@@ -16,46 +16,49 @@ function getLocales(locales: Locales = i18n?.locales ?? []) {
 
 export const locales = getLocales();
 
-export function getPostSlug(id: string,slug: string, slugOnly: boolean = false) {
-    const lang = id.split("/")[0]
-    const [sLang, ...rSlug] = slug.split("/")
-    const realSlug = rSlug.join("/")
-    if (locales.includes(lang)) {
-        if (lang === defaultLocale) {
-            if (slugOnly) {
-                return realSlug;
-            }
-            return `/blog/${realSlug}` // for ${default}/slug slug
-        }
-        const langPath = getPathByLocale(lang)
-        if (sLang === lang) {
-            if (slugOnly) {
-                return realSlug
-            }
-            return `/${langPath}/blog/${realSlug}` // for ${nondefault}/${slug} slug
-        } else {
-            if (slugOnly) {
-                return slug;
-            }
-            return `/${langPath}/blog/${slug}` // for ${slug} slug
-        }
-    } else {
-        if (slugOnly) {
-            return slug
-        }
-        // treat it as the default locale
-        return `/blog/${slug}`
-    }
+// content entries are stored as `<locale code>/<path>` under the collection base directory
+export function getEntryLocale(id: string): string | undefined {
+    const first = id.split("/")[0];
+    return locales.includes(first) ? first : undefined;
+}
+
+export function getEntryLangPath(id: string): string | undefined {
+    const locale = getEntryLocale(id);
+    return locale === undefined || locale === defaultLocale ? undefined : getPathByLocale(locale);
+}
+
+export function getPostSlug(id: string, slugOnly: boolean = false): string {
+    const locale = getEntryLocale(id);
+    if (locale === undefined) return slugOnly ? id : `/blog/${id}`;
+    const rest = id.split("/").slice(1).join("/");
+    if (locale === defaultLocale) return slugOnly ? rest : `/blog/${rest}`;
+    const langPath = getPathByLocale(locale);
+    return slugOnly ? rest : `/${langPath}/blog/${rest}`;
+}
+
+export function getPageSlug(id: string): string {
+    const locale = getEntryLocale(id);
+    if (locale === undefined) return id;
+    const rest = id.split("/").slice(1).join("/");
+    return locale === defaultLocale ? rest : `${getPathByLocale(locale)}/${rest}`;
+}
+
+export function getLocalizedStaticPaths() {
+    return locales
+        .filter((locale) => locale !== defaultLocale)
+        .map((locale) => ({ params: { lang: getPathByLocale(locale) } }));
 }
 
 export function getLangFromUrl(url: URL) {
     // limit to the first one since Astro only supports path that only contains paths defined
-    const path = url.pathname.split("/")[0];
+    const path = url.pathname.split("/")[1] ?? "";
     if (!pathHasLocale(path)) {
         return defaultLocale;
     }
     const uiKey = getLocaleByPath(path);
     if (uiKey in ui) return uiKey as keyof typeof ui;
+    // locale codes and ui keys can differ in case (`zh-CN` vs `zh-cn`), so fall back to the route path
+    if (path in ui) return path as keyof typeof ui;
     return defaultLocale;
 }
 

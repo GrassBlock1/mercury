@@ -68,7 +68,7 @@ export async function getStaticPaths() {
     return (import.meta.env.PROD ? post.data.draft !== true : true) && (post.filePath.split("/")[0] === defaultLocale || !languages.includes(post.filePath.split("/")[0]));
   });
   return blogEntries.map(post => {
-    const slug = getPostSlug(post.filePath, post.id, true);
+    const slug = getPostSlug(post.id, true);
     return {params: { slug }, props: { post }}
   });
 }

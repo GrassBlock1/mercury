@@ -71,7 +71,7 @@ export async function getStaticPaths() {
 
   return blogEntries.map(post => {
     const lang = getPathByLocale(post.id.split('/')[0]);
-    const slug = getPostSlug(post.filePath, post.id, true);
+    const slug = getPostSlug(post.id, true);
     return { params: { lang, slug }, props: { post } };
   });
 }
