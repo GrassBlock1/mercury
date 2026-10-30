@@ -1,10 +1,11 @@
 import { getCollection } from "astro:content";
 import { siteConfig } from "../config";
+import { getPageSlug, getPostSlug } from "@/i18n/utils";
+import { getSiteBaseUrl } from "@/utils/feeds";
 
 // Modified version that outputs markdown content
 export async function GET(context) {
-  let baseUrl = context.site?.href || "https://terminal-blog.example.com";
-  if (baseUrl.at(-1) === "/") baseUrl = baseUrl.slice(0, -1);
+  const baseUrl = getSiteBaseUrl(context);
   const markdownText = `# ${siteConfig.title}
 
 > ${siteConfig.description}
@@ -28,15 +29,12 @@ async function generateMarkdownSection(collectionName, sectionTitle, baseUrl) {
   let markdown = `## ${sectionTitle}\n`;
 
   for (const item of sortedItems) {
-    const { title, description, slug } = getMetaData(item);
-    markdown += `\n- [${title}](${baseUrl}/blog/${slug}): ${description || ''}`;
+    const url =
+      collectionName === "posts"
+        ? `${baseUrl}${getPostSlug(item.id)}`
+        : `${baseUrl}/${getPageSlug(item.id)}`;
+    markdown += `\n- [${item.data.title}](${url}): ${item.data.description || ''}`;
   }
 
   return markdown;
-}
-
-function getMetaData(collection) {
-  const { title, description } = collection.data;
-  const { slug } = collection;
-  return { title, description, slug };
 }

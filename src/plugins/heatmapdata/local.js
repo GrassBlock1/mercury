@@ -1,9 +1,8 @@
-import { getCollection, render } from 'astro:content';
+import { render } from 'astro:content';
+import { getPublishedPosts } from '@/utils/posts';
 
 async function fetchPostsData() {
-    const posts = await getCollection('posts', ({ data }) => {
-    return import.meta.env.PROD ? data.draft !== true : true;
-});
+    const posts = await getPublishedPosts();
     const entriesData = {};
 
     for (const post of posts) {
@@ -11,8 +10,6 @@ async function fetchPostsData() {
         const dateKey = post.data.date.toISOString().split('T')[0]; // "2025-07-25"
         entriesData[dateKey] = {
             wordCount: remarkPluginFrontmatter.wordcount.words / 1000 || 0,
-            link: `/blog/${post.slug}`,
-            title: post.data.title
         };
     }
 

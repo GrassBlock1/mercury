@@ -1,13 +1,10 @@
-import { getCollection } from 'astro:content';
-import {defaultLocale, getPostSlug, locales} from "@/i18n/utils.ts";
+import { getDefaultLocalePosts } from '@/utils/posts';
+import { getPostSlug } from '@/i18n/utils';
 
 export const prerender = true;
 export async function getStaticPaths() {
-    const blogEntries = await getCollection('posts', (post) => {
-        const languages = locales.filter(item => item !== defaultLocale)
-        return (import.meta.env.PROD ? post.data.draft !== true : true) && (post.filePath.split("/")[0] === defaultLocale || !languages.includes(post.filePath.split("/")[0]));
-    });
-    return blogEntries.map(entry => {
+    const entries = await getDefaultLocalePosts();
+    return entries.map(entry => {
         const slug = getPostSlug(entry.id, true);
         return {params: { slug }, props: { entry }}
     });
