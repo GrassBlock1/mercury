@@ -1,7 +1,7 @@
 {
-	"name": "@mercury/basics",
+	"name": "@grassblock/mercury",
 	"type": "module",
-	"version": "0.0.1",
+	"version": "20261030",
 	"private": true,
 	"license": "AGPL-3.0-or-later",
 	"scripts": {
