@@ -5,7 +5,7 @@ import Search from '../components/Search.astro';
 import ThemeSwitcher from '../components/ThemeSwitcher.astro';
 import ThemeSwitcher_CSSOnly from '../components/ThemeSwitcher@CSSOnly.astro';
 import BackToTop from "../components/BackToTop.astro";
-import Meta from "../components/helper/head/Meta.astro";
+import Meta from "@/components/helpers/head/Meta.astro";
 
 import {siteConfig} from "../config";
 import Statistics from "../components/Statistics.astro";
@@ -24,9 +24,9 @@ interface Props {
 }
 
 import PoweredBy from "../components/PoweredBy.astro";
-import SPARouter from "../components/helper/spa/SPARouter.astro";
-import Spinner from "../components/helper/spa/Spinner.astro";
-import LanguagePicker from "@/components/helper/i18n/LanguagePicker.astro";
+import SPARouter from "@/components/helpers/spa/SPARouter.astro";
+import Spinner from "@/components/helpers/spa/Spinner.astro";
+import LanguagePicker from "@/components/helpers/i18n/LanguagePicker.astro";
 const spaEnabled = siteConfig.spa
 
 const noscript = siteConfig.noClientJavaScript
