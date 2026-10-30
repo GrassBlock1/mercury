@@ -1,24 +1,24 @@
 {
-  "trailingSlash": "auto",
-  "routes": [
-    {
-      "route": "/post/*",
-      "redirect": "/blog/*",
-      "statusCode": 302
-    },
-    {
-      "route": "/*",
-      "headers": {
-        "cache-control": "must-revalidate, max-age=15770000"
-      }
-    }
-  ],
-  "responseOverrides": {
-    "404": {
-      "rewrite": "/404.html"
-    }
-  },
-  "globalHeaders": {
-    "content-security-policy": "default-src https: 'unsafe-eval' 'unsafe-inline'; object-src 'none'"
-  }
+	"trailingSlash": "auto",
+	"routes": [
+		{
+			"route": "/post/*",
+			"redirect": "/blog/*",
+			"statusCode": 302
+		},
+		{
+			"route": "/*",
+			"headers": {
+				"cache-control": "must-revalidate, max-age=15770000"
+			}
+		}
+	],
+	"responseOverrides": {
+		"404": {
+			"rewrite": "/404.html"
+		}
+	},
+	"globalHeaders": {
+		"content-security-policy": "default-src https: 'unsafe-eval' 'unsafe-inline'; object-src 'none'"
+	}
 }

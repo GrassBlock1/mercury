@@ -1,9 +1,9 @@
 ---
-import IndexLayout from '@/components/helpers/taxonomies/Index.astro';
-import { getPublishedPosts } from '@/utils/posts';
-import { collectTaxonomies } from '@/utils/taxonomy';
+import IndexLayout from "@/components/helpers/taxonomies/Index.astro";
+import { getPublishedPosts } from "@/utils/posts";
+import { collectTaxonomies } from "@/utils/taxonomy";
 
-const items = collectTaxonomies(await getPublishedPosts(), 'categories');
+const items = collectTaxonomies(await getPublishedPosts(), "categories");
 ---
 
 <IndexLayout

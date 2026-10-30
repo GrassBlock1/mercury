@@ -1,24 +1,24 @@
 ---
+import { getImage } from "astro:assets";
 import Favicon from "../../../assets/favicon.png";
-import FaviconSvg from '../../../assets/favicon.svg';
-import {getImage} from "astro:assets";
-import {siteConfig} from "../../../config";
+import FaviconSvg from "../../../assets/favicon.svg";
+import { siteConfig } from "../../../config";
 
 const appleTouchIcon = await getImage({
-    src: Favicon,
-    width: 180,
-    height: 180,
-    format: 'png'
-})
+	src: Favicon,
+	width: 180,
+	height: 180,
+	format: "png",
+});
 
 interface Props {
-    title: string;
-    description: string;
-    author?: string;
-    ogImage?: string;
+	title: string;
+	description: string;
+	author?: string;
+	ogImage?: string;
 }
 
-const { title, author,description, ogImage = "" } = Astro.props
+const { title, author, description, ogImage = "" } = Astro.props;
 
 // quick fix for those which only recognize full urls
 //const featuredImage = ogImage.startsWith('http') ? ogImage : `${Astro.url.origin}${ogImage}`

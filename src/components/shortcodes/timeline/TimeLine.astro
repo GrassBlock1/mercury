@@ -1,4 +1,6 @@
 ---
+import { parse } from "ultrahtml";
+import { querySelectorAll } from "ultrahtml/selector";
 /*
 <TimeLine>
 ### Date
@@ -12,54 +14,54 @@ will be automatically converted to a timeline item:
 </Timeline>
 */
 import TimeLineItem from "./TimeLineItem.astro";
-import { parse } from "ultrahtml";
-import {querySelectorAll} from 'ultrahtml/selector'
 
 interface TimelineItem {
-    date: string;
-    title: string;
-    descriptionHTML: string;
+	date: string;
+	title: string;
+	descriptionHTML: string;
 }
 
 /* These code has a lot of children LoL */
 function parseTimeLineContent(content: string): TimelineItem[] {
-    if (!content) return [];
-    const html = parse(content);
+	if (!content) return [];
+	const html = parse(content);
 
-    // Find all h4 elements (dates)
-    const dates = querySelectorAll(html,'h3');
-    if (!dates) return [];
-    // Extract data for each timeline item
-    const items = []
-    for (let i = 0; i < dates.length; i++) {
-        const dateEl = dates[i];
+	// Find all h4 elements (dates)
+	const dates = querySelectorAll(html, "h3");
+	if (!dates) return [];
+	// Extract data for each timeline item
+	const items = [];
+	for (let i = 0; i < dates.length; i++) {
+		const dateEl = dates[i];
 
-        const date = dateEl.children[0].value;
+		const date = dateEl.children[0].value;
 
-        // Get the title from the strong tag following this date
-        let title = '';
-        let descriptionHTML = '';
-        // Find next strong element
-        const titleEl = dates[i].parent?.children[1+3*i].children[0].children[0];
-        if (titleEl) {
-            title = titleEl.value;
-            const descriptionEl = titleEl.parent.parent.parent.children[2+3*i].children[0];
+		// Get the title from the strong tag following this date
+		let title = "";
+		let descriptionHTML = "";
+		// Find next strong element
+		const titleEl =
+			dates[i].parent?.children[1 + 3 * i].children[0].children[0];
+		if (titleEl) {
+			title = titleEl.value;
+			const descriptionEl =
+				titleEl.parent.parent.parent.children[2 + 3 * i].children[0];
 
-            descriptionHTML = `<p>${descriptionEl.value}</p>`;
-        }
+			descriptionHTML = `<p>${descriptionEl.value}</p>`;
+		}
 
-        items.push({ date, title, descriptionHTML });
-    }
-    return items;
+		items.push({ date, title, descriptionHTML });
+	}
+	return items;
 }
 
-let timelineItems: TimelineItem[] = []
+let timelineItems: TimelineItem[] = [];
 
 const { parseFromText = true } = Astro.props;
 
 if (parseFromText) {
-    const renderedHTML = await Astro.slots.render('default');
-    timelineItems = parseTimeLineContent(renderedHTML);
+	const renderedHTML = await Astro.slots.render("default");
+	timelineItems = parseTimeLineContent(renderedHTML);
 }
 ---
 <ol class="timeline">

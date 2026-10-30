@@ -1,13 +1,13 @@
 ---
-import Layout from '@/layouts/Layout.astro';
-import NewsLetter from '@/components/NewsLetter.astro';
-import ArticleList from '@/components/ArticleList.astro';
-import { siteConfig } from '@/config';
-import { getLangFromUrl, useTranslations } from '@/i18n/utils';
-import type { PostEntry } from '@/utils/posts';
+import ArticleList from "@/components/ArticleList.astro";
+import NewsLetter from "@/components/NewsLetter.astro";
+import { siteConfig } from "@/config";
+import { getLangFromUrl, useTranslations } from "@/i18n/utils";
+import Layout from "@/layouts/Layout.astro";
+import type { PostEntry } from "@/utils/posts";
 
 interface Props {
-    posts: PostEntry[];
+	posts: PostEntry[];
 }
 
 const { posts } = Astro.props;

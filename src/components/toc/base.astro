@@ -1,7 +1,8 @@
 ---
-import type {MarkdownHeading} from "astro";
+import type { MarkdownHeading } from "astro";
+
 interface Props {
-    headings: MarkdownHeading[];
+	headings: MarkdownHeading[];
 }
 
 const { headings } = Astro.props;
@@ -9,24 +10,23 @@ const { headings } = Astro.props;
 const filteredHeadings = headings.filter((heading) => heading.depth <= 3);
 
 // github.com/rezahedi/rezahedi.dev/blob/main/src/components/TOC.astro
+type TocHeading = MarkdownHeading & { subheadings: TocHeading[] };
+
 function buildHierarchy(headings: MarkdownHeading[]) {
-    const toc: any[] = [];
-    const parentHeadings = new Map();
+	const toc: TocHeading[] = [];
+	const parentHeadings = new Map<number, TocHeading>();
 
-    if (!headings)
-        return toc;
-
-    headings.forEach((h: any) => {
-        const heading = { ...h, subheadings: [] };
-        parentHeadings.set(heading.depth, heading);
-        // Change 2 to 1 if your Markdown includes <h1>
-        if (heading.depth === 2) {
-            toc.push(heading);
-        } else {
-            parentHeadings.get(heading.depth - 1)?.subheadings.push(heading);
-        }
-    });
-    return toc;
+	headings.forEach((h) => {
+		const heading: TocHeading = { ...h, subheadings: [] };
+		parentHeadings.set(heading.depth, heading);
+		// Change 2 to 1 if your Markdown includes <h1>
+		if (heading.depth === 2) {
+			toc.push(heading);
+		} else {
+			parentHeadings.get(heading.depth - 1)?.subheadings.push(heading);
+		}
+	});
+	return toc;
 }
 
 const toc = buildHierarchy(filteredHeadings);

@@ -1,24 +1,24 @@
 ---
-import Layout from '@/layouts/Layout.astro';
-import Comments from '@/components/Comments.astro';
-import type { CollectionEntry } from 'astro:content';
-import { render } from 'astro:content';
-import { Image } from 'astro:assets';
-import { siteConfig } from '@/config';
-import ReplyViaEmail from '@/components/ReplyViaEmail.astro';
-import AuthorInfo from '@/components/helpers/authors/Info.astro';
-import TableOfContents from '@/components/toc/TableOfContents.astro';
-import TableOfContentsButton from '@/components/toc/Button.astro';
-import katexCssUrl from 'katex/dist/katex.css?url';
-import artalkCssUrl from '@/styles/artalk.css?url';
-import { getLangFromUrl, useTranslations } from '@/i18n/utils';
-import OutDatedCallOut from '@/components/OutDatedCallOut.astro';
-import CopyRight from '@/components/CopyRight.astro';
-import { resolveAuthors } from '@/utils/posts';
-import { resolvePostCover } from '@/plugins/post-images';
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import { render } from "astro:content";
+import katexCssUrl from "katex/dist/katex.css?url";
+import Comments from "@/components/Comments.astro";
+import CopyRight from "@/components/CopyRight.astro";
+import AuthorInfo from "@/components/helpers/authors/Info.astro";
+import OutDatedCallOut from "@/components/OutDatedCallOut.astro";
+import ReplyViaEmail from "@/components/ReplyViaEmail.astro";
+import TableOfContentsButton from "@/components/toc/Button.astro";
+import TableOfContents from "@/components/toc/TableOfContents.astro";
+import { siteConfig } from "@/config";
+import { getLangFromUrl, useTranslations } from "@/i18n/utils";
+import Layout from "@/layouts/Layout.astro";
+import { resolvePostCover } from "@/plugins/post-images";
+import artalkCssUrl from "@/styles/artalk.css?url";
+import { resolveAuthors } from "@/utils/posts";
 
 interface Props {
-    entry: CollectionEntry<'posts'>;
+	entry: CollectionEntry<"posts">;
 }
 
 const { entry } = Astro.props;
@@ -28,15 +28,17 @@ const t = useTranslations(lang);
 
 const { Content, headings, remarkPluginFrontmatter } = await render(entry);
 const hasMath = remarkPluginFrontmatter.hasMath === true;
-const noscript = siteConfig.noClientJavaScript
-const commentsWithArtalk = !noscript && siteConfig.comments.type === 'artalk';
+const noscript = siteConfig.noClientJavaScript;
+const commentsWithArtalk = !noscript && siteConfig.comments.type === "artalk";
 
 // Get Wordcount and Last Updated Date
 const wordcount = remarkPluginFrontmatter.wordcount;
-const lastUpdated = entry.data.updated ? entry.data.updated : remarkPluginFrontmatter.lastModified;
+const lastUpdated = entry.data.updated
+	? entry.data.updated
+	: remarkPluginFrontmatter.lastModified;
 
-const pubDate = new Date(entry.data.date).toISOString().split('T')[0]
-const lastUpdatedDate = new Date(lastUpdated).toISOString().split('T')[0]
+const pubDate = new Date(entry.data.date).toISOString().split("T")[0];
+const lastUpdatedDate = new Date(lastUpdated).toISOString().split("T")[0];
 
 const authors = await resolveAuthors(entry);
 

@@ -1,15 +1,17 @@
 ---
-import PostPage from '@/components/PostPage.astro';
-import { getNonDefaultLocalePosts } from '@/utils/posts';
-import { getEntryLangPath, getPostSlug } from '@/i18n/utils';
+import PostPage from "@/components/PostPage.astro";
+import { getEntryLangPath, getPostSlug } from "@/i18n/utils";
+import { getNonDefaultLocalePosts } from "@/utils/posts";
 
 export async function getStaticPaths() {
-    const entries = await getNonDefaultLocalePosts();
-    return entries.flatMap((entry) => {
-        const lang = getEntryLangPath(entry.id);
-        if (!lang) return [];
-        return [{ params: { lang, slug: getPostSlug(entry.id, true) }, props: { entry } }];
-    });
+	const entries = await getNonDefaultLocalePosts();
+	return entries.flatMap((entry) => {
+		const lang = getEntryLangPath(entry.id);
+		if (!lang) return [];
+		return [
+			{ params: { lang, slug: getPostSlug(entry.id, true) }, props: { entry } },
+		];
+	});
 }
 
 const { entry } = Astro.props;

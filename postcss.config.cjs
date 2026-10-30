@@ -1,5 +1,3 @@
 module.exports = {
-    plugins: [
-        require('cssnano'),
-    ],
+	plugins: [require("cssnano")],
 };

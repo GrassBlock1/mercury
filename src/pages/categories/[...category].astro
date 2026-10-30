@@ -1,10 +1,10 @@
 ---
-import PostsLayout from '@/components/helpers/taxonomies/Posts.astro';
-import { getPublishedPosts } from '@/utils/posts';
-import { buildTaxonomyPaths } from '@/utils/taxonomy';
+import PostsLayout from "@/components/helpers/taxonomies/Posts.astro";
+import { getPublishedPosts } from "@/utils/posts";
+import { buildTaxonomyPaths } from "@/utils/taxonomy";
 
 export async function getStaticPaths() {
-    return buildTaxonomyPaths(await getPublishedPosts(), 'categories');
+	return buildTaxonomyPaths(await getPublishedPosts(), "categories");
 }
 
 const { posts } = Astro.props;

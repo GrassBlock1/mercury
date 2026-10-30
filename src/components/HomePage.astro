@@ -1,9 +1,10 @@
 ---
-import Layout from '@/layouts/Layout.astro';
-import { siteConfig } from '@/config';
+import type { AstroComponentFactory } from "astro/runtime/server/index.js";
+import { siteConfig } from "@/config";
+import Layout from "@/layouts/Layout.astro";
 
 interface Props {
-    content?: any;
+	content?: AstroComponentFactory;
 }
 
 const { content: HomePageContent } = Astro.props;

@@ -1,22 +1,25 @@
 ---
-import { encrypt } from '../../plugins/encrypt';
-import {siteConfig} from "../../config";
-import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import { siteConfig } from "../../config";
+import { getLangFromUrl, useTranslations } from "../../i18n/utils";
+import { encrypt } from "../../plugins/encrypt";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
 interface Props {
-    password?: string;
-    pwEnv?: string;
+	password?: string;
+	pwEnv?: string;
 }
 
 const { password: propPassword, pwEnv } = Astro.props;
 // Get password from props, environment variable, or site config
-const password = (pwEnv ? import.meta.env[pwEnv] : propPassword) || siteConfig.contentPassword || import.meta.env.CONTENT_PASSWORD;
+const password =
+	(pwEnv ? import.meta.env[pwEnv] : propPassword) ||
+	siteConfig.contentPassword ||
+	import.meta.env.CONTENT_PASSWORD;
 
 // Get the slot content
-const content = await Astro.slots.render('default');
+const content = await Astro.slots.render("default");
 
 // Encrypt content at build time
 const { encryptedData, iv } = encrypt(content, password);

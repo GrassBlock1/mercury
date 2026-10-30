@@ -1,7 +1,8 @@
 ---
-import {getCollection} from "astro:content";
-import { Image } from 'astro:assets';
-const links = await getCollection('links');
+import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
+
+const links = await getCollection("links");
 const { random = false } = Astro.props;
 ---
 <h2>My Blogroll</h2>

@@ -5,12 +5,13 @@
 //import { fetchDataForAllYears } from "../../plugins/heatmapdata/github";
 //import { fetchForgejoData } from "../../plugins/heatmapdata/forgejo";
 import { generateLocalData } from "../../plugins/heatmapdata/local";
+
 interface Props {
-    GithubUserName?: string;
-    ForgejoInfo?: {
-        instance: string;
-        username: string;
-    }[];
+	GithubUserName?: string;
+	ForgejoInfo?: {
+		instance: string;
+		username: string;
+	}[];
 }
 const { GithubUserName, ForgejoInfo } = Astro.props;
 
@@ -18,23 +19,23 @@ const { GithubUserName, ForgejoInfo } = Astro.props;
 //const ForgejoData = ForgejoInfo ? (await Promise.all(ForgejoInfo.map(info => fetchForgejoData(info.instance, info.username)))) : null;
 const LocalData = await generateLocalData();
 const allData = [
-//  {
-//    type: "heatmap",
-//    coordinateSystem: 'calendar',
-//    data: GithubData
-//
-//  },
- // {
-// type: "heatmap",
-//    coordinateSystem: 'calendar',
-//    data: ForgejoData
-//  },
-  {
-    type: "heatmap",
-    coordinateSystem: 'calendar',
-    data: LocalData
-  }
-]
+	//  {
+	//    type: "heatmap",
+	//    coordinateSystem: 'calendar',
+	//    data: GithubData
+	//
+	//  },
+	// {
+	// type: "heatmap",
+	//    coordinateSystem: 'calendar',
+	//    data: ForgejoData
+	//  },
+	{
+		type: "heatmap",
+		coordinateSystem: "calendar",
+		data: LocalData,
+	},
+];
 ---
 <div class="heatmap">
   <div class="chart" id="heatmap-chart"></div>

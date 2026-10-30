@@ -1,8 +1,8 @@
 ---
-import {siteConfig} from "../../../config";
+import { siteConfig } from "../../../config";
 
 const twikooServer = siteConfig.comments.twikoo.envId;
-const twikooRegion = siteConfig.comments.twikoo.region || ''; // 默认为空
+const twikooRegion = siteConfig.comments.twikoo.region || ""; // 默认为空
 ---
 <div id="tcomment" data-region={twikooRegion} data-env={twikooServer}></div>
 <script>

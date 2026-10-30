@@ -1,27 +1,27 @@
-import { getDefaultLocalePosts } from '@/utils/posts';
-import { getPostSlug } from '@/i18n/utils';
+import { getPostSlug } from "@/i18n/utils";
+import { getDefaultLocalePosts } from "@/utils/posts";
 
 export const prerender = true;
 export async function getStaticPaths() {
-    const entries = await getDefaultLocalePosts();
-    return entries.map(entry => {
-        const slug = getPostSlug(entry.id, true);
-        return {params: { slug }, props: { entry }}
-    });
+	const entries = await getDefaultLocalePosts();
+	return entries.map((entry) => {
+		const slug = getPostSlug(entry.id, true);
+		return { params: { slug }, props: { entry } };
+	});
 }
 export async function GET({ props }) {
-    const { entry } = props;
-    // Format the content as plain text
-    const title = entry.data.title;
-    const date = entry.data.date.toISOString().split('T')[0];
-    const content = entry.body;
+	const { entry } = props;
+	// Format the content as plain text
+	const title = entry.data.title;
+	const date = entry.data.date.toISOString().split("T")[0];
+	const content = entry.body;
 
-    // Combine the post info and body into a single text file
-    const textContent = `Title: ${title}\nPublished at: ${date}\n\n${content}`;
+	// Combine the post info and body into a single text file
+	const textContent = `Title: ${title}\nPublished at: ${date}\n\n${content}`;
 
-    return new Response(textContent, {
-        headers: {
-            'Content-Type': 'text/plain',
-        },
-    });
+	return new Response(textContent, {
+		headers: {
+			"Content-Type": "text/plain",
+		},
+	});
 }

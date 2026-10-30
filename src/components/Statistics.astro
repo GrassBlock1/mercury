@@ -1,9 +1,10 @@
 ---
-import {siteConfig} from "../config";
-const noscript = siteConfig.noClientJavaScript
-const statisticsType = siteConfig.siteAnalytics.type
-const umamiConfig = siteConfig.siteAnalytics.umami
-const goatCounterConfig = siteConfig.siteAnalytics.goatcounter
+import { siteConfig } from "../config";
+
+const noscript = siteConfig.noClientJavaScript;
+const statisticsType = siteConfig.siteAnalytics.type;
+const umamiConfig = siteConfig.siteAnalytics.umami;
+const goatCounterConfig = siteConfig.siteAnalytics.goatcounter;
 ---
 {statisticsType === 'umami' && (
     <div>

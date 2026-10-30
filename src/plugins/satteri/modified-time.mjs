@@ -4,27 +4,33 @@ import { fileURLToPath } from "node:url";
 import { defineMdastPlugin } from "satteri";
 
 export const mdastModifiedTimePlugin = defineMdastPlugin({
-    name: "mdast-modified-time",
-    before(root, context) {
-        if (!context.fileURL) return;
+	name: "mdast-modified-time",
+	before(_root, context) {
+		if (!context.fileURL) return;
 
-        const filepath = fileURLToPath(context.fileURL);
-        let result;
-        try {
-            result = execFileSync('git', ["log", "-1", "--pretty=format:%cI", "--", filepath], { stdio: ['ignore','pipe','ignore'] }).toString().trim();
-        } catch (e) {
-            console.warn("unable to get data from git", e)
-        }
-        if (!result) {
-            try {
-                result = statSync(filepath).mtime.toISOString();
-            } catch (e) {
-                result = undefined;
-            }
-        }
+		const filepath = fileURLToPath(context.fileURL);
+		let result;
+		try {
+			result = execFileSync(
+				"git",
+				["log", "-1", "--pretty=format:%cI", "--", filepath],
+				{ stdio: ["ignore", "pipe", "ignore"] },
+			)
+				.toString()
+				.trim();
+		} catch (e) {
+			console.warn("unable to get data from git", e);
+		}
+		if (!result) {
+			try {
+				result = statSync(filepath).mtime.toISOString();
+			} catch {
+				result = undefined;
+			}
+		}
 
-        if (context.data.astro !== undefined) {
-            context.data.astro.frontmatter.lastModified = result;
-        }
-    },
+		if (context.data.astro !== undefined) {
+			context.data.astro.frontmatter.lastModified = result;
+		}
+	},
 });

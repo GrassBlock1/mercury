@@ -1,11 +1,10 @@
 ---
-const { tip = '' } = Astro.props
-let divNeeded = false
-const content = await Astro.slots.render('default')
-if (content.includes('<p>')) {
-    divNeeded = true
+const { tip = "" } = Astro.props;
+let divNeeded = false;
+const content = await Astro.slots.render("default");
+if (content.includes("<p>")) {
+	divNeeded = true;
 }
-
 ---
 {divNeeded ?
     <div class="spoiler" title={tip} set:html={content}></div>

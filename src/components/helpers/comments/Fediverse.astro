@@ -2,71 +2,91 @@
 import { siteConfig } from "@/config";
 
 const fediverseConfig = siteConfig.comments.fediverse;
-const {
-  instanceDomain,
-  useV2api,
-  token,
-  useReverseProxy,
-  reverseProxyUrl,
-} = fediverseConfig;
+const { instanceDomain, useV2api, token, useReverseProxy, reverseProxyUrl } =
+	fediverseConfig;
 
+interface FediverseAccount {
+	avatar: string;
+	display_name: string;
+	acct: string;
+}
+
+interface FediverseStatus {
+	id: string;
+	url: string;
+	content: string;
+	account: FediverseAccount;
+	reblogs_count?: number;
+	favourites_count?: number;
+}
+
+interface FediverseSearchResult {
+	statuses: FediverseStatus[];
+}
 
 // Create the full URL to search for
-const pageURL = new URL(Astro.request.headers.get('Referer') || Astro.url.href);
+const pageURL = new URL(Astro.request.headers.get("Referer") || Astro.url.href);
 // search for only the host/path in case the instance will try to resolve the post with activitypub
-const postUrl = new URL(pageURL).host + new URL(pageURL).pathname
+const postUrl = new URL(pageURL).host + new URL(pageURL).pathname;
 // Define the search API endpoint based on configuration
 let searchEndpoint: string;
 if (useReverseProxy && reverseProxyUrl) {
-  searchEndpoint = reverseProxyUrl;
+	searchEndpoint = reverseProxyUrl;
 } else {
-  const apiVersion = useV2api ? 'v2' : 'v1';
-  searchEndpoint = `https://${instanceDomain}/api/${apiVersion}/search`;
+	const apiVersion = useV2api ? "v2" : "v1";
+	searchEndpoint = `https://${instanceDomain}/api/${apiVersion}/search`;
 }
 
 // Prepare default variables
-let commentData: any = null;
-let replies = new Map<string, any[]>();
+let commentData: FediverseSearchResult = { statuses: [] };
+const replies = new Map<string, FediverseStatus[]>();
 
 // Server-side rendering - fetch data during build
 // Prepare URL
 const params = new URLSearchParams();
-params.append('q', postUrl);
-params.append('type', 'statuses');
+params.append("q", postUrl);
+params.append("type", "statuses");
 const url = `${searchEndpoint}?${params.toString()}`;
 
 // Prepare fetch options
 const options: RequestInit = {
-  method: 'GET',
-  headers: {
-    'Accept': 'application/json',
-  }
+	method: "GET",
+	headers: {
+		Accept: "application/json",
+	},
 };
 
 // Add authorization if token is provided
 if (token) {
-  (options.headers as Record<string, string>)['Authorization'] = `Bearer ${token}`;
+	(options.headers as Record<string, string>).Authorization = `Bearer ${token}`;
 }
 
 // Fetch data
-commentData = await fetch(url, options).then(r => r.json());
+commentData = await fetch(url, options)
+	.then((r) => r.json())
+	.then((result: Partial<FediverseSearchResult> | null) => ({
+		statuses: result?.statuses ?? [],
+	}));
 
 // Extract original post and get replies if available
-const comments = commentData.statuses || [];
+const comments = commentData.statuses;
 if (comments.length > 0) {
-  // Promise.all is required since Array.map is not async aware
-  // https://stackoverflow.com/a/40140562
-  await Promise.all(comments.map(async (comment) =>
-  // Fetch replies
-  {
-    const statusId = comment.id;
-    const contextUrl = `https://${instanceDomain}/api/v1/statuses/${statusId}/context`;
-    const contextResponse = await fetch(contextUrl, options);
-    if (contextResponse.ok) {
-      const contextData = await contextResponse.json();
-      replies.set(statusId,contextData.descendants || []);
-    }
-  }))
+	// Promise.all is required since Array.map is not async aware
+	// https://stackoverflow.com/a/40140562
+	await Promise.all(
+		comments.map(async (comment) =>
+			// Fetch replies
+			{
+				const statusId = comment.id;
+				const contextUrl = `https://${instanceDomain}/api/v1/statuses/${statusId}/context`;
+				const contextResponse = await fetch(contextUrl, options);
+				if (contextResponse.ok) {
+					const contextData = await contextResponse.json();
+					replies.set(statusId, contextData.descendants || []);
+				}
+			},
+		),
+	);
 }
 ---
 
@@ -81,7 +101,7 @@ if (comments.length > 0) {
               <p class="tip">To make a comment, create a public post with the link to the post on fediverse.</p>
               <p class="tip">To reply to a comment, copy the link of the 'view post' under the existing comments and search it on your instance and reply to it.</p>
               {
-                commentData.statuses.map((status: any) => (
+                commentData.statuses.map((status) => (
                     <div class="original-post">
                       <div class="post-header">
                         <img src={status.account.avatar} alt={status.account.display_name} class="avatar"/>
@@ -97,7 +117,7 @@ if (comments.length > 0) {
                       </div>
                       {(replies.get(status.id) || []).length > 0 && (
                           <div class="replies-container">
-                            {(replies.get(status.id) || []).map((reply: any) => (
+                            {(replies.get(status.id) || []).map((reply) => (
                                 <div class="post-replies">
                                   <div class="reply-header">
                                     <img src={reply.account.avatar} alt={reply.account.display_name} class="avatar"/>

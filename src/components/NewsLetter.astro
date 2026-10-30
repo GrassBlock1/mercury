@@ -1,10 +1,10 @@
 ---
-import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const { listmonkInstance, listuuid } = Astro.props;
-const inputId = Astro.props.listuuid.substring(0,5)
+const inputId = Astro.props.listuuid.substring(0, 5);
 ---
 <details>
 <summary>{t('subscribe.newsletter')}</summary>

@@ -1,47 +1,52 @@
 ---
-import { Image } from 'astro:assets';
-import { getMetadata, getWaybackMetadata } from '../../plugins/get-metadata';
-import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import { Image } from "astro:assets";
+import { getLangFromUrl, useTranslations } from "../../i18n/utils";
+import { getMetadata, getWaybackMetadata } from "../../plugins/get-metadata";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
 interface Props {
-    url: string;
-    showArchive?: boolean;
-    title?: string;
-    description?: string;
-    pubDate?: Date | string;
-    updatedDate?: Date | string;
-    siteName?: string;
+	url: string;
+	showArchive?: boolean;
+	title?: string;
+	description?: string;
+	pubDate?: Date | string;
+	updatedDate?: Date | string;
+	siteName?: string;
 }
 
-const { url, showArchive = false, pubDate, updatedDate} = Astro.props;
+const { url, showArchive = false, pubDate, updatedDate } = Astro.props;
 
 const siteMetadata = {
-    title: Astro.props.title || '',
-    description: Astro.props.description || '',
-    siteName: Astro.props.siteName || '',
-    image: '',
-    domain: new URL(url).hostname || ''
+	title: Astro.props.title || "",
+	description: Astro.props.description || "",
+	siteName: Astro.props.siteName || "",
+	image: "",
+	domain: new URL(url).hostname || "",
 };
 
 // Format date to number only format (YYYYMMDD) for archive.org apis
 function formatDateToNumber(date: Date | string | undefined): string {
-    if (!date) return '';
-    const d = new Date(date);
-    const year = d.getFullYear();
-    const month = String(d.getMonth() + 1).padStart(2, '0');
-    const day = String(d.getDate()).padStart(2, '0');
-    return `${year}${month}${day}`;
+	if (!date) return "";
+	const d = new Date(date);
+	const year = d.getFullYear();
+	const month = String(d.getMonth() + 1).padStart(2, "0");
+	const day = String(d.getDate()).padStart(2, "0");
+	return `${year}${month}${day}`;
 }
 
 // Determine which date to use (prefer updatedDate if available, or fallback to the build time)
-const timestamp = (updatedDate ? formatDateToNumber(updatedDate) : formatDateToNumber(pubDate)) || formatDateToNumber(new Date());
+const timestamp =
+	(updatedDate
+		? formatDateToNumber(updatedDate)
+		: formatDateToNumber(pubDate)) || formatDateToNumber(new Date());
 
 // extract metadata and archive URL
 const metadata = Astro.props.title ? siteMetadata : await getMetadata(url);
-const archiveUrl = showArchive ? await getWaybackMetadata(url, timestamp) : null;
+const archiveUrl = showArchive
+	? await getWaybackMetadata(url, timestamp)
+	: null;
 ---
 
 <div class="link-card">

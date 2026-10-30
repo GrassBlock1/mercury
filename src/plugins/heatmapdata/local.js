@@ -1,29 +1,29 @@
-import { render } from 'astro:content';
-import { getPublishedPosts } from '@/utils/posts';
+import { render } from "astro:content";
+import { getPublishedPosts } from "@/utils/posts";
 
 async function fetchPostsData() {
-    const posts = await getPublishedPosts();
-    const entriesData = {};
+	const posts = await getPublishedPosts();
+	const entriesData = {};
 
-    for (const post of posts) {
-        const { remarkPluginFrontmatter } = await render(post);
-        const dateKey = post.data.date.toISOString().split('T')[0]; // "2025-07-25"
-        entriesData[dateKey] = {
-            wordCount: remarkPluginFrontmatter.wordcount.words / 1000 || 0,
-        };
-    }
+	for (const post of posts) {
+		const { remarkPluginFrontmatter } = await render(post);
+		const dateKey = post.data.date.toISOString().split("T")[0]; // "2025-07-25"
+		entriesData[dateKey] = {
+			wordCount: remarkPluginFrontmatter.wordcount.words / 1000 || 0,
+		};
+	}
 
-    return entriesData;
+	return entriesData;
 }
 
 export async function generateLocalData() {
-    const postsData = await fetchPostsData();
-    const data = []
-    Object.entries(postsData).forEach(([dateKey, entry]) => {
-        data.push([
-            new Date(dateKey).toISOString().split('T')[0], // Convert to YYYY-MM-DD format
-            entry.wordCount || 0,
-        ])
-    })
-    return data;
+	const postsData = await fetchPostsData();
+	const data = [];
+	Object.entries(postsData).forEach(([dateKey, entry]) => {
+		data.push([
+			new Date(dateKey).toISOString().split("T")[0], // Convert to YYYY-MM-DD format
+			entry.wordCount || 0,
+		]);
+	});
+	return data;
 }

@@ -1,17 +1,18 @@
 ---
-import Layout from '@/layouts/Layout.astro';
+import Layout from "@/layouts/Layout.astro";
 
 interface Props {
-    title: string;
-    description: string;
-    heading: string;
-    command: string;
-    basePath: string;
-    listClass: string;
-    items: string[];
+	title: string;
+	description: string;
+	heading: string;
+	command: string;
+	basePath: string;
+	listClass: string;
+	items: string[];
 }
 
-const { title, description, heading, command, basePath, listClass, items } = Astro.props;
+const { title, description, heading, command, basePath, listClass, items } =
+	Astro.props;
 ---
 
 <Layout title={title} description={description}>

@@ -1,11 +1,13 @@
 ---
-import BlogListPage from '@/components/BlogListPage.astro';
-import { getLocalizedPosts, sortByDateDesc } from '@/utils/posts';
-import { getLocalizedStaticPaths } from '@/i18n/utils';
+import BlogListPage from "@/components/BlogListPage.astro";
+import { getLocalizedStaticPaths } from "@/i18n/utils";
+import { getLocalizedPosts, sortByDateDesc } from "@/utils/posts";
 
 export const getStaticPaths = getLocalizedStaticPaths;
 
-const posts = sortByDateDesc(await getLocalizedPosts(Astro.params.lang!));
+const { lang } = Astro.params;
+if (!lang) throw new Error("blog page requires a lang param");
+const posts = sortByDateDesc(await getLocalizedPosts(lang));
 ---
 
 <BlogListPage posts={posts} />

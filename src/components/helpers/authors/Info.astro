@@ -1,11 +1,15 @@
 ---
-import {Image} from "astro:assets";
-import {siteConfig} from "../../../config";
+import { Image } from "astro:assets";
+import { siteConfig } from "../../../config";
 
 const { data } = Astro.props;
 
 // Get author data
-const authorAvatar = data.avatar ? data.avatar : (data.mcplayerid ? `/images/avatars/${data.mcplayerid}.png` : null);
+const authorAvatar = data.avatar
+	? data.avatar
+	: data.mcplayerid
+		? `/images/avatars/${data.mcplayerid}.png`
+		: null;
 const authorName = data.name ? data.name : null;
 ---
 {(siteConfig.displayAvatar && data) &&

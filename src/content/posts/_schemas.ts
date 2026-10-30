@@ -1,15 +1,24 @@
-import {reference} from 'astro:content';
-import { z } from 'astro/zod';
-// @ts-ignore
-export const posts = ({image}) => z.object({
-    title: z.string(),
-    description: z.string().optional(),
-    draft: z.boolean().optional().default(false),
-    summary: z.string().optional(),
-    date: z.coerce.date(),
-    updated: z.coerce.date().optional(),
-    categories: z.union([z.array(z.string()), z.string()]).transform(val => Array.isArray(val) ? val : [val]).default(['uncategorized']),
-    tags: z.union([z.array(z.string()), z.string()]).transform(val => Array.isArray(val) ? val : [val]).optional(),
-    cover: image().optional(),
-    author: z.union([z.array(reference('authors')), reference('authors')]).optional(),
-});
+import { reference } from "astro:content";
+import { z } from "astro/zod";
+// @ts-expect-error 集合的 schema 工厂由 Astro 注入 image 助手，这里没有对应的公开类型
+export const posts = ({ image }) =>
+	z.object({
+		title: z.string(),
+		description: z.string().optional(),
+		draft: z.boolean().optional().default(false),
+		summary: z.string().optional(),
+		date: z.coerce.date(),
+		updated: z.coerce.date().optional(),
+		categories: z
+			.union([z.array(z.string()), z.string()])
+			.transform((val) => (Array.isArray(val) ? val : [val]))
+			.default(["uncategorized"]),
+		tags: z
+			.union([z.array(z.string()), z.string()])
+			.transform((val) => (Array.isArray(val) ? val : [val]))
+			.optional(),
+		cover: image().optional(),
+		author: z
+			.union([z.array(reference("authors")), reference("authors")])
+			.optional(),
+	});

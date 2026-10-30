@@ -1,12 +1,12 @@
 ---
-import {siteConfig} from "../config";
-import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { siteConfig } from "../config";
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-const noscript = siteConfig.noClientJavaScript
-const searchEngine = siteConfig.searchEngine || 'google'
-const domain = Astro.url.host
+const noscript = siteConfig.noClientJavaScript;
+const searchEngine = siteConfig.searchEngine || "google";
+const domain = Astro.url.host;
 ---
 {noscript ?
 <form class="search-container" action={searchEngine === "duckduckgo" ? "https://duckduckgo.com/" :

@@ -1,11 +1,14 @@
 ---
-import PostPage from '@/components/PostPage.astro';
-import { getDefaultLocalePosts } from '@/utils/posts';
-import { getPostSlug } from '@/i18n/utils';
+import PostPage from "@/components/PostPage.astro";
+import { getPostSlug } from "@/i18n/utils";
+import { getDefaultLocalePosts } from "@/utils/posts";
 
 export async function getStaticPaths() {
-    const entries = await getDefaultLocalePosts();
-    return entries.map((entry) => ({ params: { slug: getPostSlug(entry.id, true) }, props: { entry } }));
+	const entries = await getDefaultLocalePosts();
+	return entries.map((entry) => ({
+		params: { slug: getPostSlug(entry.id, true) },
+		props: { entry },
+	}));
 }
 
 const { entry } = Astro.props;

@@ -1,8 +1,9 @@
 ---
-import {siteConfig} from "../../../config";
-const hatsuHost = `https://${siteConfig.comments.hatsu.instanceDomain}`
-const {origin, pathname} = new URL(Astro.url)
-const url = new URL(pathname, origin).href
+import { siteConfig } from "../../../config";
+
+const hatsuHost = `https://${siteConfig.comments.hatsu.instanceDomain}`;
+const { origin, pathname } = new URL(Astro.url);
+const url = new URL(pathname, origin).href;
 
 import { transform } from "ultrahtml";
 import sanitize from "ultrahtml/transformers/sanitize";

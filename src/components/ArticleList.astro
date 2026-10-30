@@ -1,6 +1,12 @@
 ---
-import {getPostSlug} from "@/i18n/utils.ts";
-const { posts, displayDate = false, placeholder = false, limit = 0} = Astro.props;
+import { getPostSlug } from "@/i18n/utils.ts";
+
+const {
+	posts,
+	displayDate = false,
+	placeholder = false,
+	limit = 0,
+} = Astro.props;
 
 const displayedPosts = limit > 0 ? posts.slice(0, limit) : posts;
 ---

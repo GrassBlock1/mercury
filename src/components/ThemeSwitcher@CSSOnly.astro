@@ -1,9 +1,8 @@
 ---
-import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-
 ---
 <div class="theme-switcher">
     <input type="checkbox" id="theme-toggle" class="theme-toggle" />

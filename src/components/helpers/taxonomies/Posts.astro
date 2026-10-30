@@ -1,11 +1,11 @@
 ---
-import Layout from '@/layouts/Layout.astro';
-import ArticleList from '@/components/ArticleList.astro';
-import type { PostEntry } from '@/utils/posts';
+import ArticleList from "@/components/ArticleList.astro";
+import Layout from "@/layouts/Layout.astro";
+import type { PostEntry } from "@/utils/posts";
 
 interface Props {
-    term: string;
-    posts: PostEntry[];
+	term: string;
+	posts: PostEntry[];
 }
 
 const { term, posts } = Astro.props;

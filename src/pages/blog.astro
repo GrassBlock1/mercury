@@ -1,6 +1,6 @@
 ---
-import BlogListPage from '@/components/BlogListPage.astro';
-import { getDefaultLocalePosts, sortByDateDesc } from '@/utils/posts';
+import BlogListPage from "@/components/BlogListPage.astro";
+import { getDefaultLocalePosts, sortByDateDesc } from "@/utils/posts";
 
 const posts = sortByDateDesc(await getDefaultLocalePosts());
 ---

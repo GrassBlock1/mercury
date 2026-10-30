@@ -1,16 +1,22 @@
 ---
-import {getRelativeLocaleUrl, getRelativeLocaleUrlList, pathHasLocale} from "astro:i18n";
-import {defaultLocale} from "@/i18n/utils";
-import {labels} from "@/i18n/ui.ts";
-import {siteConfig} from "@/config"
-import {locales} from "@/i18n/utils.ts";
+import {
+	getRelativeLocaleUrl,
+	getRelativeLocaleUrlList,
+	pathHasLocale,
+} from "astro:i18n";
+import { siteConfig } from "@/config";
+import { labels } from "@/i18n/ui.ts";
+import { defaultLocale } from "@/i18n/utils";
+import { locales } from "@/i18n/utils.ts";
 
-const path = pathHasLocale(Astro.url.pathname) ? Astro.url.pathname.split("/").slice(2).join("/") : Astro.url.pathname;
+const path = pathHasLocale(Astro.url.pathname)
+	? Astro.url.pathname.split("/").slice(2).join("/")
+	: Astro.url.pathname;
 const currentLocale = Astro.currentLocale || defaultLocale;
-const displaySwitcher = siteConfig.i18n.displaySwitcher
+const displaySwitcher = siteConfig.i18n.displaySwitcher;
 // exclude the current or default locale
-const langURLs = getRelativeLocaleUrlList(path).filter((item: string) => 
-    item !== getRelativeLocaleUrl(currentLocale, path)
+const langURLs = getRelativeLocaleUrlList(path).filter(
+	(item: string) => item !== getRelativeLocaleUrl(currentLocale, path),
 );
 ---
 { displaySwitcher && locales.length >= 1 && <p>Also available in {langURLs.map((langUrl: string) => {

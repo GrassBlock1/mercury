@@ -1,18 +1,18 @@
 ---
-import Logo from '../assets/mercury.svg'
-import AstroLogo from '../assets/astro.svg'
-import {siteConfig} from "../config";
+import AstroLogo from "../assets/astro.svg";
+import Logo from "../assets/mercury.svg";
+import { siteConfig } from "../config";
 
 const presets = [
-  'withastro',
-  'plain',
-  'plainwithastro',
-  'formula',
-  'iconsonly',
-  'none'
-]
+	"withastro",
+	"plain",
+	"plainwithastro",
+	"formula",
+	"iconsonly",
+	"none",
+];
 
-const preset = siteConfig.poweredByPreset
+const preset = siteConfig.poweredByPreset;
 ---
 {preset === 'withastro' && <p>Powered by <a href="https://git.gb0.dev/gb/mercury" target="_blank"><Logo width={16} height={16} /> mercury</a> and <AstroLogo width={16} height={16}/> Astro </p>}
 

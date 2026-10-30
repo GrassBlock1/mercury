@@ -1,11 +1,14 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import {getCollection, render} from "astro:content";
-import {getPageSlug} from "@/i18n/utils.ts";
+import { getCollection, render } from "astro:content";
+import { getPageSlug } from "@/i18n/utils.ts";
+import Layout from "../layouts/Layout.astro";
 
 export async function getStaticPaths() {
-    const pageEntries = await getCollection('pages');
-    return pageEntries.map((entry) => ({ params: { slug: getPageSlug(entry.id) }, props: { entry } }));
+	const pageEntries = await getCollection("pages");
+	return pageEntries.map((entry) => ({
+		params: { slug: getPageSlug(entry.id) },
+		props: { entry },
+	}));
 }
 const { entry } = Astro.props;
 const { Content } = await render(entry);
