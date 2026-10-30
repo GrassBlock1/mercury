@@ -1,17 +1,13 @@
-import { getCollection } from 'astro:content';
-import sharp from 'sharp';
-import {getImage} from "astro:assets";
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import crypto from 'node:crypto';
-import {defaultLocale, getPostSlug, locales} from "@/i18n/utils.ts";
-import {getPathByLocale} from "astro:i18n";
+import sharp from 'sharp';
+import { getFeaturedImageSrc } from '@/plugins/post-images';
+import type { PostEntry } from '@/utils/posts';
 
 // Ensure cache directory exists
 const CACHE_DIR = 'node_modules/.astro/og-cache';
 
-// Cache for external images to avoid repeated processing
-const externalImageCache = new Map();
 // Cache for generated OG images (memory cache)
 const ogImageCache = new Map();
 
@@ -63,39 +59,6 @@ const fileCache = {
   }
 };
 
-export async function getStaticPaths() {
-  const blogEntries = await getCollection('posts', (post) => {
-    const languages = locales.filter(item => item !== defaultLocale);
-    return (import.meta.env.PROD ? post.data.draft !== true : true) && (languages.includes(post.id.split("/")[0]));
-  });
-
-  return blogEntries.map(post => {
-    const lang = getPathByLocale(post.id.split('/')[0]);
-    const slug = getPostSlug(post.id, true);
-    return { params: { lang, slug }, props: { post } };
-  });
-}
-
-// get the post has a external featured.* image files
-async function getExternalImage(post) {
-  // Check cache first
-  if (externalImageCache.has(post.slug)) {
-    return externalImageCache.get(post.slug);
-  }
-
-  const featuredImages = import.meta.glob(`/src/content/posts/*/featured.{avif,png,jpg,jpeg,webp}`, {import: 'default', eager: true});
-  const matchedImage = Object.keys(featuredImages).find(path => path.includes(post.slug));
-  let matchedImage_;
-  if (matchedImage) {
-    matchedImage_ = await getImage({src: featuredImages[matchedImage], format: 'webp'}) || null;
-  }
-
-  // Store in cache
-  const result = matchedImage_?.src;
-  externalImageCache.set(post.slug, result);
-  return result;
-}
-
 // Function to check for images in markdown without rendering
 function checkForImages(markdownContent) {
   // Match markdown image syntax ![alt](url) or HTML <img> tags
@@ -103,16 +66,21 @@ function checkForImages(markdownContent) {
   return imageRegex.test(markdownContent);
 }
 
+// Sanitize text for SVG
+function sanitizeText(text) {
+  return text
+    ? text.replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&apos;')
+    : '';
+}
+
 // This function dynamically generates og:images for posts that don't have a featured image
-export async function GET({ props, params }) {
-  const {post} = props;
-  const { lang } = params;
-  if (!post.id.startsWith(lang)) {
-    // skip rendering non-local posts
-    return new Response(null);
-  }
+export async function renderOgImage(post: PostEntry): Promise<Response> {
   // Generate consistent cache key
-  const cacheKey = `${post.slug}-${post.id}`;
+  const cacheKey = post.id;
 
   // Check in-memory cache first (fastest)
   if (ogImageCache.has(cacheKey)) {
@@ -143,36 +111,13 @@ export async function GET({ props, params }) {
 
   try {
     // Short-circuit early if we know we won't generate an image
-    if (post.data.cover) {
-      return new Response(null);
-    }
-
-    // Only fetch external image if needed
-    const ExternalImageURL = await getExternalImage(post);
-    if (ExternalImageURL) {
-      return new Response(null);
-    }
-
-    // Only check for images if needed
-    const hasImage = checkForImages(post.body);
-    if (hasImage) {
+    if (post.data.cover || (await getFeaturedImageSrc(post)) || checkForImages(post.body ?? '')) {
       return new Response(null);
     }
 
     // Generate an image with post title and description
     const width = 1280;
     const height = 720;
-
-    // Sanitize text for SVG
-    const sanitizeText = (text) => {
-      return text
-        ? text.replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&apos;')
-        : '';
-    };
 
     const title = sanitizeText(post.data.title);
     const description = sanitizeText(post.data.description);
@@ -203,4 +148,3 @@ export async function GET({ props, params }) {
     return new Response('Error generating image', { status: 500 });
   }
 }
-
