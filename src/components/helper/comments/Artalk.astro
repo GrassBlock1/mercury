@@ -1,6 +1,5 @@
 ---
 import {siteConfig} from "../../../config";
-import '../../../styles/artalk.css';
 const ArtalkInstanceDomain = siteConfig.comments.artalk.instanceDomain
 const ArtalkInstanceSite = siteConfig.comments.artalk.site
 
@@ -10,29 +9,44 @@ const { title = '' } = Astro.props;
     <!-- Artalk -->
     <div id="comments" data-path={Astro.url.pathname} data-title={title} data-server={ArtalkInstanceDomain} data-site={ArtalkInstanceSite}></div>
     <script>
-        import Artalk from "artalk";
+        let mounting = false;
 
-        function initArtalk() {
+        async function mountArtalk() {
             const atkElement = document.querySelector('#comments');
-
-            if (!atkElement) return;
+            if (!atkElement || mounting || atkElement.dataset.artalkMounted === '1') return;
+            atkElement.dataset.artalkMounted = '1';
+            mounting = true;
+            const { default: Artalk } = await import("artalk");
             Artalk.init({
                 el: '#comments',
-                pageKey: atkElement?.getAttribute('data-path') || window.location.pathname,
-                pageTitle: atkElement?.getAttribute('data-title') || document.title,
-                server: `https://${atkElement?.getAttribute('data-server')}`,
-                site: atkElement?.getAttribute('data-site') || 'default',
+                pageKey: atkElement.getAttribute('data-path') || window.location.pathname,
+                pageTitle: atkElement.getAttribute('data-title') || document.title,
+                server: `https://${atkElement.getAttribute('data-server')}`,
+                site: atkElement.getAttribute('data-site') || 'default',
                 darkMode: "auto",
                 versionCheck: false
             });
+            mounting = false;
         }
 
+        function watchComments() {
+            const atkElement = document.querySelector('#comments');
+            if (!atkElement) return;
+            if (!('IntersectionObserver' in window)) {
+                mountArtalk();
+                return;
+            }
+            const observer = new IntersectionObserver((entries) => {
+                if (entries.some((entry) => entry.isIntersecting)) {
+                    observer.disconnect();
+                    mountArtalk();
+                }
+            }, { rootMargin: '600px 0px' });
+            observer.observe(atkElement);
+        }
         // Initialize on page load
-        document.addEventListener('DOMContentLoaded', initArtalk);
-
+        document.addEventListener('DOMContentLoaded', watchComments);
         // Re-initialize on view transitions, fix issues with Astro's ClientRouter
-        document.addEventListener('astro:page-load', () => {
-            initArtalk();
-        });
+        document.addEventListener('astro:page-load', watchComments);
     </script>
 </div>

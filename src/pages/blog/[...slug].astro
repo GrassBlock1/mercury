@@ -10,7 +10,8 @@ import { ExtractFirstImage } from '../../plugins/extract-images';
 import AuthorInfo from "../../components/helper/authors/Info.astro";
 import TableOfContents from "../../components/toc/TableOfContents.astro";
 import TableOfContentsButton from "../../components/toc/Button.astro";
-import "katex/dist/katex.css"
+import katexCssUrl from "katex/dist/katex.css?url";
+import artalkCssUrl from "../../styles/artalk.css?url";
 import {
     getLangFromUrl,
     useTranslations,
@@ -35,7 +36,9 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content, headings, remarkPluginFrontmatter } = await render(entry);
+const hasMath = remarkPluginFrontmatter.hasMath === true;
 const noscript = siteConfig.noClientJavaScript
+const commentsWithArtalk = !noscript && siteConfig.comments.type === 'artalk';
 const slug = Astro.params.slug;
 const author = Array.isArray(entry.data.author) ? entry.data.author : (entry.data.author !== undefined ? [entry.data.author] : [{collection: 'authors', id: siteConfig.defaultAuthor.id}]);
 
@@ -68,7 +71,10 @@ const firstImageURL = await ExtractFirstImage(Content)
 const headerImage = customFeaturedImage || matchedImage_src?.src || '';
 const cover = optimizedCustomFeaturedImage || matchedImage_src?.src || firstImageURL || `/blog/${slug}/featured.png` || '';
 ---
-
+<Fragment slot="head">
+    {hasMath && <link rel="stylesheet" href={katexCssUrl} />}
+    {commentsWithArtalk && <link rel="stylesheet" href={artalkCssUrl} media="print" onload="this.media='all'" />}
+</Fragment>
 <Layout
   title={entry.data.title}
   description={entry.data.description || ''}

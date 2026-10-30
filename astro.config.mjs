@@ -17,6 +17,7 @@ import {mdastReadingTimePlugin} from '@/plugins/satteri/wordcount.js';
 import {mdastModifiedTimePlugin} from "@/plugins/satteri/modified-time.mjs";
 import {mdastSpoilerPlugin} from "@/plugins/satteri/spoiler.ts";
 import satteriKatex from "satteri-katex";
+import {mdastDetectMathPlugin} from "@/plugins/satteri/math-detector.ts";
 
 
 export default defineConfig({
@@ -46,7 +47,7 @@ export default defineConfig({
         },
         processor: satteri({
             features: { math: true, rawHtml: true },
-            mdastPlugins: [satteriKatex(),mdastReadingTimePlugin,mdastModifiedTimePlugin,mdastSpoilerPlugin],
+            mdastPlugins: [mdastDetectMathPlugin,satteriKatex(),mdastReadingTimePlugin,mdastModifiedTimePlugin,mdastSpoilerPlugin],
         }),
     },
 

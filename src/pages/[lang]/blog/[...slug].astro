@@ -10,7 +10,8 @@ import AuthorInfo from "@/components/helper/authors/Info.astro";
 import TableOfContents from "@/components/toc/TableOfContents.astro";
 import TableOfContentsButton from "@/components/toc/Button.astro";
 import { render } from 'astro:content';
-import "katex/dist/katex.css"
+import katexCssUrl from "katex/dist/katex.css?url";
+import artalkCssUrl from "../../styles/artalk.css?url";
 import {
     useTranslations,
     defaultLocale,
@@ -19,6 +20,7 @@ import {
 import OutDatedCallOut from "@/components/OutDatedCallOut.astro";
 import CopyRight from "@/components/CopyRight.astro";
 import {getPathByLocale} from "astro:i18n";
+import katexCssUrl from "katex/dist/katex.css";
 
 const { lang, slug } = Astro.params
 const t = useTranslations(lang);
@@ -37,8 +39,9 @@ export async function getStaticPaths() {
 const { entry }  = Astro.props;
 
 const { Content, headings, remarkPluginFrontmatter } = await render(entry);
-
+const hasMath = remarkPluginFrontmatter.hasMath === true;
 const noscript = siteConfig.noClientJavaScript
+const commentsWithArtalk = !noscript && siteConfig.comments.type === 'artalk';
 const author = Array.isArray(entry.data.author) ? entry.data.author : (entry.data.author !== undefined ? [entry.data.author] : [{collection: 'authors', id: siteConfig.defaultAuthor.id}]);
 
 // Get Wordcount and Last Updated Date
@@ -70,7 +73,10 @@ const firstImageURL = await ExtractFirstImage(Content)
 const headerImage = customFeaturedImage || matchedImage_src?.src || '';
 const cover = optimizedCustomFeaturedImage || matchedImage_src?.src || firstImageURL || `/blog/${slug}/featured.png` || '';
 ---
-
+<Fragment slot="head">
+    {hasMath && <link rel="stylesheet" href={katexCssUrl} />}
+    {commentsWithArtalk && <link rel="stylesheet" href={artalkCssUrl} media="print" onload="this.media='all'" />}
+</Fragment>
 <Layout
   title={entry.data.title}
   description={entry.data.description || ''}
