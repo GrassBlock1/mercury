@@ -119,6 +119,20 @@ input {
 	display: inline-block;
 }
 
+/* Terminal Commands */
+.command {
+
+		color: var(--terminal-green);
+		margin-right: 0.5rem;
+}
+
+.command::before {
+	content: "$";
+	opacity: 0.7;
+	margin-right: 0.5rem;
+}
+
+
 .search-container {
 	.search-result {
 		margin: 0.5rem 0;
@@ -136,16 +150,9 @@ input {
 		color: var(--secondary-text-color);
 		font-size: 0.75rem;
 	}
-	/* Terminal Commands */
+
 	.command {
 		flex: 0 1 auto;
-		color: var(--terminal-green);
-		margin-right: 0.5rem;
-	}
-
-	.command::before {
-		content: "$ ";
-		opacity: 0.7;
 	}
 }
 
