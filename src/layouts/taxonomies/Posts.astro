@@ -1,6 +1,6 @@
 ---
 import ArticleList from "@/components/ArticleList.astro";
-import Layout from "@/layouts/Layout.astro";
+import BaseLayout from "@/layouts/Base.astro";
 import type { PostEntry } from "@/utils/posts";
 
 interface Props {
@@ -11,9 +11,9 @@ interface Props {
 const { term, posts } = Astro.props;
 ---
 
-<Layout title={`posts tagged with ${term}`} description={`Posts tagged with ${term}`}>
+<BaseLayout title={`posts tagged with ${term}`} description={`Posts tagged with ${term}`}>
     <h1 class="title">ls ~/blog | grep "{term}"</h1>
     <ul>
         <ArticleList posts={posts} displayDate={true} />
     </ul>
-</Layout>
+</BaseLayout>

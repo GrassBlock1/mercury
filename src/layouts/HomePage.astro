@@ -1,7 +1,7 @@
 ---
 import type { AstroComponentFactory } from "astro/runtime/server/index.js";
 import { siteConfig } from "@/config";
-import Layout from "@/layouts/Layout.astro";
+import BaseLayout from "@/layouts/Base.astro";
 
 interface Props {
 	content?: AstroComponentFactory;
@@ -10,7 +10,7 @@ interface Props {
 const { content: HomePageContent } = Astro.props;
 ---
 
-<Layout ogImage={siteConfig.homepageOgImage || ""}>
+<BaseLayout ogImage={siteConfig.homepageOgImage || ""}>
   <h1 class="title">~/</h1>
   <div class="content">
     {HomePageContent ? <HomePageContent/> :
@@ -19,7 +19,7 @@ const { content: HomePageContent } = Astro.props;
       <p>If you are site owner, please create <code>src/content/index.md</code> to customize this page.</p>
     }
   </div>
-</Layout>
+</BaseLayout>
 
 {!siteConfig.noClientJavaScript &&
 <script>

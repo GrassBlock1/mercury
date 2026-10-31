@@ -140,7 +140,7 @@ export const siteConfig = {
 		},
 		// hatsu.cli.rs
 		// Get replies from the fediverse using hatsu.
-		// To make this fully work you should also make changes to the Layout.astro according to the docs.
+		// To make this fully work you should also make changes to the Base.astro according to the docs.
 		hatsu: {
 			instanceDomain: "",
 		},
