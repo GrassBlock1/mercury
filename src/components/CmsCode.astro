@@ -1,0 +1,19 @@
+---
+import { Code } from "astro:components";
+
+interface Props {
+	node: { code: string; language?: string; filename?: string };
+}
+
+const { node } = Astro.props;
+---
+
+<div class="cms-code">
+    {node.filename && <div class="filename">{node.filename}</div>}
+    <Code code={node.code} lang={node.language || "plaintext"} theme="nord" wrap />
+</div>
+
+<style>
+    .cms-code { margin: 1rem auto; }
+    .filename { color: var(--secondary-text-color); font-size: .85rem; }
+</style>

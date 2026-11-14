@@ -1,16 +1,18 @@
-import { getPostSlug } from "@/i18n/utils";
+import { getEmDashCollection } from "emdash";
 import { getSiteBaseUrl } from "@/utils/feeds";
-import { getPublishedPosts, sortByDateDesc } from "@/utils/posts";
 
 export async function GET(context) {
 	const baseUrl = getSiteBaseUrl(context);
 	// Sort posts by date (newest first)
-	const posts = sortByDateDesc(await getPublishedPosts());
+	const { entries: posts, error } = await getEmDashCollection("posts", {
+		orderBy: { published_at: "desc" },
+	});
+	if (error) return new Response("Unable to load twtxt", { status: 500 });
 
 	const twtxt = posts
 		.map(
 			(post) =>
-				`${new Date(post.data.date).toISOString()}\t${post.data.title} ${baseUrl}${getPostSlug(post.id)}`,
+				`${new Date(post.data.original_date ?? post.data.publishedAt ?? post.data.createdAt).toISOString()}\t${post.data.title} ${baseUrl}/blog/${post.id}`,
 		)
 		.join("\n");
 

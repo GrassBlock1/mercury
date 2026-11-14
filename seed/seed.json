@@ -1,0 +1,4062 @@
+{
+	"$schema": "https://emdashcms.com/seed.schema.json",
+	"version": "1",
+	"defaultLocale": "en",
+	"meta": {
+		"name": "Mercury",
+		"description": "Existing Mercury content"
+	},
+	"collections": [
+		{
+			"slug": "posts",
+			"label": "Posts",
+			"labelSingular": "Post",
+			"urlPattern": "/blog/{slug}",
+			"supports": ["drafts", "revisions", "search", "seo", "preview"],
+			"dateField": "original_date",
+			"titleField": "title",
+			"fields": [
+				{
+					"slug": "title",
+					"label": "Title",
+					"type": "string",
+					"required": true,
+					"searchable": true
+				},
+				{
+					"slug": "content",
+					"label": "Content",
+					"type": "portableText",
+					"searchable": true
+				},
+				{
+					"slug": "featured_image",
+					"label": "Featured image",
+					"type": "image"
+				},
+				{
+					"slug": "excerpt",
+					"label": "Description",
+					"type": "text"
+				},
+				{
+					"slug": "summary",
+					"label": "Summary",
+					"type": "text"
+				},
+				{
+					"slug": "original_date",
+					"label": "Original date",
+					"type": "datetime",
+					"indexed": true
+				},
+				{
+					"slug": "original_updated",
+					"label": "Original update date",
+					"type": "datetime"
+				}
+			]
+		},
+		{
+			"slug": "pages",
+			"label": "Pages",
+			"labelSingular": "Page",
+			"urlPattern": "/{slug}",
+			"supports": ["drafts", "revisions", "search", "seo", "preview"],
+			"titleField": "title",
+			"fields": [
+				{
+					"slug": "title",
+					"label": "Title",
+					"type": "string",
+					"required": true,
+					"searchable": true
+				},
+				{
+					"slug": "content",
+					"label": "Content",
+					"type": "portableText",
+					"searchable": true
+				},
+				{
+					"slug": "excerpt",
+					"label": "Description",
+					"type": "text"
+				}
+			]
+		}
+	],
+	"taxonomies": [
+		{
+			"name": "category",
+			"label": "Categories",
+			"labelSingular": "Category",
+			"hierarchical": true,
+			"collections": ["posts"],
+			"terms": [
+				{
+					"slug": "thinking",
+					"label": "thinking"
+				}
+			]
+		},
+		{
+			"name": "tag",
+			"label": "Tags",
+			"labelSingular": "Tag",
+			"hierarchical": false,
+			"collections": ["posts"],
+			"terms": [
+				{
+					"slug": "markdown",
+					"label": "markdown"
+				},
+				{
+					"slug": "css",
+					"label": "css"
+				},
+				{
+					"slug": "html",
+					"label": "html"
+				},
+				{
+					"slug": "sample",
+					"label": "sample"
+				},
+				{
+					"slug": "design",
+					"label": "design"
+				},
+				{
+					"slug": "code",
+					"label": "code"
+				},
+				{
+					"slug": "minimalism",
+					"label": "minimalism"
+				}
+			]
+		}
+	],
+	"content": {
+		"posts": [
+			{
+				"id": "posts-first-post",
+				"slug": "first-post",
+				"status": "published",
+				"data": {
+					"title": "First Post",
+					"content": [
+						{
+							"_type": "block",
+							"_key": "kl",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kk",
+									"text": "Hello world! This is the first post on my new terminal blog.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "kn",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "km",
+									"text": "I built this blog using Astro and vanilla CSS/JS to create a terminal-like experience.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "code",
+							"_key": "ko",
+							"language": "bash",
+							"code": "echo \"Hello, terminal world!\""
+						},
+						{
+							"_type": "block",
+							"_key": "kq",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kp",
+									"text": "More posts coming soon...",
+									"marks": []
+								}
+							]
+						}
+					],
+					"excerpt": "Welcome to my terminal blog",
+					"original_date": "2025-06-01T00:00:00.000Z"
+				},
+				"taxonomies": {
+					"category": [],
+					"tag": []
+				}
+			},
+			{
+				"id": "posts-markdown-example",
+				"slug": "markdown-example",
+				"status": "published",
+				"data": {
+					"title": "Markdown Syntax Example",
+					"content": [
+						{
+							"_type": "block",
+							"_key": "ks",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kr",
+									"text": "This article offers a sample of basic and extended Markdown formatting that can be used, also it shows how some basic HTML elements are decorated.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "ku",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kt",
+									"text": "Markdown in Astro",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k14",
+							"style": "blockquote",
+							"markDefs": [
+								{
+									"_type": "link",
+									"_key": "kv",
+									"href": "https://daringfireball.net/projects/markdown/"
+								},
+								{
+									"_type": "link",
+									"_key": "ky",
+									"href": "https://dev.to/paulasantamaria/introduction-to-yaml-125f"
+								},
+								{
+									"_type": "link",
+									"_key": "k11",
+									"href": "https://toml.io"
+								}
+							],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kw",
+									"text": "Markdown",
+									"marks": ["kv"]
+								},
+								{
+									"_type": "span",
+									"_key": "kx",
+									"text": " is commonly used to author text-heavy content like blog posts and documentation. Astro includes built-in support for Markdown files that can also include ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "kz",
+									"text": "frontmatter YAML",
+									"marks": ["ky"]
+								},
+								{
+									"_type": "span",
+									"_key": "k10",
+									"text": " (or ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k12",
+									"text": "TOML",
+									"marks": ["k11"]
+								},
+								{
+									"_type": "span",
+									"_key": "k13",
+									"text": ") to define custom properties such as a title, description, and tags.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k1b",
+							"style": "blockquote",
+							"markDefs": [
+								{
+									"_type": "link",
+									"_key": "k16",
+									"href": "https://github.github.com/gfm/"
+								}
+							],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k15",
+									"text": "In Astro, you can author content in ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k17",
+									"text": "GitHub Flavored Markdown",
+									"marks": ["k16"]
+								},
+								{
+									"_type": "span",
+									"_key": "k18",
+									"text": ", then render it in ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k19",
+									"text": ".astro",
+									"marks": ["code"]
+								},
+								{
+									"_type": "span",
+									"_key": "k1a",
+									"text": " components. This combines a familiar writing format designed for content with the flexibility of Astro’s component syntax and architecture.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k1f",
+							"style": "normal",
+							"markDefs": [
+								{
+									"_type": "link",
+									"_key": "k1d",
+									"href": "https://docs.astro.build/en/guides/markdown-content/"
+								}
+							],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k1c",
+									"text": "source: ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k1e",
+									"text": "Markdown in Astro | Docs",
+									"marks": ["k1d"]
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k1h",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k1g",
+									"text": "Theme Specifics",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k1l",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k1i",
+									"text": "This theme came with a set of shortcodes that can be used to enhance the Markdown experience. These shortcodes are located in the ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k1j",
+									"text": "/src/components/shortcodes",
+									"marks": ["code"]
+								},
+								{
+									"_type": "span",
+									"_key": "k1k",
+									"text": " directory and can be used to add custom functionality or styling to your Markdown content.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k1n",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k1m",
+									"text": "To use these shortcodes, you should first rename the file to a MDX (.mdx) file. Once renamed, you can use the shortcodes in your content like this:",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "code",
+							"_key": "k1o",
+							"language": "mdx",
+							"code": "import ExampleShortcode from '/src/components/shortcodes/ExampleShortcode.astro';\n\nyour content here...\n</ExampleShortcode>"
+						},
+						{
+							"_type": "block",
+							"_key": "k1q",
+							"style": "h3",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k1p",
+									"text": "Spoiler",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k1x",
+							"style": "normal",
+							"markDefs": [
+								{
+									"_type": "link",
+									"_key": "k1s",
+									"href": "https://zh.moegirl.org.cn/Mainpage"
+								}
+							],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k1r",
+									"text": "Inspired by the spoiler in ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k1t",
+									"text": "Moegirl wiki",
+									"marks": ["k1s"]
+								},
+								{
+									"_type": "span",
+									"_key": "k1u",
+									"text": ", you can use the ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k1v",
+									"text": "Spoiler",
+									"marks": ["code"]
+								},
+								{
+									"_type": "span",
+									"_key": "k1w",
+									"text": " component to hide content that you want to reveal later. This is useful for spoilers in game plots , movies plots, or any other content where you want to keep certain information hidden until the user chooses to reveal it.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k22",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k1y",
+									"text": "To reveal the content, readers can hover over the text to reveal it. ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k1z",
+									"text": "<Spoiler>",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k20",
+									"text": "     A hot take: the theme is done through what is called 'vibe coding'. ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k21",
+									"text": "</Spoiler>",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "code",
+							"_key": "k23",
+							"language": "mdx",
+							"code": "<Spoiler>\n    A hot take: the theme is done through what is called 'vibe coding'.\n</Spoiler>"
+						},
+						{
+							"_type": "block",
+							"_key": "k25",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k24",
+									"text": "Or use with extended Markdown syntax:",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k27",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k26",
+									"text": "||A hot take: the theme is done through what is called 'vibe coding'.||",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "code",
+							"_key": "k28",
+							"code": "||A hot take: the theme is done through what is called 'vibe coding'.||"
+						},
+						{
+							"_type": "block",
+							"_key": "k2d",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k29",
+									"text": "You can also display a 'tip' for the reader when hovered: ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k2a",
+									"text": "<Spoiler tip='attention is all you need'>",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k2b",
+									"text": "     A hot take: the theme is done through what is called 'vibe coding'. ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k2c",
+									"text": "</Spoiler>",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "code",
+							"_key": "k2e",
+							"language": "mdx",
+							"code": "<Spoiler tip='attention is all you need'>\n    A hot take: the theme is done through what is called 'vibe coding'.\n</Spoiler>"
+						},
+						{
+							"_type": "block",
+							"_key": "k2g",
+							"style": "h3",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k2f",
+									"text": "Ruby",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k2k",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k2h",
+									"text": "The ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k2i",
+									"text": "Ruby",
+									"marks": ["code"]
+								},
+								{
+									"_type": "span",
+									"_key": "k2j",
+									"text": " component allows you to quickly add ruby annotations to your text, which is useful for providing pronunciation or additional information about certain words, especially in East Asian languages.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k2m",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k2l",
+									"text": "<Ruby text=\"汉\" ruby=\"han\" />",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k2o",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k2n",
+									"text": "<Ruby text=\"字\" ruby=\"zi\" />",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "code",
+							"_key": "k2p",
+							"language": "mdx",
+							"code": "<Ruby text=\"汉\" ruby=\"han\" />\n<Ruby text=\"字\" ruby=\"zi\" />"
+						},
+						{
+							"_type": "block",
+							"_key": "k2r",
+							"style": "h3",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k2q",
+									"text": "Callouts",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k34",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k2s",
+									"text": "You can use callouts to highlight important information or warnings in your content. Callouts are styled boxes that draw attention to specific parts of the text. ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k2t",
+									"text": "<Callout icon='💁' type=\"info\">",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k2u",
+									"text": "     This is an informational callout. It can be used to provide additional context or tips. ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k2v",
+									"text": "</Callout>",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k2w",
+									"text": " ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k2x",
+									"text": "<Callout type=\"warning\">",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k2y",
+									"text": "     This is a warning callout. Use it to alert users about potential issues or important notes. ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k2z",
+									"text": "</Callout>",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k30",
+									"text": " ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k31",
+									"text": "<Callout type=\"danger\">",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k32",
+									"text": "     This is an error callout. It should be used to indicate critical issues that need immediate attention. ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k33",
+									"text": "</Callout>",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "code",
+							"_key": "k35",
+							"language": "mdx",
+							"code": "<Callout icon='💁' type=\"info\">\n  This is an informational callout. It can be used to provide additional context or tips.\n</Callout>\n<Callout type=\"warning\">\n  This is a warning callout. Use it to alert users about potential issues or important notes.\n</Callout>\n<Callout type=\"danger\">\n  This is an error callout. It should be used to indicate critical issues that need immediate attention.\n</Callout>"
+						},
+						{
+							"_type": "block",
+							"_key": "k37",
+							"style": "h4",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k36",
+									"text": "Author's Notes",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k39",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k38",
+									"text": "A special type of Callout can be used as author's Notes. This can be useful if a post is collaborated with multiple authors.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k3b",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k3a",
+									"text": "<Note authorId='Glados'>",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k3d",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k3c",
+									"text": "    This is a additional note from another author.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k3f",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k3e",
+									"text": "</Note>",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "code",
+							"_key": "k3g",
+							"language": "mdx",
+							"code": "<Note authorId='Glados'>\n    This is a additional note from another author.\n</Note>"
+						},
+						{
+							"_type": "block",
+							"_key": "k3i",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k3h",
+									"text": "<Note authorId='Wheatley'>",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k3k",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k3j",
+									"text": "    And with avatars!",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k3m",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k3l",
+									"text": "</Note>",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "code",
+							"_key": "k3n",
+							"language": "mdx",
+							"code": "<Note authorId='Wheatley'>\n    And with avatars!\n</Note>"
+						},
+						{
+							"_type": "block",
+							"_key": "k3p",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k3o",
+									"text": "<Callout type=\"warning\">",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k3r",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k3q",
+									"text": "    To make this work correctly, you should always use the **'id' of the author** :",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k3t",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k3s",
+									"text": "    ```yaml",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k3v",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k3u",
+									"text": "    Glados: # you should use this",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k3x",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k3w",
+									"text": "        name: \"Glados\"",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k3z",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k3y",
+									"text": "        email: \"contact@example.org\"",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k41",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k40",
+									"text": "    ```",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k43",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k42",
+									"text": "</Callout>",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k45",
+							"style": "h3",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k44",
+									"text": "LinkCard",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k49",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k46",
+									"text": "You can use the ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k47",
+									"text": "LinkCard",
+									"marks": ["code"]
+								},
+								{
+									"_type": "span",
+									"_key": "k48",
+									"text": " component to create cards that link to external resources or pages. This is useful for showcasing projects, documentation, or any other relevant links.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k4c",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k4a",
+									"text": "This most simple one can be used like this: ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k4b",
+									"text": "<LinkCard url=\"https://astro.build\"/>",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "code",
+							"_key": "k4d",
+							"language": "mdx",
+							"code": "<LinkCard url=\"https://astro.build\"/>"
+						},
+						{
+							"_type": "block",
+							"_key": "k4g",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k4e",
+									"text": "or with a archive link: ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k4f",
+									"text": "<LinkCard url=\"https://astro.build\" showArchive=\"true\" pubDate={frontmatter.date} updatedDate={frontmatter.updatedDate} />",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "code",
+							"_key": "k4h",
+							"language": "mdx",
+							"code": "<LinkCard url=\"https://astro.build\" showArchive=\"true\" pubDate={frontmatter.date} updatedDate={frontmatter.updatedDate} />"
+						},
+						{
+							"_type": "block",
+							"_key": "k4j",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k4i",
+									"text": "<Callout type=\"info\">",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k4l",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k4k",
+									"text": "    The `pubDate` or `updatedDate` props is optional, but in order to make the component to display the archived version around the date correctly, they should be passed.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "code",
+							"_key": "k4m",
+							"code": "Choose one or both of them according to your needs."
+						},
+						{
+							"_type": "block",
+							"_key": "k4o",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k4n",
+									"text": "</Callout>",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k4q",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k4p",
+									"text": "<Callout type=\"warning\">",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k4s",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k4r",
+									"text": "    On a machine with bad network, this will significantly increase build time when no other params are passed to the component.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k4u",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k4t",
+									"text": "</Callout>",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k4w",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k4v",
+									"text": "Or to customize the card further with a title and description:",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k4y",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k4x",
+									"text": "<LinkCard url=\"https://www.bilibili.com/video/BV1PC4y1L7mq/\" title=\"Don't check the description\" description=\"Don't click on the link\" />",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k50",
+							"style": "h3",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k4z",
+									"text": "Protected Content",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k56",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k51",
+									"text": "You can use the ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k52",
+									"text": "ProtectedContent",
+									"marks": ["code"]
+								},
+								{
+									"_type": "span",
+									"_key": "k53",
+									"text": " component to protect certain parts of your content with a password. This is useful for sharing exclusive content or information that should only be accessible to certain users. ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k54",
+									"text": "<Callout type=\"warning\">",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k55",
+									"text": " About security:",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "code",
+							"_key": "k57",
+							"code": "Although the encrypt process is happened at build and encrypted content is not visible in the rendered HTML. But it's still not 100% secure, as the password can be stored in the source code of a document (which could be public). Use it only for not really sensitive content.\nUsing a environment variable to store the password is recommended."
+						},
+						{
+							"_type": "block",
+							"_key": "k59",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k58",
+									"text": "</Callout>",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k5b",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k5a",
+									"text": "<ProtectedContent password=\"42\">",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k5d",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k5c",
+									"text": "    Yes, what you input is the ultimate answer to *life*, *the universe*, and **everything**.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k5f",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k5e",
+									"text": "</ProtectedContent>",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "code",
+							"_key": "k5g",
+							"language": "mdx",
+							"code": "<ProtectedContent password=\"42\">\n    Yes, what you input is the ultimate answer to *life*, *the universe*, and **everything**.\n</ProtectedContent>"
+						},
+						{
+							"_type": "block",
+							"_key": "k5i",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k5h",
+									"text": "<ProtectedContent>",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k5k",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k5j",
+									"text": "    And this will be encrypted with a global password, which is set in the environment variable `CONTENT_PASSWORD` or defined by `config.ts`. (config.ts takes precedence over the environment variable)",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k5m",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k5l",
+									"text": "</ProtectedContent>",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "code",
+							"_key": "k5n",
+							"language": "mdx",
+							"code": "<ProtectedContent>\n   And this will be encrypted with a global password, which is set in the environment variable `CONTENT_PASSWORD` or defined by `config.ts`. (config.ts takes precedence over the environment variable)\n</ProtectedContent>"
+						},
+						{
+							"_type": "block",
+							"_key": "k5p",
+							"style": "h3",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k5o",
+									"text": "Timeline",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k5t",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k5q",
+									"text": "You can use the ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k5r",
+									"text": "Timeline",
+									"marks": ["code"]
+								},
+								{
+									"_type": "span",
+									"_key": "k5s",
+									"text": " component to create a timeline of events or milestones. This is useful for showcasing the history of a project, a series of events, or any other chronological information.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k5x",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k5u",
+									"text": "Simply use the ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k5v",
+									"text": "TimeLine",
+									"marks": ["code"]
+								},
+								{
+									"_type": "span",
+									"_key": "k5w",
+									"text": " component like this:",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "code",
+							"_key": "k5y",
+							"language": "mdx",
+							"code": "\n<TimeLine>\n## Date\n**Event**\nDescription of the event.\n</TimeLine>"
+						},
+						{
+							"_type": "block",
+							"_key": "k60",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k5z",
+									"text": "<TimeLine>",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k62",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k61",
+									"text": "### October 28, 2011",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k64",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k63",
+									"text": "**\"Levels\" released**",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k66",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k65",
+									"text": "A track that would become synonymous with the EDM boom of the early 2010s, \"Levels\" was Avicii's breakout hit. The song's infectious synth riff and the iconic vocal sample from Etta James's \"Something's Got a Hold on Me\" created a euphoric anthem that catapulted Avicii to international stardom. The idea for the vocal sample reportedly came to him after hearing it in a song by Pretty Lights. Before its official release, \"Levels\" was already generating significant buzz in the electronic music community, with Avicii teasing it in his live sets. Its release marked a pivotal moment, solidifying Avicii's position as a leading figure in the burgeoning EDM scene and influencing a wave of producers to come.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k68",
+							"style": "h3",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k67",
+									"text": "June 17, 2013",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k6a",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k69",
+									"text": "\"Wake Me Up\" released",
+									"marks": ["strong"]
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k6c",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k6b",
+									"text": "In a bold move that would redefine the boundaries of mainstream dance music, Avicii unveiled \"Wake Me Up\" at the Ultra Music Festival in Miami. The track, a revolutionary blend of country and EDM featuring the soulful vocals of Aloe Blacc and the guitar work of Incubus's Mike Einziger, initially left the festival crowd perplexed. However, this audacious experiment proved to be a stroke of genius. \"Wake Me Up\" went on to become a global phenomenon, topping charts in numerous countries. The song's lyrics speak of a journey of self-discovery and a desire to live life to the fullest, a theme that resonated deeply with listeners worldwide. The initial negative reaction at Ultra only served to highlight Avicii's forward-thinking approach to music production, proving that taking creative risks could lead to groundbreaking success.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k6e",
+							"style": "h3",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k6d",
+									"text": "September 13, 2013",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k6g",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k6f",
+									"text": "\"True\" released",
+									"marks": ["strong"]
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k6m",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k6h",
+									"text": "Following the monumental success of \"Wake Me Up,\" Avicii released his debut studio album, True. The album was a testament to his genre-bending philosophy, further exploring the fusion of electronic music with elements of country, folk, and soul. ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k6i",
+									"text": "True",
+									"marks": ["em"]
+								},
+								{
+									"_type": "span",
+									"_key": "k6j",
+									"text": " featured a collection of tracks that would become fan favorites, including the powerful and emotive \"Hey Brother.\" The album showcased Avicii's versatility as a producer, proving that dance music could be both commercially successful and artistically innovative. ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k6k",
+									"text": "True",
+									"marks": ["em"]
+								},
+								{
+									"_type": "span",
+									"_key": "k6l",
+									"text": " solidified Avicii's status as a mainstream artist who was not afraid to push creative boundaries.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k6o",
+							"style": "h3",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k6n",
+									"text": "October 9, 2013",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k6q",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k6p",
+									"text": "\"Hey Brother\" released",
+									"marks": ["strong"]
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k6s",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k6r",
+									"text": "One of the standout tracks from True, \"Hey Brother\" featured the distinct bluegrass vocals of Dan Tyminski. The song's lyrics convey a powerful message of camaraderie and unconditional support, themes that struck a chord with a global audience. The fusion of electronic beats with the organic sounds of bluegrass was another example of Avicii's innovative production style. The song's music video, which depicted a story of two brothers during wartime, further amplified its emotional impact.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k6u",
+							"style": "h3",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k6t",
+									"text": "December 1, 2014",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k6w",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k6v",
+									"text": "\"The Nights\" released",
+									"marks": ["strong"]
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k6y",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k6x",
+									"text": "Originally released as part of the The Days / Nights EP, \"The Nights\" is an ode to living a life full of memories and adventure. The song's uplifting melody and anthemic chorus are complemented by lyrics inspired by a poem his father wrote. It’s a heartfelt tribute to his father and the advice he received to live a life he would remember. The track's infectious energy and positive message made it another global hit for Avicii, frequently used in sports montages and celebrations.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k70",
+							"style": "h3",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k6z",
+									"text": "May 22, 2015",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k72",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k71",
+									"text": "\"Waiting for Love\" released",
+									"marks": ["strong"]
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k74",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k73",
+									"text": "Co-produced with fellow DJ and producer Martin Garrix, \"Waiting for Love\" is a powerful and emotional track featuring the vocals of Simon Aldred of the British band Cherry Ghost. The song's lyrics explore the pain of loss and the hope of reunion. The accompanying music video, which tells the story of an elderly man embarking on a journey to find his lost wife, added a poignant visual narrative to the song, touching the hearts of many.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k76",
+							"style": "h3",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k75",
+									"text": "October 2, 2015",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k78",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k77",
+									"text": "\"Stories\" released",
+									"marks": ["strong"]
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k7c",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k79",
+									"text": "Avicii's second studio album, Stories, continued to showcase his musical evolution. The album featured a diverse range of collaborations with artists such as Chris Martin of Coldplay, Wyclef Jean, and Zac Brown Band. With ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k7a",
+									"text": "Stories",
+									"marks": ["em"]
+								},
+								{
+									"_type": "span",
+									"_key": "k7b",
+									"text": ", Avicii delved deeper into songwriting and narrative, with each track telling a unique story. The album demonstrated his growth as an artist who was constantly seeking to expand his sonic palette and explore new musical territories.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k7e",
+							"style": "h3",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k7d",
+									"text": "June 6, 2019",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k7g",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k7f",
+									"text": "\"Tim\" released",
+									"marks": ["strong"]
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k7j",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k7h",
+									"text": "Following Avicii's tragic passing in April 2018, his family, along with a team of his close collaborators, decided to complete the album he had been working on. The result was Tim, a posthumous album that serves as a poignant and powerful final chapter in his musical legacy. The album features vocals from artists like Aloe Blacc and Chris Martin and touches on themes of love, loss, and self-reflection. The lead single, \"SOS,\" featuring Aloe Blacc, is a raw and honest portrayal of struggling with inner demons. The release of Tim was a bittersweet moment for fans, offering a final glimpse into the creative genius of an artist who left the world too soon. All proceeds from the album went to the Tim Bergling Foundation, a charity set up by his family to support mental health awareness. ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k7i",
+									"text": "</TimeLine>",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k7l",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k7k",
+									"text": "Headings",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k7v",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k7m",
+									"text": "The following HTML ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k7n",
+									"text": "<h1>",
+									"marks": ["code"]
+								},
+								{
+									"_type": "span",
+									"_key": "k7o",
+									"text": "—",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k7p",
+									"text": "<h6>",
+									"marks": ["code"]
+								},
+								{
+									"_type": "span",
+									"_key": "k7q",
+									"text": " elements represent six levels of section headings. ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k7r",
+									"text": "<h1>",
+									"marks": ["code"]
+								},
+								{
+									"_type": "span",
+									"_key": "k7s",
+									"text": " is the highest section level while ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k7t",
+									"text": "<h6>",
+									"marks": ["code"]
+								},
+								{
+									"_type": "span",
+									"_key": "k7u",
+									"text": " is the lowest.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k7x",
+							"style": "h1",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k7w",
+									"text": "H1",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k7z",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k7y",
+									"text": "H2",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k81",
+							"style": "h3",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k80",
+									"text": "H3",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k83",
+							"style": "h4",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k82",
+									"text": "H4",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k85",
+							"style": "h5",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k84",
+									"text": "H5",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k87",
+							"style": "h6",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k86",
+									"text": "H6",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k89",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k88",
+									"text": "Paragraph",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k8b",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k8a",
+									"text": "Xerum, quo qui aut unt expliquam qui dolut labo. Aque venitatiusda cum, voluptionse latur sitiae dolessi aut parist aut dollo enim qui voluptate ma dolestendit peritin re plis aut quas inctum laceat est volestemque commosa as cus endigna tectur, offic to cor sequas etum rerum idem sintibus eiur? Quianimin porecus evelectur, cum que nis nust voloribus ratem aut omnimi, sitatur? Quiatem. Nam, omnis sum am facea corem alique molestrunt et eos evelece arcillit ut aut eos eos nus, sin conecerem erum fuga. Ri oditatquam, ad quibus unda veliamenimin cusam et facea ipsamus es exerum sitate dolores editium rerore eost, temped molorro ratiae volorro te reribus dolorer sperchicium faceata tiustia prat.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k8d",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k8c",
+									"text": "Itatur? Quiatae cullecum rem ent aut odis in re eossequodi nonsequ idebis ne sapicia is sinveli squiatum, core et que aut hariosam ex eat.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k8f",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k8e",
+									"text": "Blockquotes",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k8l",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k8g",
+									"text": "The blockquote element represents content that is quoted from another source, optionally with a citation which must be within a ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k8h",
+									"text": "footer",
+									"marks": ["code"]
+								},
+								{
+									"_type": "span",
+									"_key": "k8i",
+									"text": " or ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k8j",
+									"text": "cite",
+									"marks": ["code"]
+								},
+								{
+									"_type": "span",
+									"_key": "k8k",
+									"text": " element, and optionally with in-line changes such as annotations and abbreviations.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k8n",
+							"style": "h3",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k8m",
+									"text": "Blockquote without attribution",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k8t",
+							"style": "blockquote",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k8o",
+									"text": "Tiam, ad mint andaepu dandae nostion secatur sequo quae. ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k8p",
+									"text": "Note",
+									"marks": ["strong"]
+								},
+								{
+									"_type": "span",
+									"_key": "k8q",
+									"text": " that you can use ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k8r",
+									"text": "Markdown syntax",
+									"marks": ["em"]
+								},
+								{
+									"_type": "span",
+									"_key": "k8s",
+									"text": " within a blockquote.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k8v",
+							"style": "h3",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k8u",
+									"text": "Blockquote with emojis",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k8x",
+							"style": "blockquote",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k8w",
+									"text": "😄📅 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k8z",
+							"style": "h3",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k8y",
+									"text": "Blockquote with attribution",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k96",
+							"style": "blockquote",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k90",
+									"text": "Don't communicate by sharing memory, share memory by communicating.",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k91",
+									"text": "<br/>",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k92",
+									"text": " — ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k93",
+									"text": "<cite>",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k94",
+									"text": "Rob Pike[^1]",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k95",
+									"text": "</cite>",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k9d",
+							"style": "normal",
+							"markDefs": [
+								{
+									"_type": "link",
+									"_key": "k98",
+									"href": "https://www.youtube.com/watch?v=PAAkCSZUG1c"
+								}
+							],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k97",
+									"text": "[^1]: The above quote is excerpted from Rob Pike's ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "k99",
+									"text": "talk ",
+									"marks": ["k98"]
+								},
+								{
+									"_type": "span",
+									"_key": "k9a",
+									"text": "about",
+									"marks": ["k98", "code"]
+								},
+								{
+									"_type": "span",
+									"_key": "k9b",
+									"text": " nothing",
+									"marks": ["k98"]
+								},
+								{
+									"_type": "span",
+									"_key": "k9c",
+									"text": " during Gopherfest, November 18, 2015.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k9f",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k9e",
+									"text": "Tables",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k9h",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k9g",
+									"text": "Tables aren't part of the core Markdown spec, but Astro supports supports them out-of-the-box.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "table",
+							"_key": "k9i",
+							"hasHeaderRow": true,
+							"rows": [
+								{
+									"_type": "tableRow",
+									"_key": "k9j",
+									"cells": [
+										{
+											"_type": "tableCell",
+											"_key": "k9l",
+											"content": [
+												{
+													"_type": "span",
+													"_key": "k9k",
+													"text": "Name",
+													"marks": []
+												}
+											],
+											"markDefs": [],
+											"isHeader": true
+										},
+										{
+											"_type": "tableCell",
+											"_key": "k9n",
+											"content": [
+												{
+													"_type": "span",
+													"_key": "k9m",
+													"text": "Age",
+													"marks": []
+												}
+											],
+											"markDefs": [],
+											"isHeader": true
+										}
+									]
+								},
+								{
+									"_type": "tableRow",
+									"_key": "k9o",
+									"cells": [
+										{
+											"_type": "tableCell",
+											"_key": "k9q",
+											"content": [
+												{
+													"_type": "span",
+													"_key": "k9p",
+													"text": "Bob",
+													"marks": []
+												}
+											],
+											"markDefs": [],
+											"isHeader": false
+										},
+										{
+											"_type": "tableCell",
+											"_key": "k9s",
+											"content": [
+												{
+													"_type": "span",
+													"_key": "k9r",
+													"text": "27",
+													"marks": []
+												}
+											],
+											"markDefs": [],
+											"isHeader": false
+										}
+									]
+								},
+								{
+									"_type": "tableRow",
+									"_key": "k9t",
+									"cells": [
+										{
+											"_type": "tableCell",
+											"_key": "k9v",
+											"content": [
+												{
+													"_type": "span",
+													"_key": "k9u",
+													"text": "Alice",
+													"marks": []
+												}
+											],
+											"markDefs": [],
+											"isHeader": false
+										},
+										{
+											"_type": "tableCell",
+											"_key": "k9x",
+											"content": [
+												{
+													"_type": "span",
+													"_key": "k9w",
+													"text": "23",
+													"marks": []
+												}
+											],
+											"markDefs": [],
+											"isHeader": false
+										}
+									]
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k9z",
+							"style": "h3",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k9y",
+									"text": "Inline Markdown within tables",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "table",
+							"_key": "ka0",
+							"hasHeaderRow": true,
+							"rows": [
+								{
+									"_type": "tableRow",
+									"_key": "ka1",
+									"cells": [
+										{
+											"_type": "tableCell",
+											"_key": "ka3",
+											"content": [
+												{
+													"_type": "span",
+													"_key": "ka2",
+													"text": "Italics",
+													"marks": []
+												}
+											],
+											"markDefs": [],
+											"isHeader": true
+										},
+										{
+											"_type": "tableCell",
+											"_key": "ka5",
+											"content": [
+												{
+													"_type": "span",
+													"_key": "ka4",
+													"text": "Bold",
+													"marks": []
+												}
+											],
+											"markDefs": [],
+											"isHeader": true
+										},
+										{
+											"_type": "tableCell",
+											"_key": "ka7",
+											"content": [
+												{
+													"_type": "span",
+													"_key": "ka6",
+													"text": "Code",
+													"marks": []
+												}
+											],
+											"markDefs": [],
+											"isHeader": true
+										}
+									]
+								},
+								{
+									"_type": "tableRow",
+									"_key": "ka8",
+									"cells": [
+										{
+											"_type": "tableCell",
+											"_key": "kaa",
+											"content": [
+												{
+													"_type": "span",
+													"_key": "ka9",
+													"text": "italics",
+													"marks": ["em"]
+												}
+											],
+											"markDefs": [],
+											"isHeader": false
+										},
+										{
+											"_type": "tableCell",
+											"_key": "kac",
+											"content": [
+												{
+													"_type": "span",
+													"_key": "kab",
+													"text": "bold",
+													"marks": ["strong"]
+												}
+											],
+											"markDefs": [],
+											"isHeader": false
+										},
+										{
+											"_type": "tableCell",
+											"_key": "kae",
+											"content": [
+												{
+													"_type": "span",
+													"_key": "kad",
+													"text": "code",
+													"marks": ["code"]
+												}
+											],
+											"markDefs": [],
+											"isHeader": false
+										}
+									]
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "kag",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kaf",
+									"text": "Code Blocks",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "kai",
+							"style": "h3",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kah",
+									"text": "Code block with backticks",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "code",
+							"_key": "kaj",
+							"language": "html",
+							"code": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Example HTML5 Document</title>\n  </head>\n  <body>\n    <p>Test</p>\n  </body>\n</html>"
+						},
+						{
+							"_type": "block",
+							"_key": "kal",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kak",
+									"text": "List Types",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "kan",
+							"style": "h3",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kam",
+									"text": "Ordered List",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "kap",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kao",
+									"text": "First item",
+									"marks": []
+								}
+							],
+							"listItem": "number",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "kar",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kaq",
+									"text": "Second item",
+									"marks": []
+								}
+							],
+							"listItem": "number",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "kat",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kas",
+									"text": "Third item",
+									"marks": []
+								}
+							],
+							"listItem": "number",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "kav",
+							"style": "h3",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kau",
+									"text": "Unordered List",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "kax",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kaw",
+									"text": "List item",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "kaz",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kay",
+									"text": "Another item",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "kb1",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kb0",
+									"text": "And another item",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "kb3",
+							"style": "h3",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kb2",
+									"text": "Nested list",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "kb5",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kb4",
+									"text": "Fruit",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "kb7",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kb6",
+									"text": "Apple",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 2
+						},
+						{
+							"_type": "block",
+							"_key": "kb9",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kb8",
+									"text": "Orange",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 2
+						},
+						{
+							"_type": "block",
+							"_key": "kbb",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kba",
+									"text": "Banana",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 2
+						},
+						{
+							"_type": "block",
+							"_key": "kbd",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kbc",
+									"text": "Dairy",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "kbf",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kbe",
+									"text": "Milk",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 2
+						},
+						{
+							"_type": "block",
+							"_key": "kbh",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kbg",
+									"text": "Cheese",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 2
+						},
+						{
+							"_type": "block",
+							"_key": "kbj",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kbi",
+									"text": "Other Elements — abbr, sub, sup, kbd, mark",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "kbo",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kbk",
+									"text": "<abbr title=\"Graphics Interchange Format\">",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "kbl",
+									"text": "GIF",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "kbm",
+									"text": "</abbr>",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "kbn",
+									"text": " is a bitmap image format.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "kbu",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kbp",
+									"text": "H",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "kbq",
+									"text": "<sub>",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "kbr",
+									"text": "2",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "kbs",
+									"text": "</sub>",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "kbt",
+									"text": "O",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "kc7",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kbv",
+									"text": "X",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "kbw",
+									"text": "<sup>",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "kbx",
+									"text": "n",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "kby",
+									"text": "</sup>",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "kbz",
+									"text": " + Y",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "kc0",
+									"text": "<sup>",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "kc1",
+									"text": "n",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "kc2",
+									"text": "</sup>",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "kc3",
+									"text": " = Z",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "kc4",
+									"text": "<sup>",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "kc5",
+									"text": "n",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "kc6",
+									"text": "</sup>",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "kcl",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kc8",
+									"text": "Press ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "kc9",
+									"text": "<kbd>",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "kca",
+									"text": "CTRL",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "kcb",
+									"text": "</kbd>",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "kcc",
+									"text": "+",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "kcd",
+									"text": "<kbd>",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "kce",
+									"text": "ALT",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "kcf",
+									"text": "</kbd>",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "kcg",
+									"text": "+",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "kch",
+									"text": "<kbd>",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "kci",
+									"text": "Delete",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "kcj",
+									"text": "</kbd>",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "kck",
+									"text": " to end the session.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "kcr",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kcm",
+									"text": "Most ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "kcn",
+									"text": "<mark>",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "kco",
+									"text": "salamanders",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "kcp",
+									"text": "</mark>",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "kcq",
+									"text": " are nocturnal, and hunt for insects, worms, and other small creatures.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "kct",
+							"style": "h3",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kcs",
+									"text": "Formulas",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "kd1",
+							"style": "normal",
+							"markDefs": [
+								{
+									"_type": "link",
+									"_key": "kcv",
+									"href": "https://github.com/remarkjs/remark-math"
+								},
+								{
+									"_type": "link",
+									"_key": "kcy",
+									"href": "https://katex.org/"
+								}
+							],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kcu",
+									"text": "Thanks to the ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "kcw",
+									"text": "remark-math",
+									"marks": ["kcv"]
+								},
+								{
+									"_type": "span",
+									"_key": "kcx",
+									"text": " and ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "kcz",
+									"text": "KaTeX",
+									"marks": ["kcy"]
+								},
+								{
+									"_type": "span",
+									"_key": "kd0",
+									"text": " , you can write mathematical formulas using LaTeX syntax.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "kd7",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kd2",
+									"text": "Both inline and block formulas are supported (see example below). Inline formulas can be written like ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "kd3",
+									"text": "$$L$$",
+									"marks": ["code"]
+								},
+								{
+									"_type": "span",
+									"_key": "kd4",
+									"text": " or ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "kd5",
+									"text": "$L$",
+									"marks": ["code"]
+								},
+								{
+									"_type": "span",
+									"_key": "kd6",
+									"text": ",",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "kd9",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kd8",
+									"text": "while block formulas can be written like this:",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "code",
+							"_key": "kda",
+							"language": "latex",
+							"code": "$$\n-\\frac{\\hbar^2}{2m}\\nabla^2\\psi + V\\psi = E\\psi\n$$"
+						},
+						{
+							"_type": "block",
+							"_key": "kdc",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kdb",
+									"text": "or",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "code",
+							"_key": "kdd",
+							"language": "markdown",
+							"code": "```math\n-\\frac{\\hbar^2}{2m}\\nabla^2\\psi + V\\psi = E\\psi\n```"
+						},
+						{
+							"_type": "block",
+							"_key": "kdl",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kde",
+									"text": "By default, the reader can copy the formulas in LaTeX format by copy the rendered formulas, unless you set ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "kdf",
+									"text": "noClientJavaScript",
+									"marks": ["code"]
+								},
+								{
+									"_type": "span",
+									"_key": "kdg",
+									"text": " to ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "kdh",
+									"text": "true",
+									"marks": ["code"]
+								},
+								{
+									"_type": "span",
+									"_key": "kdi",
+									"text": " in the ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "kdj",
+									"text": "config.ts",
+									"marks": ["code"]
+								},
+								{
+									"_type": "span",
+									"_key": "kdk",
+									"text": " file.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "kdn",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kdm",
+									"text": "Lift($$L$$) can be determined by Lift Coefficient ($$C_L$$) like the following equation:",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "kdp",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kdo",
+									"text": "$$ L = \\frac{1}{2} \\rho v^2 S C_L $$",
+									"marks": []
+								}
+							]
+						}
+					],
+					"excerpt": "Sample article showcasing basic Markdown syntax and formatting for HTML elements.",
+					"original_date": "2023-07-15T12:00:00.000Z"
+				},
+				"taxonomies": {
+					"category": [],
+					"tag": ["markdown", "css", "html", "sample"]
+				}
+			},
+			{
+				"id": "posts-minimalism",
+				"slug": "minimalism",
+				"status": "published",
+				"data": {
+					"title": "The Art of Minimalism",
+					"content": [
+						{
+							"_type": "block",
+							"_key": "kdr",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kdq",
+									"text": "Minimalism isn't just about having less, it's about making room for what matters.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "kdt",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kds",
+									"text": "In code, this means writing clean, maintainable code that does exactly what it needs to do, nothing more, nothing less.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "kdv",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kdu",
+									"text": "This terminal blog is an exercise in digital minimalism - stripping away the unnecessary to focus on what's important: the content.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "kdx",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kdw",
+									"text": "Minimalist Principles in Code",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "ke0",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kdy",
+									"text": "Do one thing well",
+									"marks": ["strong"]
+								},
+								{
+									"_type": "span",
+									"_key": "kdz",
+									"text": " - Functions and components should have a single responsibility",
+									"marks": []
+								}
+							],
+							"listItem": "number",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "ke3",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "ke1",
+									"text": "Eliminate unnecessary state",
+									"marks": ["strong"]
+								},
+								{
+									"_type": "span",
+									"_key": "ke2",
+									"text": " - Less state means fewer bugs and easier reasoning",
+									"marks": []
+								}
+							],
+							"listItem": "number",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "ke6",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "ke4",
+									"text": "Prefer immutability",
+									"marks": ["strong"]
+								},
+								{
+									"_type": "span",
+									"_key": "ke5",
+									"text": " - Immutable data structures lead to more predictable code",
+									"marks": []
+								}
+							],
+							"listItem": "number",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "ke9",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "ke7",
+									"text": "Embrace constraints",
+									"marks": ["strong"]
+								},
+								{
+									"_type": "span",
+									"_key": "ke8",
+									"text": " - Limitations often lead to more creative solutions",
+									"marks": []
+								}
+							],
+							"listItem": "number",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "keb",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kea",
+									"text": "Terminal Aesthetics",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "ked",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kec",
+									"text": "There's something beautifully minimalist about terminal interfaces. They strip away the graphical excess and focus on pure functionality. Yet, within these constraints, there's a unique aesthetic that many find appealing.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "kef",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kee",
+									"text": "The monospace fonts, the cursor blinking in the void, the clean, structured output - all of these elements combine to create an experience that's both functional and visually satisfying.",
+									"marks": []
+								}
+							]
+						}
+					],
+					"excerpt": "Thoughts on minimalism in design and code",
+					"summary": "Exploring the principles of minimalism and its application in design and coding practices.",
+					"original_date": "2025-06-05T00:00:00.000Z"
+				},
+				"taxonomies": {
+					"category": ["thinking"],
+					"tag": ["design", "code", "minimalism"]
+				}
+			},
+			{
+				"id": "posts-outdated-test",
+				"slug": "outdated-test",
+				"status": "published",
+				"data": {
+					"title": "the Origin of the Computer Science",
+					"content": [
+						{
+							"_type": "block",
+							"_key": "keh",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "keg",
+									"text": "The",
+									"marks": []
+								}
+							]
+						}
+					],
+					"excerpt": "A walkthrough of my current terminal configuration",
+					"original_date": "1970-01-01T00:00:00.000Z",
+					"original_updated": "2000-01-01T00:00:00.000Z"
+				},
+				"taxonomies": {
+					"category": [],
+					"tag": []
+				}
+			},
+			{
+				"id": "posts-terminal-setup",
+				"slug": "terminal-setup",
+				"status": "published",
+				"data": {
+					"title": "My Terminal Setup",
+					"content": [
+						{
+							"_type": "image",
+							"_key": "kei",
+							"alt": "cover from mohammad-rahmani-oXlXu2qukGE-unsplash",
+							"asset": {
+								"$media": {
+									"file": "assets/terminal-setup-demo.png",
+									"alt": "cover from mohammad-rahmani-oXlXu2qukGE-unsplash"
+								}
+							}
+						},
+						{
+							"_type": "block",
+							"_key": "kek",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kej",
+									"text": "Here's my current terminal setup:",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "kem",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kel",
+									"text": "Shell: ZSH with Oh My Zsh",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "keo",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "ken",
+									"text": "Terminal: Alacritty",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "keq",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kep",
+									"text": "Color Scheme: Nord",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "kes",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "ker",
+									"text": "Font: JetBrains Mono",
+									"marks": []
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"_key": "keu",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "ket",
+									"text": "I've been using this setup for about a year now and it's been working great for me.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "kew",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kev",
+									"text": "Configuration",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "kf0",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kex",
+									"text": "My ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "key",
+									"text": ".zshrc",
+									"marks": ["code"]
+								},
+								{
+									"_type": "span",
+									"_key": "kez",
+									"text": " has the following key customizations:",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "code",
+							"_key": "kf1",
+							"language": "bash",
+							"code": "# Enable Powerlevel10k theme\nZSH_THEME=\"powerlevel10k/powerlevel10k\"\n\n# Enable useful plugins\nplugins=(git npm node zsh-autosuggestions zsh-syntax-highlighting)\n\n# Custom aliases\nalias gs=\"git status\"\nalias gc=\"git commit -m\"\nalias gl=\"git log --oneline\""
+						},
+						{
+							"_type": "block",
+							"_key": "kf3",
+							"style": "h2",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kf2",
+									"text": "Why I Love This Setup",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "kf5",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kf4",
+									"text": "The combination of ZSH, Oh My Zsh, and Powerlevel10k provides a powerful and visually appealing terminal experience. The autosuggestions and syntax highlighting plugins make command entry much more efficient.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "kf7",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kf6",
+									"text": "Alacritty is fast and lightweight, and the Nord color scheme is easy on the eyes for long coding sessions.",
+									"marks": []
+								}
+							]
+						}
+					],
+					"excerpt": "A walkthrough of my current terminal configuration",
+					"original_date": "2025-06-08T00:00:00.000Z",
+					"featured_image": {
+						"$media": {
+							"file": "assets/terminal-setup-cover.jpg",
+							"alt": "My Terminal Setup"
+						}
+					}
+				},
+				"taxonomies": {
+					"category": [],
+					"tag": []
+				}
+			}
+		],
+		"pages": [
+			{
+				"id": "pages-now",
+				"slug": "now",
+				"status": "published",
+				"data": {
+					"title": "Now",
+					"content": [
+						{
+							"_type": "block",
+							"_key": "k1",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k0",
+									"text": "<HeatMap GithubUserName='GrassBlock1' ForgejoInfo={[{instance:\"codeberg.org\",username:\"grassblock\"}]} />",
+									"marks": []
+								}
+							]
+						}
+					],
+					"excerpt": "This is a test page"
+				}
+			},
+			{
+				"id": "pages-test",
+				"slug": "test",
+				"status": "published",
+				"data": {
+					"title": "Test Page",
+					"content": [
+						{
+							"_type": "block",
+							"_key": "k3",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k2",
+									"text": "testestestest",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k5",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k4",
+									"text": "<BlogRoll/>",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k7",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k6",
+									"text": "<Spoiler tip=\"Spoiler Title\">",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k9",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k8",
+									"text": "    ~~This is the content of the spoiler.~~",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "kb",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "ka",
+									"text": "</Spoiler>",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "kd",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kc",
+									"text": "<Spoiler tip=\"Spoiler Title\">",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "kf",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "ke",
+									"text": "    ~~This is the content of another spoiler.~~",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "kh",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kg",
+									"text": "</Spoiler>",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "kj",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "ki",
+									"text": "<FediStatuses instanceDomain='portal.gb0.dev' userId='me' />",
+									"marks": []
+								}
+							]
+						}
+					],
+					"excerpt": "This is a test page"
+				}
+			},
+			{
+				"id": "page-home",
+				"slug": "home",
+				"status": "published",
+				"data": {
+					"title": "Home",
+					"content": [
+						{
+							"_type": "block",
+							"_key": "kf9",
+							"style": "h1",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kf8",
+									"text": "Welcome",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "kfb",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kfa",
+									"text": "Thank you for choosing this theme!",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "kfg",
+							"style": "normal",
+							"markDefs": [
+								{
+									"_type": "link",
+									"_key": "kfd",
+									"href": "/blog"
+								}
+							],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kfc",
+									"text": "If you want to see the posts, check out the ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "kfe",
+									"text": "posts",
+									"marks": ["kfd"]
+								},
+								{
+									"_type": "span",
+									"_key": "kff",
+									"text": " page.",
+									"marks": []
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "kfk",
+							"style": "normal",
+							"markDefs": [],
+							"children": [
+								{
+									"_type": "span",
+									"_key": "kfh",
+									"text": "If you are site owner, you can manually edit the content of this page by editing the ",
+									"marks": []
+								},
+								{
+									"_type": "span",
+									"_key": "kfi",
+									"text": "src/content/index.md",
+									"marks": ["code"]
+								},
+								{
+									"_type": "span",
+									"_key": "kfj",
+									"text": " file.",
+									"marks": []
+								}
+							]
+						}
+					]
+				}
+			}
+		]
+	}
+}

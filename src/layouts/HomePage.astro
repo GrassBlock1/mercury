@@ -1,19 +1,22 @@
 ---
 import type { AstroComponentFactory } from "astro/runtime/server/index.js";
+import type { PortableTextBlock } from "emdash/client";
+import { PortableText } from "emdash/ui";
 import { siteConfig } from "@/config";
 import BaseLayout from "@/layouts/Base.astro";
 
 interface Props {
 	content?: AstroComponentFactory;
+	emdashContent?: PortableTextBlock[];
 }
 
-const { content: HomePageContent } = Astro.props;
+const { content: HomePageContent, emdashContent } = Astro.props;
 ---
 
 <BaseLayout ogImage={siteConfig.homepageOgImage || ""}>
   <h1 class="title">~/</h1>
   <div class="content">
-    {HomePageContent ? <HomePageContent/> :
+    {emdashContent ? <PortableText value={emdashContent} /> : HomePageContent ? <HomePageContent/> :
     <h3>Welcome!</h3>
       <p>Not much here yet, but you can check out my blog posts <a href="/blog">here</a>.</p>
       <p>If you are site owner, please create <code>src/content/index.md</code> to customize this page.</p>

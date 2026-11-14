@@ -1,13 +1,13 @@
 ---
+import { getEmDashCollection } from "emdash";
 import PostsLayout from "@/layouts/taxonomies/Posts.astro";
-import { getPublishedPosts } from "@/utils/posts";
-import { buildTaxonomyPaths } from "@/utils/taxonomy";
+import { toArticleListPosts } from "@/utils/emdash-posts";
 
-export async function getStaticPaths() {
-	return buildTaxonomyPaths(await getPublishedPosts(), "categories");
-}
-
-const { posts } = Astro.props;
+const { entries, error } = await getEmDashCollection("posts", {
+	where: { category: Astro.params.category },
+});
+if (error) return new Response("Unable to load category", { status: 500 });
+const posts = toArticleListPosts(entries);
 ---
 
 <PostsLayout term={Astro.params.category!} posts={posts} />

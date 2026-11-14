@@ -10,6 +10,9 @@ import { satteri } from "@astrojs/markdown-satteri";
 
 import node from "@astrojs/node";
 import partytown from "@astrojs/partytown";
+import react from "@astrojs/react";
+import emdash, { local } from "emdash/astro";
+import { sqlite } from "emdash/db";
 import satteriKatex from "satteri-katex";
 import { mdastDetectMathPlugin } from "@/plugins/satteri/math-detector.ts";
 import { mdastModifiedTimePlugin } from "@/plugins/satteri/modified-time.mjs";
@@ -17,6 +20,7 @@ import { mdastSpoilerPlugin } from "@/plugins/satteri/spoiler.ts";
 import { mdastReadingTimePlugin } from "@/plugins/satteri/wordcount.js";
 
 export default defineConfig({
+	output: "server",
 	site: "https://terminal-blog.example.com",
 	base: "/",
 	trailingSlash: "ignore",
@@ -61,20 +65,26 @@ export default defineConfig({
 	},
 
 	i18n: {
-		locales: [
-			"en",
-			{
-				path: "zh-cn",
-				codes: ["zh-CN"],
-			},
-		],
+		locales: ["en", "zh-cn"],
 		defaultLocale: "en",
 		routing: {
 			prefixDefaultLocale: false,
 		},
 	},
 
-	integrations: [sitemap(), mdx(), partytown()],
+	integrations: [
+		sitemap(),
+		mdx(),
+		partytown(),
+		react(),
+		emdash({
+			database: sqlite({ url: "file:./data.db" }),
+			storage: local({
+				directory: "./uploads",
+				baseUrl: "/_emdash/api/media/file",
+			}),
+		}),
+	],
 
 	adapter: node({
 		mode: "standalone",

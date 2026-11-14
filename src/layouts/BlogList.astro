@@ -4,10 +4,9 @@ import NewsLetter from "@/components/NewsLetter.astro";
 import { siteConfig } from "@/config";
 import { getLangFromUrl, useTranslations } from "@/i18n/utils";
 import BaseLayout from "@/layouts/Base.astro";
-import type { PostEntry } from "@/utils/posts";
 
 interface Props {
-	posts: PostEntry[];
+	posts: { id: string; data: { title: string; date: Date; draft?: boolean } }[];
 }
 
 const { posts } = Astro.props;

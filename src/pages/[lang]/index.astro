@@ -1,20 +1,12 @@
 ---
-import type { AstroComponentFactory } from "astro/runtime/server/index.js";
-import { getLocalizedStaticPaths } from "@/i18n/utils";
+import { getEmDashEntry } from "emdash";
 import HomePage from "@/layouts/HomePage.astro";
 
-export const getStaticPaths = getLocalizedStaticPaths;
-
 const { lang } = Astro.params;
-// Conditionally import content if file exists
-let HomePageContent: AstroComponentFactory | undefined;
-try {
-	const module = await import(`@/content/${lang}/index.md`);
-	HomePageContent = module.Content;
-} catch {
-	// File doesn't exist or couldn't be imported
-	console.log("Homepage content not found, using default content");
-}
+const { entry, error } = await getEmDashEntry("pages", "home", {
+	locale: lang,
+});
+if (error) return new Response("Unable to load homepage", { status: 500 });
 ---
 
-<HomePage content={HomePageContent} />
+<HomePage emdashContent={entry?.data.content ?? []} />

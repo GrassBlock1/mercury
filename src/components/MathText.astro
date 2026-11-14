@@ -1,0 +1,32 @@
+---
+import type { TextNode } from "astro-portabletext/types";
+import katex from "katex";
+
+const { node } = Astro.props as { node: TextNode };
+const escapeHtml = (value: string) =>
+	value.replace(
+		/[&<>"']/g,
+		(character) =>
+			({
+				"&": "&amp;",
+				"<": "&lt;",
+				">": "&gt;",
+				'"': "&quot;",
+				"'": "&#39;",
+			})[character],
+	);
+const html = escapeHtml(node.text).replace(
+	/(\$\$([\s\S]+?)\$\$|\$([^$\n]+?)\$)/g,
+	(_match, _all, block, inline) => {
+		try {
+			return katex.renderToString(block ?? inline, {
+				displayMode: Boolean(block),
+				throwOnError: false,
+			});
+		} catch {
+			return escapeHtml(_match);
+		}
+	},
+);
+---
+<span set:html={html} />

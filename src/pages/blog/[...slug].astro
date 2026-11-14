@@ -1,16 +1,14 @@
 ---
-import { getPostSlug } from "@/i18n/utils";
+import { decodeSlug, getEmDashEntry } from "emdash";
 import PostPage from "@/layouts/Article.astro";
-import { getDefaultLocalePosts } from "@/utils/posts";
 
-export async function getStaticPaths() {
-	const entries = await getDefaultLocalePosts();
-	return entries.map((entry) => ({
-		params: { slug: getPostSlug(entry.id, true) },
-		props: { entry },
-	}));
+const slug = decodeSlug(Astro.params.slug ?? "");
+if (!slug) return Astro.rewrite("/404");
+const { entry, error } = await getEmDashEntry("posts", slug);
+if (error) {
+	console.error(error);
+	return new Response("Unable to load post", { status: 500 });
 }
-
-const { entry } = Astro.props;
+if (!entry) return Astro.rewrite("/404");
 ---
-<PostPage entry={entry} />
+<PostPage cmsEntry={entry} />

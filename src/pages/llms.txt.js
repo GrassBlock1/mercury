@@ -1,39 +1,36 @@
-import { getCollection } from "astro:content";
-import { getPageSlug, getPostSlug } from "@/i18n/utils";
+import { getEmDashCollection } from "emdash";
 import { getSiteBaseUrl } from "@/utils/feeds";
 import { siteConfig } from "../config";
 
 // Modified version that outputs markdown content
 export async function GET(context) {
 	const baseUrl = getSiteBaseUrl(context);
+	const [posts, pages] = await Promise.all([
+		getEmDashCollection("posts"),
+		getEmDashCollection("pages"),
+	]);
+	if (posts.error || pages.error)
+		return new Response("Unable to load content", { status: 500 });
 	const markdownText = `# ${siteConfig.title}
 
 > ${siteConfig.description}
 
-${await generateMarkdownSection("posts", "Post", baseUrl)}
+${generateMarkdownSection(posts.entries, "Post", `${baseUrl}/blog`)}
 
-${await generateMarkdownSection("pages", "Page", baseUrl)}`;
+${generateMarkdownSection(
+	pages.entries.filter((entry) => entry.id !== "home"),
+	"Page",
+	baseUrl,
+)}`;
 
 	return new Response(markdownText);
 }
 
-async function generateMarkdownSection(collectionName, sectionTitle, baseUrl) {
-	const items = await getCollection(collectionName);
-
-	// Sort posts by date if available
-	const sortedItems =
-		collectionName === "posts"
-			? items.sort((a, b) => (a.data.date > b.data.date ? -1 : 1))
-			: items;
-
+function generateMarkdownSection(items, sectionTitle, baseUrl) {
 	let markdown = `## ${sectionTitle}\n`;
 
-	for (const item of sortedItems) {
-		const url =
-			collectionName === "posts"
-				? `${baseUrl}${getPostSlug(item.id)}`
-				: `${baseUrl}/${getPageSlug(item.id)}`;
-		markdown += `\n- [${item.data.title}](${url}): ${item.data.description || ""}`;
+	for (const item of items) {
+		markdown += `\n- [${item.data.title}](${baseUrl}/${item.id}): ${item.data.excerpt || ""}`;
 	}
 
 	return markdown;

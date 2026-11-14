@@ -1,8 +1,14 @@
 ---
+import { getEmDashCollection } from "emdash";
 import BlogListPage from "@/layouts/BlogList.astro";
-import { getDefaultLocalePosts, sortByDateDesc } from "@/utils/posts";
+import { toArticleListPosts } from "@/utils/emdash-posts";
 
-const posts = sortByDateDesc(await getDefaultLocalePosts());
+const { entries, error } = await getEmDashCollection("posts");
+if (error) {
+	console.error(error);
+	return new Response("Unable to load posts", { status: 500 });
+}
+const posts = toArticleListPosts(entries);
 ---
 
 <BlogListPage posts={posts} />

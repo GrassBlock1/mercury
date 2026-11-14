@@ -1,9 +1,8 @@
 ---
+import { getTaxonomyTerms } from "emdash";
 import IndexLayout from "@/layouts/taxonomies/Index.astro";
-import { getPublishedPosts } from "@/utils/posts";
-import { collectTaxonomies } from "@/utils/taxonomy";
 
-const items = collectTaxonomies(await getPublishedPosts(), "tags");
+const items = (await getTaxonomyTerms("tag")).map((term) => term.slug);
 ---
 
 <IndexLayout

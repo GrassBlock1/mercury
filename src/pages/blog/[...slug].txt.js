@@ -1,20 +1,20 @@
-import { getPostSlug } from "@/i18n/utils";
-import { getDefaultLocalePosts } from "@/utils/posts";
+import { decodeSlug, getEmDashEntry } from "emdash";
+import { portableTextToMarkdown } from "emdash/client";
 
-export const prerender = true;
-export async function getStaticPaths() {
-	const entries = await getDefaultLocalePosts();
-	return entries.map((entry) => {
-		const slug = getPostSlug(entry.id, true);
-		return { params: { slug }, props: { entry } };
-	});
-}
-export async function GET({ props }) {
-	const { entry } = props;
+export async function GET({ params }) {
+	const slug = decodeSlug(params.slug ?? "");
+	if (!slug) return new Response("Not found", { status: 404 });
+	const { entry, error } = await getEmDashEntry("posts", slug);
+	if (error) return new Response("Unable to load post", { status: 500 });
+	if (!entry) return new Response("Not found", { status: 404 });
 	// Format the content as plain text
 	const title = entry.data.title;
-	const date = entry.data.date.toISOString().split("T")[0];
-	const content = entry.body;
+	const date = new Date(
+		entry.data.original_date ?? entry.data.publishedAt ?? entry.data.createdAt,
+	)
+		.toISOString()
+		.split("T")[0];
+	const content = portableTextToMarkdown(entry.data.content ?? []);
 
 	// Combine the post info and body into a single text file
 	const textContent = `Title: ${title}\nPublished at: ${date}\n\n${content}`;

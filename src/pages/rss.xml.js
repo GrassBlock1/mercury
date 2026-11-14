@@ -1,40 +1,30 @@
-import { loadRenderers } from "astro:container";
-import { render } from "astro:content";
-import { getContainerRenderer as getMDXRenderer } from "@astrojs/mdx/container-renderer";
 import rss from "@astrojs/rss";
 import { experimental_AstroContainer as AstroContainer } from "astro/container";
+import { getEmDashCollection } from "emdash";
+import { PortableText } from "emdash/ui";
 import { transform, walk } from "ultrahtml";
 import sanitize from "ultrahtml/transformers/sanitize";
-import { getPostSlug } from "@/i18n/utils";
 import { getSiteBaseUrl } from "@/utils/feeds";
-import {
-	getPublishedPosts,
-	resolveAuthors,
-	sortByDateDesc,
-} from "@/utils/posts";
 import { siteConfig } from "../config.js";
 
 // code from https://github.com/delucis/astro-blog-full-text-rss
 export async function GET(context) {
 	const baseUrl = getSiteBaseUrl(context);
 
-	// Load MDX renderer. Other renderers for UI frameworks (e.g. React, Vue, etc.) would need adding here if you were using those.
-	const renderers = await loadRenderers([getMDXRenderer()]);
-
-	// Create a new Astro container that we can render components with.
-	// See https://docs.astro.build/en/reference/container-reference/
-	const container = await AstroContainer.create({ renderers });
+	const container = await AstroContainer.create();
 
 	// Load the content collection entries to add to our RSS feed, newest first.
-	const posts = sortByDateDesc(await getPublishedPosts());
+	const { entries: posts, error } = await getEmDashCollection("posts", {
+		orderBy: { published_at: "desc" },
+	});
+	if (error) return new Response("Unable to load RSS", { status: 500 });
 
 	// Loop over blog posts to create feed items for each, including full content.
 	const feedItems = [];
 	for (const post of posts) {
-		// Get the `<Content/>` component for the current post.
-		const { Content } = await render(post);
-		// Use the Astro container to render the content to a string.
-		const rawContent = await container.renderToString(Content);
+		const rawContent = await container.renderToString(PortableText, {
+			props: { value: post.data.content ?? [] },
+		});
 		// Process and sanitize the raw content:
 		// - Removes `<!DOCTYPE html>` preamble
 		// - Makes link `href` and image `src` attributes absolute instead of relative
@@ -58,18 +48,15 @@ export async function GET(context) {
 			],
 		);
 
-		const authors = await resolveAuthors(post);
-
 		// Make sure each feed item has required properties with proper formatting
 		feedItems.push({
 			title: post.data.title,
-			description: post.data.description || "",
-			pubDate: post.data.date,
-			categories: post.data.categories,
-			author:
-				authors.map((author) => author.name).join(", ") ||
-				siteConfig.defaultAuthor.name,
-			link: `${baseUrl}${getPostSlug(post.id)}`,
+			description: post.data.excerpt || "",
+			pubDate: new Date(
+				post.data.original_date ?? post.data.publishedAt ?? post.data.createdAt,
+			),
+			author: siteConfig.defaultAuthor.name,
+			link: `${baseUrl}/blog/${post.id}`,
 			content,
 		});
 	}
