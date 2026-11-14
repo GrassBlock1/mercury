@@ -11,23 +11,23 @@
 		"astro": "astro"
 	},
 	"dependencies": {
-		"@astrojs/cloudflare": "^14.4.3",
-		"@astrojs/markdown-satteri": "^0.4.6",
-		"@astrojs/mdx": "^8.1.2",
-		"@astrojs/node": "^11.1.9",
+		"@astrojs/cloudflare": "^14.4.8",
+		"@astrojs/markdown-satteri": "^0.4.10",
+		"@astrojs/mdx": "^8.1.6",
+		"@astrojs/node": "^11.1.13",
 		"@astrojs/partytown": "^2.1.9",
 		"@astrojs/rss": "^4.0.19",
-		"@astrojs/sitemap": "^3.7.4",
+		"@astrojs/sitemap": "^3.7.5",
 		"artalk": "^2.9.1",
-		"astro": "^7.4.4",
-		"echarts": "^6.0.0",
+		"astro": "^7.4.12",
+		"echarts": "6.1.0",
 		"giscus": "^1.6.0",
 		"ico-endec": "^0.1.6",
 		"katex": "^0.16.45",
 		"reading-time": "^1.5.0",
 		"satteri": "^0.10.5",
 		"satteri-katex": "^0.1.1",
-		"sharp": "^0.34.5",
+		"sharp": "0.35.5",
 		"twikoo": "^1.7.7",
 		"ultrahtml": "^1.6.0"
 	},
@@ -38,7 +38,7 @@
 		"@milkdown/crepe": "^7.20.0",
 		"@types/node": "^22.19.17",
 		"@waline/client": "^3.13.0",
-		"baseline-browser-mapping": "^2.10.24",
+		"baseline-browser-mapping": "2.11.0",
 		"cssnano": "^7.1.7"
 	}
 }
