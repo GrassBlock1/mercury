@@ -56,16 +56,21 @@ export function sortByDateDesc<T extends { data: { date: Date } }>(
 }
 
 export async function resolveAuthors(post: PostEntry): Promise<AuthorData[]> {
+	const defaultAuthor = siteConfig.defaultAuthor.id
+		? (await getEntry("authors", siteConfig.defaultAuthor.id))?.data ??
+		siteConfig.defaultAuthor
+		: siteConfig.defaultAuthor;
 	const refs = Array.isArray(post.data.author)
 		? post.data.author
 		: post.data.author
 			? [post.data.author]
 			: [];
-	if (refs.length === 0) return [siteConfig.defaultAuthor];
+	if (refs.length === 0) return [defaultAuthor];
 	const data = await Promise.all(
 		refs.map((ref) => getEntry(ref).then((entry) => entry?.data)),
 	);
 	return data.some((item) => item === undefined)
-		? [siteConfig.defaultAuthor]
+		? [defaultAuthor]
 		: (data as AuthorData[]);
 }
+
