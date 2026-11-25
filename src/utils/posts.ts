@@ -57,8 +57,8 @@ export function sortByDateDesc<T extends { data: { date: Date } }>(
 
 export async function resolveAuthors(post: PostEntry): Promise<AuthorData[]> {
 	const defaultAuthor = siteConfig.defaultAuthor.id
-		? (await getEntry("authors", siteConfig.defaultAuthor.id))?.data ??
-		siteConfig.defaultAuthor
+		? ((await getEntry("authors", siteConfig.defaultAuthor.id))?.data ??
+			siteConfig.defaultAuthor)
 		: siteConfig.defaultAuthor;
 	const refs = Array.isArray(post.data.author)
 		? post.data.author
@@ -73,4 +73,3 @@ export async function resolveAuthors(post: PostEntry): Promise<AuthorData[]> {
 		? [defaultAuthor]
 		: (data as AuthorData[]);
 }
-
