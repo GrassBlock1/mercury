@@ -3,7 +3,7 @@ title: 'Test Page'
 description: 'This is a test page'
 ---
 import BlogRoll  from "../../components/shortcodes/BlogRoll.astro"
-import FediStatuses from "../../components/shortcodes/FediStatuses.astro"
+import LatestStatuses from "../../components/shortcodes/fediverse/Latest.astro"
 import Spoiler from "../../components/shortcodes/Spoiler.astro"
 
 testestestest
@@ -18,5 +18,4 @@ testestestest
     ~~This is the content of another spoiler.~~
 </Spoiler>
 
-
-<FediStatuses instanceDomain='portal.gb0.dev' userId='me' />
+<LatestStatuses instanceDomain='portal.gb0.dev' userId='me' />
