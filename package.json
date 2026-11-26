@@ -25,7 +25,7 @@
 		"echarts": "6.1.0",
 		"giscus": "^1.6.0",
 		"ico-endec": "^0.1.6",
-		"katex": "^0.16.45",
+		"katex": "^0.18.2",
 		"reading-time": "^1.5.0",
 		"satteri": "^0.10.5",
 		"satteri-katex": "^0.1.1",
