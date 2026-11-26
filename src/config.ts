@@ -230,4 +230,9 @@ export const siteConfig = {
 			},
 		],
 	},
+	experimental: {
+		// better paragraph composition for CJK texts
+		// https://github.com/tiqian-cjk/tiqian
+		tiqian: false,
+	}
 };

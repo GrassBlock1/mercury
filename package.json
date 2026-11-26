@@ -18,6 +18,8 @@
 		"@astrojs/partytown": "^2.1.9",
 		"@astrojs/rss": "^4.0.19",
 		"@astrojs/sitemap": "^3.7.5",
+		"@tiqian/core": "0.1.0-alpha.15",
+		"@tiqian/web-component": "0.1.0-alpha.15",
 		"artalk": "^2.9.1",
 		"astro": "^7.4.12",
 		"echarts": "6.1.0",

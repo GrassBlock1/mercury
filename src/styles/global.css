@@ -426,7 +426,30 @@ div.content {
 }
 
 /* Printing */
+/* The printable width (210mm - 2 * 15mm = 180mm) must match PRINT_MEASURE in
+   src/components/helpers/TiqianProse.astro, which re-lays out Chinese prose at
+   that width on beforeprint. */
+@page {
+	size: A4;
+	margin: 15mm;
+}
+
 @media print {
+	/* Let the page margins define the measure instead of the screen layout */
+	html {
+		max-width: none;
+		padding: 0;
+	}
+
+	.container {
+		max-width: none;
+	}
+
+	.content-box {
+		border: none;
+		padding: 0;
+	}
+
 	/* Hide elements not needed for print */
 	nav.nav,
 	.search-container,

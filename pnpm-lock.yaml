@@ -29,6 +29,12 @@ importers:
       '@astrojs/sitemap':
         specifier: ^3.7.5
         version: 3.7.5
+      '@tiqian/core':
+        specifier: 0.1.0-alpha.15
+        version: 0.1.0-alpha.15
+      '@tiqian/web-component':
+        specifier: 0.1.0-alpha.15
+        version: 0.1.0-alpha.15
       artalk:
         specifier: ^2.9.1
         version: 2.9.1(marked@17.0.6)
@@ -1776,6 +1782,24 @@ packages:
 
   '@speed-highlight/core@1.2.15':
     resolution: {integrity: sha512-BMq1K3DsElxDWawkX6eLg9+CKJrTVGCBAWVuHXVUV2u0s2711qiChLSId6ikYPfxhdYocLNt3wWwSvDiTvFabw==}
+
+  '@tiqian/core@0.1.0-alpha.15':
+    resolution: {integrity: sha512-wrwoHWb5jPoUK7fFJh54Ejbf/ARUXwGexUIVFs8rv/5B/iyPBptz+c9h1O3VLbGstr5C8IXBUZG1V88KoL2Csw==}
+    engines: {node: '>=22'}
+
+  '@tiqian/ffi@0.1.0-alpha.15':
+    resolution: {integrity: sha512-nyF1VlBQN9f5jxdN5jRe5MRWd7pqAYCRvzN3+Mn4EujCFZh7RZ65UFeKhWaAvGmJYQKqnl6vBH+Ajqk23zc27g==}
+    engines: {node: '>=22'}
+
+  '@tiqian/protocol@0.1.0-alpha.15':
+    resolution: {integrity: sha512-1Gx9PzmHYs8MzQjQh8MXWvr8jqFCqVy5YGozg4ZQrIAKBlwL5yuOVMrp5BIpPvMholZ+VzynPgBXhsaNQtJCKw==}
+
+  '@tiqian/shared@0.1.0-alpha.15':
+    resolution: {integrity: sha512-vHQK2N9BhwN3oX6gEjhTh2eeiH7VNf0v9fvgz/R7b3QnyYoV/A98z1PhbBeQpTkiTnIredJYanMenykSfcqWYA==}
+
+  '@tiqian/web-component@0.1.0-alpha.15':
+    resolution: {integrity: sha512-blQKd3pkvoOc6NgGwfiNoXUVzItc2XNvRFydHAyr9b9ffzbyCoTTyFiRhCfxz70nQVRFKtW6tsWYC/3TMxHqgw==}
+    engines: {node: '>=22'}
 
   '@tybys/wasm-util@0.10.4':
     resolution: {integrity: sha512-W3c4gRigFS0T/Ma4qIYF3GDAc5AQdHb1yL5znJT1Zv1YaD9Kitx656wBjvr19qbiosmZT8lWDM5BEMynUqX65A==}
@@ -6366,6 +6390,22 @@ snapshots:
   '@sindresorhus/is@7.2.0': {}
 
   '@speed-highlight/core@1.2.15': {}
+
+  '@tiqian/core@0.1.0-alpha.15':
+    dependencies:
+      '@tiqian/ffi': 0.1.0-alpha.15
+      '@tiqian/protocol': 0.1.0-alpha.15
+      '@tiqian/shared': 0.1.0-alpha.15
+
+  '@tiqian/ffi@0.1.0-alpha.15': {}
+
+  '@tiqian/protocol@0.1.0-alpha.15': {}
+
+  '@tiqian/shared@0.1.0-alpha.15': {}
+
+  '@tiqian/web-component@0.1.0-alpha.15':
+    dependencies:
+      '@tiqian/core': 0.1.0-alpha.15
 
   '@tybys/wasm-util@0.10.4':
     dependencies:

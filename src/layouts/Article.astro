@@ -6,6 +6,7 @@ import katexCssUrl from "katex/dist/katex.css?url";
 import Comments from "@/components/Comments.astro";
 import CopyRight from "@/components/CopyRight.astro";
 import AuthorInfo from "@/components/helpers/authors/Info.astro";
+import TiqianProse from "@/components/helpers/TiqianProse.astro";
 import OutDatedCallOut from "@/components/OutDatedCallOut.astro";
 import ReplyViaEmail from "@/components/ReplyViaEmail.astro";
 import TableOfContentsButton from "@/components/toc/Button.astro";
@@ -70,7 +71,9 @@ const { headerImage, cover } = await resolvePostCover(entry, Content);
         {entry.data.summary && <p class="summary">{entry.data.summary}</p> }
         { siteConfig.outdatedCallout.enabled && (siteConfig.noClientJavaScript ? <OutDatedCallOut noscript=true lastUpdatedAt={lastUpdated} /> : <OutDatedCallOut server:defer lastUpdatedAt={lastUpdated} ><OutDatedCallOut noscript lastUpdatedAt={lastUpdated} slot="fallback" ></OutDatedCallOut></OutDatedCallOut>)}
         <div class="content">
-            <Content />
+            <TiqianProse>
+                <Content />
+            </TiqianProse>
         </div>
     </article>
     <div class="extra-post" style="margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
