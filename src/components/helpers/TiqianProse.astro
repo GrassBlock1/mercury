@@ -1,0 +1,62 @@
+---
+import tiqianCssUrl from "@tiqian/core/styles.css?url";
+import { siteConfig } from "@/config";
+import { getLangFromUrl } from "@/i18n/utils";
+
+// Opt-in via `experimental.tiqian` in src/config.ts. Tiqian composes
+// Simplified Chinese only; other locales keep native layout.
+const enabled =
+	siteConfig.experimental.tiqian &&
+	!siteConfig.noClientJavaScript &&
+	getLangFromUrl(Astro.url) === "zh-cn";
+---
+
+{enabled ? (
+	<>
+		<link rel="stylesheet" href={tiqianCssUrl} />
+		<tiqian-prose><slot /></tiqian-prose>
+	</>
+) : <slot />}
+{enabled && (
+	<script>
+		// Printing needs a re-layout at the paper measure, because Tiqian's line
+		// breaks depend on width. Keep PRINT_MEASURE equal to the printable width
+		// that `@page` in src/styles/global.css leaves.
+		const PRINT_MEASURE = "180mm";
+
+		type Prose = HTMLElement & { relayoutSync(): number };
+
+		// relayoutSync() throws before the first layout completes.
+		const ready = new WeakSet<EventTarget>();
+		document.addEventListener("tiqian:ready", (event) => {
+			if (event.target) ready.add(event.target);
+		});
+
+		const saved = new Map<Prose, string | null>();
+
+		window.addEventListener("beforeprint", () => {
+			const roots = document.querySelectorAll<Prose>("tiqian-prose:not([disabled])");
+			for (const root of roots) {
+				if (!ready.has(root)) continue;
+				saved.set(root, root.getAttribute("style"));
+				root.style.setProperty("width", PRINT_MEASURE, "important");
+				root.relayoutSync();
+			}
+		});
+
+		window.addEventListener("afterprint", () => {
+			for (const [root, style] of saved) {
+				if (style === null) root.removeAttribute("style");
+				else root.setAttribute("style", style);
+				root.relayoutSync();
+			}
+			saved.clear();
+		});
+
+		// The engine is a large lazy chunk; only Chinese pages reference it, and a
+		// load failure keeps native layout.
+		import("@tiqian/web-component/auto").catch((error) => {
+			console.warn("Tiqian failed to load; keeping native layout.", error);
+		});
+	</script>
+)}
