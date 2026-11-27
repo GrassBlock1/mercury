@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  '@waline/client@3.16.2':
+    hash: 5439ccd0e030eb4d21d06257b9ae33317f1ffb3619eadb95b271a72026c3326e
+    path: patches/@waline__client@3.16.2.patch
+
 importers:
 
   .:
@@ -41,6 +46,9 @@ importers:
       astro:
         specifier: ^7.4.13
         version: 7.4.13(@azure/identity@4.14.1)(@types/node@22.20.7)(esbuild@0.28.2)(yaml@2.9.1)
+      dompurify:
+        specifier: ^3.5.0
+        version: 3.5.0
       echarts:
         specifier: 6.1.0
         version: 6.1.0
@@ -86,7 +94,7 @@ importers:
         version: 22.20.7
       '@waline/client':
         specifier: ^3.16.2
-        version: 3.16.2(typescript@5.8.3)
+        version: 3.16.2(patch_hash=5439ccd0e030eb4d21d06257b9ae33317f1ffb3619eadb95b271a72026c3326e)(typescript@5.8.3)
       baseline-browser-mapping:
         specifier: 2.11.0
         version: 2.11.0
@@ -6599,7 +6607,7 @@ snapshots:
 
   '@waline/api@1.1.2': {}
 
-  '@waline/client@3.16.2(typescript@5.8.3)':
+  '@waline/client@3.16.2(patch_hash=5439ccd0e030eb4d21d06257b9ae33317f1ffb3619eadb95b271a72026c3326e)(typescript@5.8.3)':
     dependencies:
       '@vueuse/core': 15.1.0(vue@3.5.46(typescript@5.8.3))
       '@waline/api': 1.1.2

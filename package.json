@@ -22,6 +22,7 @@
 		"@tiqian/web-component": "0.1.0-alpha.15",
 		"artalk": "^2.10.1",
 		"astro": "^7.4.13",
+		"dompurify": "^3.5.0",
 		"echarts": "6.1.0",
 		"giscus": "^1.6.0",
 		"ico-endec": "^0.1.6",

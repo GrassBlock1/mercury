@@ -3,3 +3,5 @@ onlyBuiltDependencies:
   - keytar
   - sharp
   - workerd
+patchedDependencies:
+  '@waline/client@3.16.2': patches/@waline__client@3.16.2.patch
